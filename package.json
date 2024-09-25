@@ -5,7 +5,7 @@
     "description": "Proyecto de conultas medicas, grupo 1",
     "main": "index.js",
     "scripts": {
-        "initDb": "node ./initDb.js",
+        "initDb": "node ./src/db/initDb.js",
         "dev": "nodemon ./app.js"
     },
     "keywords": [],

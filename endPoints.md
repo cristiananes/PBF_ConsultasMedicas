@@ -5,10 +5,9 @@
 ---
 ## 1.1 Registro de Usuarios(admin)
 - **POST**: `/api/user/admin-register`
-  - **Descripción**: Registra un nuevo usuario en el sistema.
+  - **Descripción**: Registra un nuevo usuario (admin) en el sistema.
 token de administrador 
 ---
-
 
 ## 2. Validación de Usuario
 - **PATCH**: `/api/user/validate/:registrationCode`

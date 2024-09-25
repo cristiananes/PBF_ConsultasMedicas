@@ -16,11 +16,21 @@ const getPool = async () => {
     try {
         //si no existe un "pool" de conexiones lo creamos
         if (!pool) {
-            pool = mysql.createConnection({
+            pool = mysql.createPool({
                 host: MYSQL_HOST,
                 user: MYSQL_USER,
                 password: MYSQL_PASS,
-                //crear la base de datos y ponerla 
+                timezone: 'Z',
+            });
+
+            // Con la conexión anterior creamos la base de datos si no existe.
+            await pool.query(`CREATE DATABASE IF NOT EXISTS ${MYSQL_DB}`);
+
+            pool = mysql.createPool({
+                host: MYSQL_HOST,
+                user: MYSQL_USER,
+                password: MYSQL_PASS,
+                //crear la base de datos y ponerla
                 database: MYSQL_DB,
                 timezone: 'Z',
             });

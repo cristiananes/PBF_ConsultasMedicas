@@ -8,15 +8,15 @@ import generateErrorUtil from '../../utils/generateErrorUtil.js';
 const validateUserController = async (req, res, next) => {
     try {
         // Obtenemos el código de registro.
-        const { validationCode } = req.params;
+        const { registrationCode } = req.params;
 
         // Obtenemos una conexión con la base de datos.
         const pool = await getPool();
 
         // Tratamos de obtener a un usuario con ese código de registro.
         const [users] = await pool.query(
-            `SELECT id FROM users WHERE validationCode = ?`,
-            [validationCode],
+            `SELECT id FROM users WHERE registrationCode = ?`,
+            [registrationCode]
         );
 
         // Si no hay ningún usuario con ese código de registro lanzamos un error.
@@ -26,8 +26,8 @@ const validateUserController = async (req, res, next) => {
 
         // Validamos al usuario.
         await pool.query(
-            `UPDATE users SET registrationCode = NULL, active = true WHERE validationCode = ?`,
-            [validationCode],
+            `UPDATE users SET registrationCode = NULL, active = true WHERE id = ?`,
+            [users[0].id]
         );
 
         res.send({

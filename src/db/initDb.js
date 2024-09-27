@@ -23,7 +23,7 @@ const main = async () => {
             CREATE TABLE IF NOT EXISTS users (
                 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
                 username VARCHAR(20) UNIQUE NOT NULL,
-                password VARCHAR(50) NOT NULL,
+                password VARCHAR(100) NOT NULL,
                 firstName VARCHAR(50) NOT NULL,
                 lastName VARCHAR(50) NOT NULL,
                 email VARCHAR(100) UNIQUE NOT NULL,

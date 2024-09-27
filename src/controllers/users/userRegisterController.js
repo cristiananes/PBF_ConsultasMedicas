@@ -1,11 +1,13 @@
 // Importamos las dependencias necesarias.
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 
 // Importamos la función que retorna una conexión con la base de datos.
 import getPool from '../../db/getPool.js';
 
 // Importamos la función que genera un error.
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
+import sendMailUtil from '../../utils/sendMailUtil.js';
 
 // Función controladora que permite crear un usuario.
 const userRegisterController = async (req, res, next) => {
@@ -42,12 +44,33 @@ const userRegisterController = async (req, res, next) => {
         // Encriptamos la contraseña.
         const hashedPass = await bcrypt.hash(password, 10);
 
+        // Creamos un código de registro.
+        const registrationCode = crypto.randomBytes(15).toString('hex');
+
         // Insertamos el usuario.
         await pool.query(
-            `INSERT INTO users(firstName, lastName, username, email, password, biography) VALUES(?, ?, ?, ?, ?, ?)`,
-            [firstName, lastName, username, email, hashedPass, biography]
+            `INSERT INTO users(firstName, lastName, username, email, password, biography, registrationCode) VALUES(?, ?, ?, ?, ?, ?, ?)`,
+            [
+                firstName,
+                lastName,
+                username,
+                email,
+                hashedPass,
+                biography,
+                registrationCode,
+            ]
         );
 
+        // Asunto y cuerpo del email de verificación.
+        const emailSubject = 'Activa tu usuario en consultasmedicas';
+        const emailBody = `
+            ¡Bienvenid@ ${username}!
+
+            Gracias por registrarte en Diario de Viajes. Para activar tu cuenta, haz click en el siguiente enlace:
+
+            <a href="${process.env.CLIENT_URL}/api/users/validate/${registrationCode}">¡Activa tu usuario!</a>
+        `;
+        await sendMailUtil(email, emailSubject, emailBody);
         // Enviamos una respuesta al cliente.
         res.status(201).send({
             status: 'ok',

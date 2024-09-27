@@ -70,12 +70,12 @@ const main = async () => {
                 description VARCHAR(300) NOT NULL,
                 urgency ENUM('ALTA', 'MEDIA', 'BAJA') NOT NULL,
                 doctorId INT UNSIGNED,
-                FOREIGN KEY (doctorId) REFERENCES users(id),
+                    FOREIGN KEY (doctorId) REFERENCES users(id),
                 file VARCHAR(100),
                 userId INT UNSIGNED NOT NULL,
-                FOREIGN KEY (userId) REFERENCES users(id),
+                    FOREIGN KEY (userId) REFERENCES users(id),
                 specialityId INT UNSIGNED NOT NULL,
-                FOREIGN KEY (specialityId) REFERENCES specialities(id),
+                    FOREIGN KEY (specialityId) REFERENCES specialities(id),
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
                 modifiedAt DATETIME ON UPDATE CURRENT_TIMESTAMP
             );

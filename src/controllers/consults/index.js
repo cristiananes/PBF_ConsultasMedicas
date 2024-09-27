@@ -6,7 +6,8 @@ import addPhotoController from './addPhotoController.js';
 import deletePhotoController from './deletePhotoController.js';
 import voteConsultController from './voteConsultController.js';
 import deleteConsultController from './deleteConsultController.js';
-
+import replyUserController from './replyConsultController.js'
+import deleteReplyConsultsId from './deleteReplyConsultId.js'
 export {
     newConsultController,
     listConsultsController,
@@ -15,4 +16,6 @@ export {
     deletePhotoController,
     voteConsultController,
     deleteConsultController,
+    replyUserController,
+    deleteReplyConsultsId
 };

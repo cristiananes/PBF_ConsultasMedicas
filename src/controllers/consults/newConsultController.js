@@ -8,7 +8,7 @@ import savePhotoUtil from '../../utils/savePhotoUtil.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
 // Función controladora que permite crear una nueva entrada.
-const newEntryController = async (req, res, next) => {
+const newconsultController = async (req, res, next) => {
     try {
         // Obtenemos los datos necesarios.
         const { title, place, description } = req.body;
@@ -25,9 +25,9 @@ const newEntryController = async (req, res, next) => {
         const pool = await getPool();
 
         // Guardamos la entrada (sin las fotos).
-        const [newEntry] = await pool.query(
-            `INSERT INTO entries(title, place, description, userId) VALUES (?, ?, ?, ?)`,
-            [title, place, description, req.user.id],
+        const [newconsult] = await pool.query(
+            `INSERT INTO consults(title, place, description, userId) VALUES (?, ?, ?, ?)`,
+            [title, place, description, req.user.id]
         );
 
         // Creamos un array con los valores del objeto "files". Esto nos permitirá crear un array con
@@ -42,8 +42,8 @@ const newEntryController = async (req, res, next) => {
 
             // Guardamos la foto en la base de datos.
             await pool.query(
-                `INSERT INTO entryPhotos(name, entryId) VALUES(?, ?)`,
-                [photoName, newEntry.insertId],
+                `INSERT INTO consultPhotos(name, consultId) VALUES(?, ?)`,
+                [photoName, newconsult.insertId]
             );
         }
 
@@ -57,4 +57,4 @@ const newEntryController = async (req, res, next) => {
     }
 };
 
-export default newEntryController;
+export default newconsultController;

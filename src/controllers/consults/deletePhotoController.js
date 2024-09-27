@@ -11,15 +11,15 @@ import generateErrorUtil from '../../utils/generateErrorUtil.js';
 const deletePhotoController = async (req, res, next) => {
     try {
         // Obtenemos el ID de la entrada y de la foto que queremos eliminar.
-        const { entryId, photoId } = req.params;
+        const { consultId, photoId } = req.params;
 
         // Obtenemos una conexión con la base de datos.
         const pool = await getPool();
 
         // Tratamos de obtener la foto que queremos borrar.
         const [photos] = await pool.query(
-            `SELECT name FROM entryPhotos WHERE id = ? AND entryId = ? `,
-            [photoId, entryId],
+            `SELECT name FROM consultPhotos WHERE id = ? AND consultId = ? `,
+            [photoId, consultId]
         );
 
         // Si la foto no existe lanzamos un error.
@@ -31,7 +31,7 @@ const deletePhotoController = async (req, res, next) => {
         await removePhotoUtil(photos[0].name);
 
         // Eliminamos la foto de la base de datos.
-        await pool.query(`DELETE FROM entryPhotos WHERE id = ?`, [photoId]);
+        await pool.query(`DELETE FROM consultPhotos WHERE id = ?`, [photoId]);
 
         // Enviamos una respuesta al cliente.
         res.send({

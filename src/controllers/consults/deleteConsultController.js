@@ -5,18 +5,18 @@ import getPool from '../../db/getPool.js';
 import removePhotoUtil from '../../utils/removePhotoUtil.js';
 
 // Función controladora que elimina una entrada concreta por ID.
-const deleteEntryController = async (req, res, next) => {
+const deleteconsultController = async (req, res, next) => {
     try {
         // Obtenemos el ID de la entrada a eliminar.
-        const { entryId } = req.params;
+        const { consultId } = req.params;
 
         // Obtenemos una conexión con la base de datos.
         const pool = await getPool();
 
         // Localizamos las fotos vinculadas a la entrada.
         const [photos] = await pool.query(
-            `SELECT name FROM entryPhotos WHERE entryId = ?`,
-            [entryId],
+            `SELECT name FROM consultPhotos WHERE consultId = ?`,
+            [consultId]
         );
 
         // Si hay alguna foto las eliminamos del disco.
@@ -25,15 +25,17 @@ const deleteEntryController = async (req, res, next) => {
         }
 
         // Eliminamos las fotos de la base de datos.
-        await pool.query(`DELETE FROM entryPhotos WHERE entryId = ?`, [
-            entryId,
+        await pool.query(`DELETE FROM consultPhotos WHERE consultId = ?`, [
+            consultId,
         ]);
 
         // Eliminamos los votos de la entrada.
-        await pool.query(`DELETE FROM entryVotes WHERE entryId = ?`, [entryId]);
+        await pool.query(`DELETE FROM consultVotes WHERE consultId = ?`, [
+            consultId,
+        ]);
 
         // Eliminamos la entrada.
-        await pool.query(`DELETE FROM entries WHERE id = ?`, [entryId]);
+        await pool.query(`DELETE FROM consults WHERE id = ?`, [consultId]);
 
         // Enviamos una respuesta al cliente.
         res.send({
@@ -45,4 +47,4 @@ const deleteEntryController = async (req, res, next) => {
     }
 };
 
-export default deleteEntryController;
+export default deleteconsultController;

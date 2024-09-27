@@ -2,16 +2,16 @@
 import getPool from '../../db/getPool.js';
 
 // Función controladora que retorna el listado de entradas.
-const getEntryByIdController = async (req, res, next) => {
+const getconsultByIdController = async (req, res, next) => {
     try {
         // Obtenemos el ID de la entrada.
-        const { entryId } = req.params;
+        const { consultId } = req.params;
 
         // Obtenemos una conexión con la base de datos.
         const pool = await getPool();
 
         // Obtenemos la entrada con el ID proporcionado.
-        const [entries] = await pool.query(
+        const [consults] = await pool.query(
             `
             SELECT  
                 e.id,
@@ -20,27 +20,27 @@ const getEntryByIdController = async (req, res, next) => {
                 e.description,
                 u.username AS author,
                 e.createdAt
-            FROM entries e
+            FROM consults e
             INNER JOIN users u ON u.id = e.userId
             WHERE e.id = ?
         `,
-            [entryId],
+            [consultId]
         );
 
         // Buscamos las fotos de la entrada.
         const [photos] = await pool.query(
-            `SELECT id, name FROM entryPhotos WHERE entryId = ?`,
-            [entries[0].id],
+            `SELECT id, name FROM consultPhotos WHERE consultId = ?`,
+            [consults[0].id]
         );
 
         // Agregamos el array de fotos a la entrada.
-        entries[0].photos = photos;
+        consults[0].photos = photos;
 
         // Enviamos una respuesta al cliente.
         res.send({
             status: 'ok',
             data: {
-                entry: entries[0],
+                consult: consults[0],
             },
         });
     } catch (err) {
@@ -48,4 +48,4 @@ const getEntryByIdController = async (req, res, next) => {
     }
 };
 
-export default getEntryByIdController;
+export default getconsultByIdController;

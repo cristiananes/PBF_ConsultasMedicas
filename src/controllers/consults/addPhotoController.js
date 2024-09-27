@@ -11,7 +11,7 @@ import generateErrorUtil from '../../utils/generateErrorUtil.js';
 const addPhotoController = async (req, res, next) => {
     try {
         // Obtenemos el ID de la entrada.
-        const { entryId } = req.params;
+        const { consultId } = req.params;
 
         // Obtenemos los datos necesarios.
         const photo = req.files?.photo;
@@ -27,8 +27,8 @@ const addPhotoController = async (req, res, next) => {
         // Obtenemos las fotos de la entrada para comprobar si se ha alcanzado el
         // límite de 3 fotos.
         const [photos] = await pool.query(
-            `SELECT id FROM entryPhotos WHERE entryId = ?`,
-            [entryId],
+            `SELECT id FROM consultPhotos WHERE consultId = ?`,
+            [consultId]
         );
 
         // Si hay más de dos fotos lanzamos un error.
@@ -40,10 +40,10 @@ const addPhotoController = async (req, res, next) => {
         const photoName = await savePhotoUtil(photo, 1000);
 
         // Agregamos la foto a la base de datos.
-        await pool.query(`INSERT INTO entryPhotos(name, entryId) VALUE(?, ?)`, [
-            photoName,
-            entryId,
-        ]);
+        await pool.query(
+            `INSERT INTO consultPhotos(name, consultId) VALUE(?, ?)`,
+            [photoName, consultId]
+        );
 
         // Enviamos una respuesta al cliente.
         res.status(201).send({

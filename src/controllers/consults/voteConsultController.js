@@ -5,10 +5,10 @@ import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
 // Función controladora que permite votar una entrada con un valor del 1 al 5.
-const voteEntryController = async (req, res, next) => {
+const voteconsultController = async (req, res, next) => {
     try {
         // Obtenemos el ID de la entrada que queremos votar.
-        const { entryId } = req.params;
+        const { consultId } = req.params;
 
         // Obtenemos los datos del body.
         const { value } = req.body;
@@ -25,7 +25,7 @@ const voteEntryController = async (req, res, next) => {
         if (!validVotes.includes(value)) {
             generateErrorUtil(
                 'Solo se admiten valores enteros comprendidos entre el 1 y el 5',
-                400,
+                400
             );
         }
 
@@ -33,20 +33,20 @@ const voteEntryController = async (req, res, next) => {
         const pool = await getPool();
 
         // Comprobamos si existen votos previos por parte del usuario.
-        const [entryVotes] = await pool.query(
-            `SELECT id FROM entryVotes WHERE userId = ? AND entryId = ?`,
-            [req.user.id, entryId],
+        const [consultVotes] = await pool.query(
+            `SELECT id FROM consultVotes WHERE userId = ? AND consultId = ?`,
+            [req.user.id, consultId]
         );
 
         // Si ya existe un voto por parte del usuario lanzamos un error.
-        if (entryVotes.length > 0) {
+        if (consultVotes.length > 0) {
             generateErrorUtil('Ya has votado esta entrada', 403);
         }
 
         // Insertamos el voto.
         await pool.query(
-            `INSERT INTO entryVotes(value, entryId, userId) VALUES(?, ?, ?)`,
-            [value, entryId, req.user.id],
+            `INSERT INTO consultVotes(value, consultId, userId) VALUES(?, ?, ?)`,
+            [value, consultId, req.user.id]
         );
 
         // Enviamos una respuesta al cliente.
@@ -59,4 +59,4 @@ const voteEntryController = async (req, res, next) => {
     }
 };
 
-export default voteEntryController;
+export default voteconsultController;

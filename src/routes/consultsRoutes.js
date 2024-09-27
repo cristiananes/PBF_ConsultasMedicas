@@ -4,7 +4,7 @@ import express from 'express';
 // Creamos el router a traves de express
 const router = express.Router();
 
-// Importar los controladores de usuarios
+// Importar los controladores de consultas
 
 // Define tus rutas aquí
 

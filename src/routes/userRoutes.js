@@ -5,12 +5,17 @@ import express from 'express';
 const router = express.Router();
 
 // Importar los controladores de usuarios
-
+import {
+    // adminRegisterController,
+    // userInfoController,
+    userLoginController,
+    // userPassResetController,
+    userRegisterController,
+    validateUserController,
+} from '../controllers/users/index.js';
 // Define tus rutas aquí
 
-// Ruta de ejemplo
-router.get('/example', (req, res) => {
-    res.send('Ruta de ejemplo');
-});
-
+router.post('/user/register', userRegisterController);
+router.put('/users/validate/:registrationCode', validateUserController);
+router.post('/users/login', userLoginController);
 export default router; // Esta es la exportación por defecto

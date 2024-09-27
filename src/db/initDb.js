@@ -23,7 +23,7 @@ const main = async () => {
             CREATE TABLE IF NOT EXISTS users (
                 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
                 username VARCHAR(20) UNIQUE NOT NULL,
-                password VARCHAR(50) NOT NULL,
+                password VARCHAR(100) NOT NULL,
                 firstName VARCHAR(50) NOT NULL,
                 lastName VARCHAR(50) NOT NULL,
                 email VARCHAR(100) UNIQUE NOT NULL,
@@ -70,12 +70,12 @@ const main = async () => {
                 description VARCHAR(300) NOT NULL,
                 urgency ENUM('ALTA', 'MEDIA', 'BAJA') NOT NULL,
                 doctorId INT UNSIGNED,
-                FOREIGN KEY (doctorId) REFERENCES users(id),
+                    FOREIGN KEY (doctorId) REFERENCES users(id),
                 file VARCHAR(100),
                 userId INT UNSIGNED NOT NULL,
-                FOREIGN KEY (userId) REFERENCES users(id),
+                    FOREIGN KEY (userId) REFERENCES users(id),
                 specialityId INT UNSIGNED NOT NULL,
-                FOREIGN KEY (specialityId) REFERENCES specialities(id),
+                    FOREIGN KEY (specialityId) REFERENCES specialities(id),
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
                 modifiedAt DATETIME ON UPDATE CURRENT_TIMESTAMP
             );

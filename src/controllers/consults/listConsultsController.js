@@ -16,13 +16,12 @@ const listconsultsController = async (req, res, next) => {
             SELECT  
                 e.id,
                 e.title,
-                e.place,
                 e.description,
                 u.username AS author,
                 e.createdAt
             FROM consults e
             INNER JOIN users u ON u.id = e.userId
-            WHERE e.place LIKE ? AND u.username LIKE ?
+            WHERE u.username LIKE ?
         `,
             // Si "place" o "author" es undefined establecemos un string vacío. De lo contrario no
             // figurará ninguna entrada como resultado.

@@ -11,13 +11,10 @@ import generateErrorUtil from '../../utils/generateErrorUtil.js';
 const newconsultController = async (req, res, next) => {
     try {
         // Obtenemos los datos necesarios.
-        const { title, place, description } = req.body;
-
-        // Obtenemos una foto dado que es obligatorio mínima una foto.
-        const photo1 = req.files?.photo;
+        const { title, description, urgency, speciality } = req.body;
 
         // Lanzamos un error si faltan campos.
-        if (!title || !place || !description || !photo1) {
+        if (!title || !description || !urgency || !speciality ) {
             generateErrorUtil('Faltan campos', 400);
         }
 
@@ -26,8 +23,8 @@ const newconsultController = async (req, res, next) => {
 
         // Guardamos la entrada (sin las fotos).
         const [newconsult] = await pool.query(
-            `INSERT INTO consults(title, place, description, userId) VALUES (?, ?, ?, ?)`,
-            [title, place, description, req.user.id]
+            `INSERT INTO consults(title, description, urgency, speciality, userId) VALUES (?, ?, ?, ?)`,
+            [title, description, urgency, speciality, req.user.id]
         );
 
         // Creamos un array con los valores del objeto "files". Esto nos permitirá crear un array con

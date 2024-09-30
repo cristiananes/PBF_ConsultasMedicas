@@ -5,7 +5,7 @@ import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
 // Función controladora que permite responder a una consulta.
-const respondConsultController = async (req, res, next) => {
+const replyConsultController = async (req, res, next) => {
     try {
         // Obtenemos los datos necesarios.
         const { consultId, responseText } = req.body;
@@ -44,4 +44,4 @@ const respondConsultController = async (req, res, next) => {
     }
 };
 
-export default respondConsultController;
+export default replyConsultController;

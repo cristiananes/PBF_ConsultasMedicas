@@ -15,7 +15,7 @@ const getUserInfoController = async (req, res, next) => {
 
         // Obtenemos los datos del usuario.
         const [users] = await pool.query(
-            `SELECT email, username, nombre, apellidos, biografia, avatar FROM users WHERE id = ?`,
+            `SELECT email, username, firstName, lastName, biography, avatar FROM users WHERE id = ?`,
             [req.user.id],
         );
 
@@ -31,9 +31,9 @@ const getUserInfoController = async (req, res, next) => {
                 user: {
                     email: users[0].email,
                     username: users[0].username,
-                    nombre: users[0].nombre,
-                    apellidos: users[0].apellidos,
-                    biografia: users[0].biografia,
+                    firstName: users[0].firstName,
+                    lastName: users[0].lastName,
+                    biography: users[0].biography,
                     avatar: users[0].avatar,
                 },
             },

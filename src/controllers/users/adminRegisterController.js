@@ -13,7 +13,7 @@ const adminRegisterController = async (req, res, next) => {
             firstName,
             lastName,
             password,
-            specialty,
+            specialtyName,
             experience,
             licenseNumber,
             role,
@@ -26,7 +26,7 @@ const adminRegisterController = async (req, res, next) => {
             !firstName ||
             !lastName ||
             !password ||
-            !specialty ||
+            !specialtyName ||
             !experience ||
             !licenseNumber ||
             !role
@@ -46,6 +46,11 @@ const adminRegisterController = async (req, res, next) => {
             generateErrorUtil('El nombre de usuario ya existe', 409);
         }
 
+        const [specialty] = await pool.query(
+            `SELECT id FROM specialities WHERE name = ?`,
+            [specialtyName]
+        );
+
         // Verificamos si el email ya existe.
         [users] = await pool.query(`SELECT id FROM users WHERE email = ?`, [
             email,
@@ -58,21 +63,32 @@ const adminRegisterController = async (req, res, next) => {
         const hashedPass = await bcrypt.hash(password, 10);
 
         // Insertamos al nuevo administrador en la tabla 'users' con rol de 'admin'.
-        await pool.query(
-            `INSERT INTO users (username, email, firstName, lastName, specialty, experience, licenseNumber, password, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        const [userResult] = await pool.query(
+            `INSERT INTO users (username, email, firstName, lastName,  password, role) VALUES (?, ?, ?, ?, ?,?)`,
             [
                 username,
                 email,
                 firstName,
                 lastName,
-                specialty,
-                experience,
-                licenseNumber,
-                password,
                 hashedPass,
                 role,
             ]
         );
+        const userId = userResult.insertId;
+
+
+
+        await pool.query(
+            `INSERT INTO doctorData (userId, specialityId, experience, licenseNumber) VALUES (?,?, ?, ?)`,
+            [
+                userId,
+                specialty[0].id,
+                experience,
+                licenseNumber,
+
+            ]
+        );
+
 
         // Enviamos una respuesta de éxito al cliente.
         res.status(201).send({

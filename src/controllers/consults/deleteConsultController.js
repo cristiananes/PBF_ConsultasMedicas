@@ -2,7 +2,7 @@
 import getPool from '../../db/getPool.js';
 
 // Importamos la función que guarda una foto.
-import removePhotoUtil from '../../utils/removePhotoUtil.js';
+import removeFileUtil from '../../utils/removeFileUtil.js';
 
 // Función controladora que elimina una entrada concreta por ID.
 const deleteconsultController = async (req, res, next) => {
@@ -21,7 +21,7 @@ const deleteconsultController = async (req, res, next) => {
 
         // Si hay alguna foto las eliminamos del disco.
         for (const photo of photos) {
-            await removePhotoUtil(photo.name);
+            await removeFileUtil(photo.name);
         }
 
         // Eliminamos las fotos de la base de datos.

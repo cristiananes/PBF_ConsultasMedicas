@@ -5,16 +5,16 @@ import {
     adminRegisterController,
     userInfoController,
     userLoginController,
-    userPassRestController,
     userRegisterController,
     validateUserController,
-} from '..controllers/users/index.js';
+    listMedicsController,
+    detallesMedicosController,
+
+} from '../controllers/users/index.js';
 
 //importamos los utils
 import {
     authUserController,
-    notFoundController,
-    uploadFileController,
 } from '../middlewares/index.js'
 
 // Creamos el router a traves de express
@@ -26,57 +26,63 @@ const router = express.Router();
 
 //middleware que registra usuarios
 router.post(
-    `/api/user/register`,
+    `/user/register`,
     userRegisterController,
 );
 
 //middleware que crea admis
 router.post(
-    `/api/user/admin-register`,
+    `/user/admin-register`,
     authUserController,
     adminRegisterController,
 );
 
 //middleware que valida usuarios
 router.patch(
-    `/api/user/validate/:registrationCode`,
+    `/user/validate/:registrationCode`,
     validateUserController,
 );
 
 //middleware de logini de user
 router.post(
-    `/api/user/login`,
+    `/user/login`,
     userLoginController,
 );
 
 //middleware que retorna info del user
 router.get(
-    `/api/user/:userId`,
+    `/user/:userId`,
+    authUserController,
     userInfoController,
+
 );
 
 //middleware que cambia la contraseña
 router.patch(
-    `/api/user/change-password`,
+    `/user/change-password`,
     authUserController,
-    userPassRestController
 );
 
 //middleware que retorna el listado de medicos
 router.get(
-    `/api/users/doctors`,
+    `/users/doctors`,
     //añadir cuando se cree
+    authUserController,
+    listMedicsController,
 );
 
 //middleware que retorna las especialidades
 router.get(
-    `/api/user/specialties`
+    `/user/specialties`,
     //añadir cuando se cree clase
+    authUserController,
 
 );
 
 //middleware detalle medico
 router.get(
-    `/api/doctor/:doctorId`,
+    `/doctor/:doctorId`,
+    authUserController,
+    detallesMedicosController,
 );
 export default router; // Esta es la exportación por defecto

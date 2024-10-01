@@ -2,20 +2,16 @@
 import newConsultController from './newConsultController.js';
 import listConsultsController from './listConsultsController.js';
 import getConsultByIdController from './getConsultByIdController.js';
-import addPhotoController from './addPhotoController.js';
-import deletePhotoController from './deletePhotoController.js';
 import voteConsultController from './voteConsultController.js';
 import deleteConsultController from './deleteConsultController.js';
 import replyUserController from './replyConsultController.js'
-import deleteReplyConsultsId from './deleteReplyConsultId.js'
+import deleteReplyConsultId from './deleteReplyConsultId.js'
 export {
     newConsultController,
     listConsultsController,
     getConsultByIdController,
-    addPhotoController,
-    deletePhotoController,
     voteConsultController,
     deleteConsultController,
     replyUserController,
-    deleteReplyConsultsId
+    deleteReplyConsultId
 };

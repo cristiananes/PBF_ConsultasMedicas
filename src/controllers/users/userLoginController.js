@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import getPool from '../../utils/generateErrorUtil.js';
+import getPool from '../../db/getPool.js';
 
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 const loginUserController = async (req, res, next) => {

@@ -66,7 +66,7 @@ const userRegisterController = async (req, res, next) => {
         const emailBody = `
             ¡Bienvenid@ ${username}!
 
-            Gracias por registrarte en Diario de Viajes. Para activar tu cuenta, haz click en el siguiente enlace:
+            Gracias por registrarte en Consultas Medicas (estas a salvo). Para activar tu cuenta, haz click en el siguiente enlace:
 
             <a href="${process.env.CLIENT_URL}/api/users/validate/${registrationCode}">¡Activa tu usuario!</a>
         `;

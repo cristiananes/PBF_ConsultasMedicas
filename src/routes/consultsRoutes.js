@@ -3,9 +3,7 @@ import express from 'express';
 
 //importamos las funciones controladoras finales
 import {
-    addPhotoController,
     deleteConsultController,
-    deletePhotoController,
     getConsultByIdController,
     listConsultsController,
     newConsultController,
@@ -17,8 +15,7 @@ import {
 //importamos los utils
 import {
     authUserController,
-    notFoundController,
-    uploadFileController,
+
 } from '../middlewares/index.js'
 
 
@@ -30,7 +27,7 @@ const router = express.Router();
 // Define rutas aquí
 //middleware que crea una consulta
 router.post(
-    `/api/user/new-consult`,
+    `/user/new-consult`,
     authUserController,
     newConsultController,
 
@@ -38,42 +35,42 @@ router.post(
 
 //middleware que lista las consultas
 router.get(
-    `/api/user/consults`,
+    `/user/consults`,
     authUserController,
     listConsultsController,
 );
 
 //middleware que devuelve UNA consulta
 router.get(
-    `/api/consult/:consultId`,
+    `/consult/:consultId`,
     authUserController,
     getConsultByIdController,
 );
 
 //middleware que retorna respuesta a consulta
 router.post(
-    `/api/consult/:consultId/reply`,
+    `/consult/:consultId/reply`,
     authUserController,
     replyUserController,
 
 );
 //middleware que permite valorar una consulta
 router.post(
-    `/api/reply/:replyIdadd/rating`,
+    `/reply/:replyIdadd/rating`,
     authUserController,
     voteConsultController,
 );
 
 //middleware que permite eliminar una consulta
 router.delete(
-    `/api/consult/:consultId`,
+    `/consult/:consultId`,
     authUserController,
     deleteConsultController,
 );
 
 //middleware que permite eliminar una respuesta a una consulta
 router.delete(
-    `/api/user/:userId/:consultId/:replyId`,
+    `/user/:userId/:consultId/:replyId`,
     authUserController,
     deleteReplyConsultId,
 );

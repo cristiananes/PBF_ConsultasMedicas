@@ -2,7 +2,7 @@
 import getPool from '../../db/getPool.js';
 
 // Función controladora que retorna el listado de entradas.
-const listEntriesController = async (req, res, next) => {
+const listMedicsController = async (req, res, next) => {
     try {
         // Obtenemos los query params necesarios.
         let { firstName, lastName } = req.query;
@@ -22,31 +22,21 @@ const listEntriesController = async (req, res, next) => {
              d.specialty, 
              d.experience
             FROM users u
-            INNER JOIN doctors or u.id = e.userId
-            WHERE e.place LIKE ? AND u.username LIKE ?
+            INNER JOIN doctorData d on u.id = d.userId
+            WHERE u.firstName LIKE ? OR u.lastName LIKE ?
         `,
             // Si "firstname" o "lastname" es undefined establecemos un string vacío. De lo contrario no
             // figurará ninguna entrada como resultado.
-            [`%${firstName || ''}%`, `%${lastName|| ''}%`],
+            [`%${firstName || ''}%`, `%${lastName || ''}%`],
         );
 
-        // Si hay entradas buscamos las fotos de cada entrada.
-        for (const entry of entries) {
-            // Buscamos las fotos de la entrada actual.
-            const [photos] = await pool.query(
-                `SELECT id, name FROM entryPhotos WHERE entryId = ?`,
-                [entry.id],
-            );
 
-            // Agregamos el array de fotos a la entrada actual.
-            entry.photos = photos;
-        }
 
         // Enviamos una respuesta al cliente.
         res.sed({
             status: 'ok',
             data: {
-                entries,
+                users,
             },
         });
     } catch (err) {
@@ -54,4 +44,4 @@ const listEntriesController = async (req, res, next) => {
     }
 };
 
-export default listEntriesController;
+export default listMedicsController;

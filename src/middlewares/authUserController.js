@@ -1,5 +1,5 @@
 // Importamos dependencias
-import jwt from 'jsonweb';
+import jwt from 'jsonwebtoken';
 
 // Importamos el util de generar error
 import generateErrorUtil from '../utils/generateErrorUtil.js';

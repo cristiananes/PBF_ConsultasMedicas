@@ -7,8 +7,9 @@ import getPool from '../../db/getPool.js';
 // Importamos la función que genera un error.
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
+
 // Función controladora que permite resetear la contraseña con un código de recuperación.
-const resetUserPassWithCodeController = async (req, res, next) => {
+const userPassResetController = async (req, res, next) => {
     try {
         // Obtenemos el código de recuperación.
         const { recoverPassCode } = req.params;
@@ -59,5 +60,5 @@ const resetUserPassWithCodeController = async (req, res, next) => {
     }
 };
 
-export default resetUserPassWithCodeController;
+export default userPassResetController;
 

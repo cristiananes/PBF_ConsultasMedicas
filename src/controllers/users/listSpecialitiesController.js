@@ -1,12 +1,16 @@
 // Importamos el pool de conexiones a la base de datos
-import pool from '../config/db.js'; // Asegúrate de que la ruta sea correcta para tu archivo de configuración de la base de datos.
+import getPool from '../../db/getPool.js'; // Asegúrate de que la ruta sea correcta para tu archivo de configuración de la base de datos.
 
 const listSpecialitiesController = async (req, res, next) => {
     try {
+        // Obtenemos una conexión con la base de datos.
+        const pool = await getPool();
         // Consulta a la base de datos para obtener solo los nombres de las especialidades
         const [specialities] = await pool.query(
             'SELECT name FROM specialities'
         );
+
+
 
         // Verificamos si existen resultados
         if (specialities.length === 0) {

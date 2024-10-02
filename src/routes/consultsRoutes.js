@@ -27,7 +27,7 @@ const router = express.Router();
 // Define rutas aquí
 //middleware que crea una consulta
 router.post(
-    `/user/new-consult`,
+    `/consult/new-consult`,
     authUserController,
     newConsultController,
 
@@ -35,7 +35,7 @@ router.post(
 
 //middleware que lista las consultas
 router.get(
-    `/user/consults`,
+    `/consults`,
     authUserController,
     listConsultsController,
 );

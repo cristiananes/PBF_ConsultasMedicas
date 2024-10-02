@@ -9,6 +9,7 @@ import {
     validateUserController,
     listMedicsController,
     detallesMedicosController,
+    listSpecialitiesController,
 } from '../controllers/users/index.js';
 
 //importamos los utils
@@ -56,7 +57,8 @@ router.get(
 router.get(
     `/user/specialties`,
     //añadir cuando se cree clase
-    authUserController
+    authUserController,
+    listSpecialitiesController
 );
 
 //middleware detalle medico

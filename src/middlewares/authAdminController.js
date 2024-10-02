@@ -4,25 +4,36 @@ import jwt from 'jsonwebtoken';
 // Importamos el util de generar error
 import generateErrorUtil from '../utils/generateErrorUtil.js';
 
-const authUserController = async (req, res, next) => {
+const authAdminController = async (req, res, next) => {
     try {
         // Comprobamos si existe autorización y generamos error en caso contrario.
         const { authorization } = req.headers;
         if (!authorization) {
-            generateErrorUtil('Falta la cabecera de autorización', 401);
+            return generateErrorUtil('Falta la cabecera de autorización', 401);
         }
-        // Si existe autorización, creamos el token de usuario
+
+        // Si existe autorización, intentamos verificar el token.
         try {
             const tokenInfo = jwt.verify(authorization, process.env.SECRET);
             req.user = tokenInfo;
+
+            // Comprobamos si el rol del usuario es "admin".
+            if (req.user.role !== 'admin') {
+                return generateErrorUtil(
+                    'Acceso denegado: se requiere el rol de administrador',
+                    403
+                );
+            }
+
+            // Si el rol es admin, continuamos con el siguiente middleware.
             next();
         } catch (err) {
             console.error(err);
-            generateErrorUtil('Token invalido', 401);
+            return generateErrorUtil('Token inválido', 401);
         }
     } catch (err) {
         next(err);
     }
 };
 
-export default authUserController;
+export default authAdminController;

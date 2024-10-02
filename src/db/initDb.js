@@ -1,6 +1,6 @@
 // Añadimos la configuración del .env
 import 'dotenv/config';
-
+import bcrypt from 'bcrypt';
 // Importamos la función que retorna el pool de conexiones
 import getPool from './getPool.js';
 
@@ -121,14 +121,14 @@ const main = async () => {
         const adminUser = process.env.ADMINUSER;
         const adminPass = process.env.ADMINPASS;
         const adminMail = process.env.ADMINMAIL;
-
+        const hashedPass = await bcrypt.hash(adminPass, 10);
         // Insertar el usuario administrador en la tabla "users"
         await pool.query(
             `
             INSERT INTO users (username, password, firstName, lastName, email, role, active)
             VALUES (?, ?, 'Admin', 'User', ?, 'admin', true)
         `,
-            [adminUser, adminPass, adminMail]
+            [adminUser, hashedPass, adminMail]
         );
 
         console.log('¡Usuario administrador creado!');

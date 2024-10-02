@@ -1,5 +1,5 @@
 // Definimos la constante para la media de rating.
-const MEDIA_RATING = 5;
+
 // Importamos la función que retorna una conexión con la base de datos.
 import getPool from '../../db/getPool.js';
 
@@ -14,7 +14,7 @@ const getPrivateUserInfoController = async (req, res, next) => {
 
         // Obtenemos los datos del usuario.
         const [users] = await pool.query(
-            `SELECT id, username, email, avatar FROM users WHERE id = ?`,
+            `SELECT id, username, email, avatar, role FROM users WHERE id = ?`,
             [req.user.id],
         );
 

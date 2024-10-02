@@ -2,7 +2,7 @@
 import bcrypt from 'bcrypt';
 import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
-
+import sendMailUtil from '../../utils/sendMailUtil.js';
 // Función controladora que permite registrar a un administrador.
 const adminRegisterController = async (req, res, next) => {
     try {
@@ -61,10 +61,10 @@ const adminRegisterController = async (req, res, next) => {
 
         // Encriptamos la contraseña.
         const hashedPass = await bcrypt.hash(password, 10);
-
+        const registrationCode = crypto.randomBytes(15).toString('hex');
         // Insertamos al nuevo administrador en la tabla 'users' con rol de 'admin'.
         const [userResult] = await pool.query(
-            `INSERT INTO users (username, email, firstName, lastName,  password, role) VALUES (?, ?, ?, ?, ?,?)`,
+            `INSERT INTO users (username, email, firstName, lastName,  password, role, registrationCode) VALUES (?, ?, ?, ?, ?,?)`,
             [
                 username,
                 email,
@@ -72,28 +72,29 @@ const adminRegisterController = async (req, res, next) => {
                 lastName,
                 hashedPass,
                 role,
+                registrationCode,
             ]
         );
         const userId = userResult.insertId;
-
-
-
         await pool.query(
             `INSERT INTO doctorData (userId, specialityId, experience, licenseNumber) VALUES (?,?, ?, ?)`,
-            [
-                userId,
-                specialty[0].id,
-                experience,
-                licenseNumber,
-
-            ]
+            [userId, specialty[0].id, experience, licenseNumber]
         );
+        // Asunto y cuerpo del email de verificación.
+        const emailSubject = 'Activa tu usuario en consultasmedicas';
+        const emailBody = `
+            ¡Bienvenid@ al equipo ${username}!
 
+            Gracias por registrarte en Consultas Medicas (estas a salvo). Para activar tu cuenta, haz click en el siguiente enlace:
+
+            <a href="${process.env.CLIENT_URL}/api/users/validate/${registrationCode}">¡Activa tu usuario!</a>
+        `;
+        await sendMailUtil(email, emailSubject, emailBody);
 
         // Enviamos una respuesta de éxito al cliente.
         res.status(201).send({
             status: 'ok',
-            message: 'Administrador registrado con éxito',
+            message: `${role} registrado con éxito`,
         });
     } catch (err) {
         next(err);

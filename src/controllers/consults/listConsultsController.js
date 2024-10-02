@@ -14,13 +14,13 @@ const listconsultsController = async (req, res, next) => {
         const [consults] = await pool.query(
             `
             SELECT  
-                e.id,
-                e.title,
-                e.description,
+                c.id,
+                c.title,
+                c.description,
                 u.username AS author,
-                e.createdAt
-            FROM consults e
-            INNER JOIN users u ON u.id = e.userId
+                c.createdAt
+            FROM consults c
+            INNER JOIN users u ON u.id = c.userId
             WHERE u.username LIKE ?
         `,
             // Si "place" o "author" es undefined establecemos un string vacío. De lo contrario no
@@ -28,17 +28,6 @@ const listconsultsController = async (req, res, next) => {
             [`%${place || ''}%`, `%${author || ''}%`]
         );
 
-        // Si hay entradas buscamos las fotos de cada entrada.
-        for (const consult of consults) {
-            // Buscamos las fotos de la entrada actual.
-            const [photos] = await pool.query(
-                `SELECT id, name FROM consultPhotos WHERE consultId = ?`,
-                [consult.id]
-            );
-
-            // Agregamos el array de fotos a la entrada actual.
-            consult.photos = photos;
-        }
 
         // Enviamos una respuesta al cliente.
         res.send({

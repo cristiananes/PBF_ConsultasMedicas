@@ -8,7 +8,7 @@ import {
     userRegisterController,
     validateUserController,
     listMedicsController,
-    detallesMedicosController,
+    doctorDetailsController,
     listSpecialitiesController,
 } from '../controllers/users/index.js';
 
@@ -17,6 +17,7 @@ import {
     authAdminController,
     authUserController,
 } from '../middlewares/index.js';
+import userPassResetController from '../controllers/users/userPassResetController.js';
 
 // Creamos el router a traves de express
 const router = express.Router();
@@ -43,7 +44,7 @@ router.post(`/user/login`, userLoginController);
 router.get(`/user/:userId`, authUserController, userInfoController);
 
 //middleware que cambia la contraseña
-router.patch(`/user/change-password`, authUserController);
+router.patch(`/user/change-password`, authUserController, userPassResetController);
 
 //middleware que retorna el listado de medicos
 router.get(
@@ -55,12 +56,12 @@ router.get(
 
 //middleware que retorna las especialidades
 router.get(
-    `/user/specialties`,
+    `/specialties`,
     //añadir cuando se cree clase
     authUserController,
     listSpecialitiesController
 );
 
 //middleware detalle medico
-router.get(`/doctor/:doctorId`, authUserController, detallesMedicosController);
+router.get(`/doctor/:doctorId`, authUserController, doctorDetailsController);
 export default router; // Esta es la exportación por defecto

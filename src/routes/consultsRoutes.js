@@ -1,5 +1,7 @@
 // Importamos dependencias
 import express from 'express';
+//importamos el middleware de multer
+import upload from '../middlewares/uploadFileController.js';
 
 //importamos las funciones controladoras finales
 import {
@@ -29,6 +31,7 @@ const router = express.Router();
 router.post(
     `/consult/new-consult`,
     authUserController,
+    upload.single('file'),
     newConsultController,
 
 );

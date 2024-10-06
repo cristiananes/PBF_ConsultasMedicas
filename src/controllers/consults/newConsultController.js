@@ -19,20 +19,25 @@ const newconsultController = async (req, res, next) => {
         console.log(specialtyName + " : specialytyname");
 
 
-
         const userId = req.user.id;
         const userRole = req.user.role;
+
         // Obtenemos una conexión con la base de datos.
         const pool = await getPool();
 
+        //verificamos que solo las pacientes pueden añadir consultas
         if (userRole != "patient") {
             generateErrorUtil("Solo los pacientes pueden añadir consultas", 403);
-
         }
+
+        //verificamos si existe la especialidad.
         const [specialty] = await pool.query(
             `SELECT id FROM specialities WHERE name = ?`,
             [specialtyName]
         );
+        if (specialty.length === 0) {
+            generateErrorUtil('La especialidad no existe', 404);
+        }
         console.log(specialty + " :esta es la especialidad ");
 
 
@@ -43,29 +48,20 @@ const newconsultController = async (req, res, next) => {
             generateErrorUtil('Faltan campos', 400);
         }
 
+        //verificamos si hay un archivo subido
+        const file = req.file;
+        let fileName = null;
+        if (file) {
+            fileName = await saveFileUtil(file, 1000); //guardamos la foto en la carpeta de subida de archivos
+        }
 
 
-        // Guardamos la entrada (sin los archivos).
+        // Guardamos la entrada en la bd (incluyendo el archivo si existe).
         await pool.query(
-            `INSERT INTO consults( title, description, urgency, specialityId, userId) VALUES (?, ?, ?, ?,?)`,
-            [title, description, urgency, specialty[0].id, userId]
+            `INSERT INTO consults( title, description, urgency, specialityId, userId, file) VALUES (?, ?, ?, ?,?, ?)`,
+            [title, description, urgency, specialty[0].id, userId, fileName]
         );
 
-        const file = req.files?.file;
-        console.log(file);
-
-        if (file) {
-            console.log("entra a guardar el file")
-            // Guardamos la foto en la carpeta de subida de archivos.
-            const fileName = await saveFileUtil(file, 1000);
-
-            // Guardamos la foto en la base de datos.
-            await pool.query(
-                `INSERT INTO consults(file) VALUES(?)`,
-                [fileName]
-            );
-
-        }
         // Enviamos una respuesta al cliente.
         res.status(201).send({
             status: 'ok',

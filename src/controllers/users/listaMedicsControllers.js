@@ -1,7 +1,7 @@
 // Importamos la función que retorna una conexión con la base de datos.
 import getPool from '../../db/getPool.js';
 
-// Función controladora que retorna el listado de entradas.
+// Función controladora que retorna el listado de doctores.
 const listMedicsController = async (req, res, next) => {
     try {
         // Obtenemos los query params necesarios.
@@ -10,7 +10,7 @@ const listMedicsController = async (req, res, next) => {
         // Obtenemos una conexión con la base de datos.
         const pool = await getPool();
 
-        // Obtenemos el listado de entradas.
+        // Obtenemos el listado de doctores.
         const [users] = await pool.query(
             `
             SELECT  
@@ -19,21 +19,21 @@ const listMedicsController = async (req, res, next) => {
              u.firstName, 
              u.lastName, 
              u.email, 
-             d.specialty, 
+             s.name AS specialty,  
              d.experience
             FROM users u
-            INNER JOIN doctorData d on u.id = d.userId
-            WHERE u.firstName LIKE ? OR u.lastName LIKE ?
+            INNER JOIN doctorData d ON u.id = d.userId
+            INNER JOIN specialities s ON d.specialityId = s.id  
+            WHERE (u.firstName LIKE ? OR u.lastName LIKE ?)
+              AND u.role = 'doctor' 
         `,
-            // Si "firstname" o "lastname" es undefined establecemos un string vacío. De lo contrario no
+            // Si "firstName" o "lastName" es undefined establecemos un string vacío. De lo contrario no
             // figurará ninguna entrada como resultado.
-            [`%${firstName || ''}%`, `%${lastName || ''}%`],
+            [`%${firstName || ''}%`, `%${lastName || ''}%`]
         );
 
-
-
         // Enviamos una respuesta al cliente.
-        res.sed({
+        res.send({
             status: 'ok',
             data: {
                 users,

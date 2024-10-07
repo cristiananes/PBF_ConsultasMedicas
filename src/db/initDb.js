@@ -91,6 +91,7 @@ const main = async () => {
                 answerText VARCHAR(1000) NOT NULL,
                 rating ENUM('1', '2', '3', '4', '5'),
                 file VARCHAR(100),
+                voteTimestamp DATETIME DEFAULT NULL,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
                 modifiedAt DATETIME ON UPDATE CURRENT_TIMESTAMP
             );

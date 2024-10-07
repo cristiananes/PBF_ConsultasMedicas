@@ -10,37 +10,56 @@ const getconsultByIdController = async (req, res, next) => {
         // Obtenemos una conexión con la base de datos.
         const pool = await getPool();
 
-        // Obtenemos la entrada con el ID proporcionado.
+        // Obtenemos la entrada con el ID proporcionado, incluyendo los detalles del usuario, la especialidad y el médico.
         const [consults] = await pool.query(
             `
             SELECT  
-                e.id,
-                e.title,
-                e.place,
-                e.description,
+                c.id,
+                c.title,
+                c.description,
+                c.urgency,
+                c.file,
+                s.name AS specialityName,
+                u.firstName AS patientFirstName,
+                u.lastName AS patientLastName,
                 u.username AS author,
-                e.createdAt
-            FROM consults e
-            INNER JOIN users u ON u.id = e.userId
-            WHERE e.id = ?
-        `,
+                c.createdAt,
+                d.firstName AS doctorFirstName,
+                d.lastName AS doctorLastName
+            FROM consults c
+            INNER JOIN users u ON u.id = c.userId
+            INNER JOIN specialities s ON s.id = c.specialityId
+            LEFT JOIN users d ON d.id = c.doctorId  -- LEFT JOIN para obtener los datos del doctor
+            WHERE c.id = ?
+            `,
             [consultId]
         );
 
-        // Buscamos las fotos de la entrada.
-        const [photos] = await pool.query(
-            `SELECT id, name FROM consultPhotos WHERE consultId = ?`,
-            [consults[0].id]
-        );
+        // Verificamos si se encontró la consulta.
+        if (consults.length === 0) {
+            return res.status(404).send({
+                status: 'error',
+                message: 'Consulta no encontrada',
+            });
+        }
 
-        // Agregamos el array de fotos a la entrada.
-        consults[0].photos = photos;
+        // Preparamos el objeto de respuesta.
+        const consult = {
+            ...consults[0],
+        };
+
+        // Si el médico no está asignado, borramos sus datos de la respuesta
+        if (!consult.doctorFirstName || !consult.doctorLastName) {
+            // Eliminamos los campos del médico si no están presentes.
+            delete consult.doctorFirstName;
+            delete consult.doctorLastName;
+        }
 
         // Enviamos una respuesta al cliente.
         res.send({
             status: 'ok',
             data: {
-                consult: consults[0],
+                consult,
             },
         });
     } catch (err) {

@@ -1,11 +1,11 @@
 // Importamos la función que retorna una conexión con la base de datos.
 import getPool from '../../db/getPool.js';
 
-// Importamos la función que guarda una foto.
+// Importamos la función que elimina un archivo.
 import removeFileUtil from '../../utils/removeFileUtil.js';
 
 // Función controladora que elimina una entrada concreta por ID.
-const deleteconsultController = async (req, res, next) => {
+const deleteConsultController = async (req, res, next) => {
     try {
         // Obtenemos el ID de la entrada a eliminar.
         const { consultId } = req.params;
@@ -13,38 +13,38 @@ const deleteconsultController = async (req, res, next) => {
         // Obtenemos una conexión con la base de datos.
         const pool = await getPool();
 
-        // Localizamos las fotos vinculadas a la entrada.
-        const [photos] = await pool.query(
-            `SELECT name FROM consultPhotos WHERE consultId = ?`,
+        // Buscamos la consulta por ID para verificar su existencia y obtener el archivo asociado (si lo tiene).
+        const [consult] = await pool.query(
+            `SELECT file FROM consults WHERE id = ?`,
             [consultId]
         );
 
-        // Si hay alguna foto las eliminamos del disco.
-        for (const photo of photos) {
-            await removeFileUtil(photo.name);
+        // Verificamos si la consulta existe.
+        if (consult.length === 0) {
+            return res.status(404).send({
+                status: 'error',
+                message: 'La consulta no existe',
+            });
         }
 
-        // Eliminamos las fotos de la base de datos.
-        await pool.query(`DELETE FROM consultPhotos WHERE consultId = ?`, [
-            consultId,
-        ]);
+        // Si la consulta tiene un archivo asociado, lo eliminamos.
+        const fileName = consult[0].file;
+        if (fileName) {
+            // Eliminamos el archivo utilizando removeFileUtil (la función ya maneja la ruta)
+            await removeFileUtil(fileName);
+        }
 
-        // Eliminamos los votos de la entrada.
-        await pool.query(`DELETE FROM consultVotes WHERE consultId = ?`, [
-            consultId,
-        ]);
-
-        // Eliminamos la entrada.
+        // Eliminamos la consulta.
         await pool.query(`DELETE FROM consults WHERE id = ?`, [consultId]);
 
         // Enviamos una respuesta al cliente.
         res.send({
             status: 'ok',
-            message: 'Entrada eliminada',
+            message: 'Consulta eliminada',
         });
     } catch (err) {
         next(err);
     }
 };
 
-export default deleteconsultController;
+export default deleteConsultController;

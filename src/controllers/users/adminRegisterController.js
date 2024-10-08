@@ -1,5 +1,6 @@
 // Importamos las dependencias necesarias.
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 import sendMailUtil from '../../utils/sendMailUtil.js';
@@ -64,7 +65,7 @@ const adminRegisterController = async (req, res, next) => {
         const registrationCode = crypto.randomBytes(15).toString('hex');
         // Insertamos al nuevo administrador en la tabla 'users' con rol de 'admin'.
         const [userResult] = await pool.query(
-            `INSERT INTO users (username, email, firstName, lastName,  password, role, registrationCode) VALUES (?, ?, ?, ?, ?,?)`,
+            `INSERT INTO users (username, email, firstName, lastName,  password, role, registrationCode) VALUES (?, ?, ?, ?, ?, ?, ?)`,
             [
                 username,
                 email,

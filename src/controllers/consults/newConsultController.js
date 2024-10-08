@@ -7,58 +7,56 @@ import saveFileUtil from '../../utils/saveFileUtil.js';
 // Importamos la función que genera un error.
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
-
 // Función controladora que permite crear una nueva entrada.
 const newconsultController = async (req, res, next) => {
     try {
-        // Obtenemos los datos necesarios.
+        // Obtenemos los datos desde el form-data.
         const { title, description, urgency, specialtyName } = req.body;
-        console.log(title + " : titulo");
-        console.log(description + " :descripcion");
-        console.log(urgency + ": urgency");
-        console.log(specialtyName + " : specialytyname");
+        const file = req.file; // Este archivo será procesado por el middleware de multer
 
+        // Logs de debugging
+        console.log(`${title} : titulo`);
+        console.log(`${description} : descripcion`);
+        console.log(`${urgency} : urgency`);
+        console.log(`${specialtyName} : specialytyname`);
 
-        const userId = req.user.id;
+        const userId = req.user.id; // Datos del usuario autenticado
         const userRole = req.user.role;
 
         // Obtenemos una conexión con la base de datos.
         const pool = await getPool();
 
-        //verificamos que solo las pacientes pueden añadir consultas
-        if (userRole != "patient") {
-            generateErrorUtil("Solo los pacientes pueden añadir consultas", 403);
+        // Verificamos que solo las pacientes pueden añadir consultas.
+        if (userRole !== 'patient') {
+            throw generateErrorUtil(
+                'Solo los pacientes pueden añadir consultas',
+                403
+            );
         }
 
-        //verificamos si existe la especialidad.
+        // Verificamos si existe la especialidad.
         const [specialty] = await pool.query(
             `SELECT id FROM specialities WHERE name = ?`,
             [specialtyName]
         );
         if (specialty.length === 0) {
-            generateErrorUtil('La especialidad no existe', 404);
+            throw generateErrorUtil('La especialidad no existe', 404);
         }
-        console.log(specialty + " :esta es la especialidad ");
-
-
-
 
         // Lanzamos un error si faltan campos.
         if (!title || !description || !urgency || !specialty) {
-            generateErrorUtil('Faltan campos', 400);
+            throw generateErrorUtil('Faltan campos', 400);
         }
 
-        //verificamos si hay un archivo subido
-        const file = req.file;
+        // Si hay un archivo subido, lo guardamos.
         let fileName = null;
         if (file) {
-            fileName = await saveFileUtil(file, 1000); //guardamos la foto en la carpeta de subida de archivos
+            fileName = await saveFileUtil(file, 1000); // Guardamos el archivo en disco
         }
-
 
         // Guardamos la entrada en la bd (incluyendo el archivo si existe).
         await pool.query(
-            `INSERT INTO consults( title, description, urgency, specialityId, userId, file) VALUES (?, ?, ?, ?,?, ?)`,
+            `INSERT INTO consults( title, description, urgency, specialityId, userId, file) VALUES (?, ?, ?, ?, ?, ?)`,
             [title, description, urgency, specialty[0].id, userId, fileName]
         );
 
@@ -68,7 +66,7 @@ const newconsultController = async (req, res, next) => {
             message: 'Entrada creada',
         });
     } catch (err) {
-        next(err);
+        next(err); // Pasamos el error al middleware de errores
     }
 };
 

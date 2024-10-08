@@ -19,10 +19,9 @@ const deleteReplyController = async (req, res, next) => {
         const pool = await getPool();
 
         // Verificamos si la respuesta existe.
-        const [reply] = await pool.query(
-            `SELECT * FROM consultResponses WHERE id = ?`,
-            [replyId]
-        );
+        const [reply] = await pool.query(`SELECT * FROM answers WHERE id = ?`, [
+            replyId,
+        ]);
 
         if (reply.length === 0) {
             generateErrorUtil('Respuesta no encontrada', 404);
@@ -30,14 +29,22 @@ const deleteReplyController = async (req, res, next) => {
 
         // Verificamos si el usuario es el propietario de la respuesta.
         if (reply[0].userId !== req.user.id) {
-            generateErrorUtil('No tienes permiso para borrar esta respuesta', 403);
+            generateErrorUtil(
+                'No tienes permiso para borrar esta respuesta',
+                403
+            );
+        }
+
+        // Comprobamos si la respuesta ha sido valorada.
+        if (reply[0].rating) {
+            generateErrorUtil(
+                'No puedes eliminar una respuesta que ha sido valorada',
+                403
+            );
         }
 
         // Borramos la respuesta de la base de datos.
-        await pool.query(
-            `DELETE FROM consultResponses WHERE id = ?`,
-            [replyId]
-        );
+        await pool.query(`DELETE FROM answers WHERE id = ?`, [replyId]);
 
         // Enviamos una respuesta al cliente.
         res.status(200).send({

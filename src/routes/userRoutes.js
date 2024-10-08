@@ -44,7 +44,11 @@ router.post(`/user/login`, userLoginController);
 router.get(`/user/:userId`, authUserController, userInfoController);
 
 //middleware que cambia la contraseña
-router.patch(`/user/change-password`, authUserController, userPassResetController);
+router.patch(
+    `/user/change-password`,
+    authUserController,
+    userPassResetController
+);
 
 //middleware que retorna el listado de medicos
 router.get(
@@ -63,5 +67,6 @@ router.get(
 );
 
 //middleware detalle medico
-router.get(`/doctor/:doctorId`, authUserController, doctorDetailsController);
+router.get(`/doctor/:userId`, authUserController, doctorDetailsController);
+
 export default router; // Esta es la exportación por defecto

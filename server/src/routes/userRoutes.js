@@ -37,7 +37,7 @@ router.post(
 //middleware que valida usuarios
 router.patch(`/user/validate/:registrationCode`, validateUserController);
 
-//middleware de logini de user
+//middleware de login de user
 router.post(`/user/login`, userLoginController);
 
 //middleware que retorna info del user

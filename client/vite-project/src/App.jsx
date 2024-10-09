@@ -6,9 +6,11 @@ import Footer from './components/Footer.jsx';
 
 // Importamos las páginas.
 import HomePage from './pages/HomePage';
+import ConsultsPage from './pages/ConsultsPage';
 import RegisterPage from './pages/RegisterPage';
 import ActivateUserPage from './pages/ActivateUserPage';
 import LoginPage from './pages/LoginPage';
+
 
 // Aplicamos los estilos.
 import './index.css';
@@ -27,7 +29,9 @@ const App = () => {
           duration: 5000,
         }}
       />
-
+<div className="App">
+      <ConsultsPage />
+    </div>
       {/* Todas las rutas han de definirse dentro del compontente <Routes>. */}
       <Routes>
         <Route path='/' element={<HomePage />} />
@@ -39,6 +43,7 @@ const App = () => {
         />
         <Route path='/login' element={<LoginPage />} />
         {/* <Route path='*' element={<NotFoundPage />} /> */}
+        
       </Routes>
 
       <Footer />

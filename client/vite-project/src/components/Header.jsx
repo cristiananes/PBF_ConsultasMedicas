@@ -18,7 +18,9 @@ const Header = () => {
   return (
     <header>
       <h1>
-        <NavLink to="/">Consalut: Tus consultas sobre salud</NavLink>
+        <NavLink className="text-3xl font-bold underline" to="/">
+          Consalut: Tus consultas sobre salud
+        </NavLink>
       </h1>
 
       {authUser && (
@@ -53,6 +55,7 @@ const Header = () => {
                   <NavLink to="/user/:userId">Perfil de usuario</NavLink>
                 </li>
                 <button
+                  className="border-solid border-2 border-red-600 rounded-md px-2"
                   onClick={() => {
                     authLogoutState();
                   }}

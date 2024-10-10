@@ -2,10 +2,10 @@
 import getPool from '../../db/getPool.js';
 
 // Importamos la función que guarda una foto en disco.
-import savePhotoUtil from '../../utils/savePhotoUtil.js';
+import saveFileUtil from '../../utils/saveFileUtil.js';
 
 // Importamos la función que elimina una foto del disco.
-import removePhotoUtil from '../../utils/removePhotoUtil.js';
+import removeFileUtil from '../../utils/removeFileUtil.js';
 
 // Importamos la función que genera un error.
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
@@ -13,7 +13,7 @@ import generateErrorUtil from '../../utils/generateErrorUtil.js';
 // Función controladora que actualiza el avatar de un usuario.
 const userAvatarController = async (req, res, next) => {
     try {
-        // Obtenemos el avatar (" req.files && req.files.avatar" es lo mismo que "req.files?.avatar").
+        // Obtenemos el avatar
         const avatar = req.files?.avatar;
 
         // Lanzamos un error si falta algún campo.
@@ -37,11 +37,11 @@ const userAvatarController = async (req, res, next) => {
 
         // Si el usuario ya tenía un avatar previo lo eliminamos.
         if (users[0].avatar) {
-            await removePhotoUtil(users[0].avatar);
+            await removeFileUtil(users[0].avatar);
         }
 
         // Guardamos la foto en la carpeta uploads y obtenemos el nombre de la misma.
-        const avatarName = await savePhotoUtil(avatar, 100);
+        const avatarName = await saveFileUtil(avatar, 100);
 
         // Actualizamos los datos del usuario.
         await pool.query(`UPDATE users SET avatar = ? WHERE id = ?`, [

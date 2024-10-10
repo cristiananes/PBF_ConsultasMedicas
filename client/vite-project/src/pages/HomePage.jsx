@@ -32,7 +32,7 @@ const HomePage = () => {
         <nav style={styles.nav}>
           <ul style={styles.navList}>
             <li style={styles.navItem}>
-              <NavLink to="/consultas" style={styles.navLink}>Ver Consultas</NavLink>
+              <NavLink to="/consults" style={styles.navLink}>Ver Consultas</NavLink>
             </li>
             <li style={styles.navItem}>
               <NavLink to="/doctores" style={styles.navLink}>Encontrar Médicos</NavLink>

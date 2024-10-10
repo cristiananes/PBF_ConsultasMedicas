@@ -6,7 +6,8 @@ import Footer from './components/Footer.jsx';
 
 // Importamos las páginas.
 import HomePage from './pages/HomePage';
-import ConsultsPage from './pages/ConsultsPage';
+import ConsultDetail from './pages/ConsultDetail';
+import DoctorConsultsPage from './pages/DoctorConsults';
 import RegisterPage from './pages/RegisterPage';
 import ActivateUserPage from './pages/ActivateUserPage';
 import LoginPage from './pages/LoginPage';
@@ -14,6 +15,7 @@ import LoginPage from './pages/LoginPage';
 
 // Aplicamos los estilos.
 import './index.css';
+import NotFoundPage from './pages/NotFoundPage.jsx';
 
 // Inicializamos el componente principal.
 const App = () => {
@@ -30,12 +32,14 @@ const App = () => {
         }}
       />
 <div className="App">
-      <ConsultsPage />
+      <ConsultDetail />
     </div>
       {/* Todas las rutas han de definirse dentro del compontente <Routes>. */}
       <Routes>
         <Route path='/' element={<HomePage />} />
-
+        <Route path='/DoctorConsults' element={<DoctorConsultsPage />} />
+        <Route path='/consultPage' element={<ConsultDetail />} />
+        <Route path='/*' element={<NotFoundPage />} />
         <Route path='/register' element={<RegisterPage />} />
         <Route
           path='/user/validate/:registrationCode'

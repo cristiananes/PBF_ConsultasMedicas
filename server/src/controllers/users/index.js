@@ -7,12 +7,14 @@ import validateUserController from './validateUserController.js';
 import doctorDetailsController from './doctorDetailsController.js';
 import listMedicsController from '../users/listaMedicsControllers.js';
 import listSpecialitiesController from './listSpecialitiesController.js';
+import userAvatarController from './userAvatarController.js';
 
 export {
     adminRegisterController,
     userInfoController,
     userLoginController,
     userRegisterController,
+    userAvatarController,
     validateUserController,
     doctorDetailsController,
     listMedicsController,

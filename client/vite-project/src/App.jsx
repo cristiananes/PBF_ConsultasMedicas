@@ -18,7 +18,7 @@ import "./index.css";
 const App = () => {
   return (
     <>
-      <Header />
+      <Header className="text-3xl font-bold underline" />
 
       {/* Este componente se encargará de renderizar los mensajes que queramos mostrar
                 con react-hot-toast. */}

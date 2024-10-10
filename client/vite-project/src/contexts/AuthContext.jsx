@@ -98,8 +98,6 @@ export const AuthProvider = ({ children }) => {
 
   // Función que actualiza el avatar en el State.
   const authUpdateAvatarState = (avatar) => {
-    // Para que React refresque el componente con el nuevo avatar hemos
-    // de introducir un nuevo objeto.
     setAuthUser({
       ...authUser,
       avatar,

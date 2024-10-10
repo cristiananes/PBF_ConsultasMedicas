@@ -13,12 +13,12 @@ import generateErrorUtil from '../../utils/generateErrorUtil.js';
 // Función controladora que actualiza el avatar de un usuario.
 const userAvatarController = async (req, res, next) => {
     try {
-        // Obtenemos el avatar
-        const avatar = req.files?.avatar;
+        // Obtenemos el avatar desde req.file, ya que multer maneja el archivo en req.file
+        const avatar = req.file;
 
-        // Lanzamos un error si falta algún campo.
+        // Lanzamos un error si falta el archivo.
         if (!avatar) {
-            generateErrorUtil('Faltan campos');
+            throw generateErrorUtil('Faltan campos: avatar');
         }
 
         // Obtenemos una conexión con la base de datos.
@@ -32,18 +32,18 @@ const userAvatarController = async (req, res, next) => {
 
         // Lanzamos un error si el usuario no existe.
         if (users.length < 1) {
-            generateErrorUtil('Usuario no encontrado', 404);
+            throw generateErrorUtil('Usuario no encontrado', 404);
         }
 
-        // Si el usuario ya tenía un avatar previo lo eliminamos.
+        // Si el usuario ya tenía un avatar previo, lo eliminamos.
         if (users[0].avatar) {
             await removeFileUtil(users[0].avatar);
         }
 
-        // Guardamos la foto en la carpeta uploads y obtenemos el nombre de la misma.
+        // Guardamos la foto en la carpeta 'uploads' y obtenemos el nombre de la misma.
         const avatarName = await saveFileUtil(avatar, 100);
 
-        // Actualizamos los datos del usuario.
+        // Actualizamos los datos del usuario con el nuevo avatar.
         await pool.query(`UPDATE users SET avatar = ? WHERE id = ?`, [
             avatarName,
             req.user.id,

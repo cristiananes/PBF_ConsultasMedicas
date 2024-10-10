@@ -1,14 +1,14 @@
 // Importamos los hooks.
-import { useContext, useState } from "react";
+import { useContext, useState } from 'react';
 
 // Obtenemos el contexto.
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from '../contexts/AuthContext';
 
 // Importamos los componentes.
-import { Navigate } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 
 // Importamos la función toast.
-import toast from "react-hot-toast";
+import toast from 'react-hot-toast';
 
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
@@ -16,7 +16,8 @@ const { VITE_API_URL } = import.meta.env;
 // Inicializamos el componente.
 const UserProfilePage = () => {
   // Obtenemos los datos del usuario, el token y la función que actualiza el avatar.
-  const { authUser } = useContext(AuthContext);
+  const { authUser, authToken, authUpdateAvatarState } =
+    useContext(AuthContext);
 
   // Declaramos una variable en el State para almacenar el valor del input.
   const [avatar, setAvatar] = useState(null);
@@ -24,7 +25,7 @@ const UserProfilePage = () => {
   // Variable que indica cuando termina el fetch de crear una nueva entrada.
   const [loading, setLoading] = useState(false);
 
-  //Función que maneja el envío del formulario.
+  // Función que maneja el envío del formulario.
   const handleUpdateAvatar = async (e) => {
     try {
       // Prevenimos el comportamiento por defecto.
@@ -34,14 +35,14 @@ const UserProfilePage = () => {
       const formData = new FormData();
 
       // Adjuntamos el avatar como propiedad del objeto anterior.
-      formData.append("avatar", avatar);
+      formData.append('avatar', avatar);
 
       // Indicamos que va a dar comienzo el fetch para deshabilitar el botón.
       setLoading(true);
 
       // Obtenemos una respuesta del servidor.
-      const res = await fetch(`${VITE_API_URL}/api/users/avatar`, {
-        method: "put",
+      const res = await fetch(`${VITE_API_URL}/api/user/avatar`, {
+        method: 'put',
         headers: {
           Authorization: authToken,
         },
@@ -52,7 +53,7 @@ const UserProfilePage = () => {
       const body = await res.json();
 
       // Si hubo algún error lo lanzamos.
-      if (body.status === "error") {
+      if (body.status === 'error') {
         throw new Error(body.message);
       }
 
@@ -61,11 +62,11 @@ const UserProfilePage = () => {
 
       // Mostramos un mensaje satisfactorio al usuario.
       toast.success(body.message, {
-        id: "userProfile",
+        id: 'userProfile',
       });
     } catch (err) {
       toast.error(err.message, {
-        id: "userProfile",
+        id: 'userProfile',
       });
     } finally {
       // Indicamos que ha finalizado el fetch para habilitar el botón.
@@ -74,7 +75,7 @@ const UserProfilePage = () => {
   };
 
   // Si NO estamos logueados redirigimos a la página de login.
-  if (!authUser) return <Navigate to="/login" />;
+  if (!authUser) return <Navigate to='/login' />;
 
   return (
     <main>
@@ -91,7 +92,7 @@ const UserProfilePage = () => {
             />
           ) : (
             <img
-              src="/default-avatar.png"
+              src='/default-avatar.png'
               alt={`Foto de perfil de ${authUser.username}`}
             />
           )
@@ -99,11 +100,11 @@ const UserProfilePage = () => {
       </div>
 
       <form onSubmit={handleUpdateAvatar}>
-        <label htmlFor="avatar">Actualizar avatar</label>
+        <label htmlFor='avatar'>Actualizar avatar</label>
         <input
-          type="file"
-          id="avatar"
-          accept="image/jpeg, image/png"
+          type='file'
+          id='avatar'
+          accept='image/jpeg, image/png'
           onChange={(e) => setAvatar(e.target.files[0])}
           required
         />

@@ -1,11 +1,13 @@
 // Importamos dependencias
 import express from 'express';
+import upload from '../middlewares/uploadFileController.js';
 // Importar los controladores de usuarios
 import {
     adminRegisterController,
     userInfoController,
     userLoginController,
     userRegisterController,
+    userAvatarController,
     validateUserController,
     listMedicsController,
     doctorDetailsController,
@@ -32,6 +34,12 @@ router.post(
     `/user/admin-register`,
     authAdminController,
     adminRegisterController
+);
+router.put(
+    `/user/avatar`,
+    authUserController,
+    upload.single('avatar'),
+    userAvatarController
 );
 
 //middleware que valida usuarios

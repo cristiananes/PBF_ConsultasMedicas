@@ -16,7 +16,8 @@ const { VITE_API_URL } = import.meta.env;
 // Inicializamos el componente.
 const UserProfilePage = () => {
   // Obtenemos los datos del usuario, el token y la función que actualiza el avatar.
-  const { authUser } = useContext(AuthContext);
+  const { authUser, authToken, authUpdateAvatarState } =
+    useContext(AuthContext);
 
   // Declaramos una variable en el State para almacenar el valor del input.
   const [avatar, setAvatar] = useState(null);

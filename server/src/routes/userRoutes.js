@@ -1,9 +1,6 @@
 // Importamos dependencias
 import express from 'express';
-<<<<<<< HEAD
-=======
 //Importamos upload files
->>>>>>> 49a6957 (DeleteConsultDetailPage y Delete Consult Boton añadido, tiene fallos que tenemos que mirar)
 import upload from '../middlewares/uploadFileController.js';
 // Importar los controladores de usuarios
 import {
@@ -41,11 +38,7 @@ router.post(
     adminRegisterController
 );
 router.put(
-<<<<<<< HEAD
     `/user/avatar`,
-=======
-    '/user/avatar',
->>>>>>> 49a6957 (DeleteConsultDetailPage y Delete Consult Boton añadido, tiene fallos que tenemos que mirar)
     authUserController,
     upload.single('avatar'),
     userAvatarController

@@ -2,12 +2,8 @@
 import express from 'express';
 //Importamos upload files
 import upload from '../middlewares/uploadFileController.js';
-//Importamos upload files
-import upload from '../middlewares/uploadFileController.js';
 // Importar los controladores de usuarios
 import {
-    userAvatarController,
-    userAvatarController,
     adminRegisterController,
     userInfoController,
     userLoginController,

@@ -12,11 +12,6 @@ import DoctorConsultsPage from './pages/DoctorConsults';
 import RegisterPage from './pages/RegisterPage';
 import ActivateUserPage from './pages/ActivateUserPage';
 import LoginPage from './pages/LoginPage';
-
-import HomePage from './pages/HomePage';
-import RegisterPage from './pages/RegisterPage';
-import ActivateUserPage from './pages/ActivateUserPage';
-import LoginPage from './pages/LoginPage';
 import UserProfilePage from './pages/UserProfilePage.jsx';
 
 // Aplicamos los estilos.
@@ -54,10 +49,7 @@ const App = () => {
           element={<ActivateUserPage />}
         />
         <Route path='/login' element={<LoginPage />} />
-        {/* <Route path='*' element={<NotFoundPage />} /> */}
-
         <Route path='/user/:userId' element={<UserProfilePage />} />
-        <Route path='/user/avatar' element={<UserProfilePage />} />
       </Routes>
 
       <Footer />

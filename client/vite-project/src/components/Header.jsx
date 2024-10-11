@@ -1,11 +1,11 @@
 // Importamos los hooks.
-import { useContext } from 'react';
+import { useContext } from "react";
 
 // Importamos los componentes.
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 // Importamos el contexto.
-import { AuthContext } from '../contexts/AuthContext';
+import { AuthContext } from "../contexts/AuthContext";
 
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
@@ -18,11 +18,13 @@ const Header = () => {
   return (
     <header>
       <h1>
-        <NavLink to='/'>Consalut: Tus consultas sobre salud</NavLink>
+        <NavLink className="text-3xl font-bold underline" to="/">
+          Consalut: Tus consultas sobre salud
+        </NavLink>
       </h1>
 
       {authUser && (
-        <div className='user-info'>
+        <div className="user-info">
           {
             // Si el usuario tiene avatar lo mostramos, de lo contrario ponemos
             // un avatar por defecto.
@@ -33,7 +35,7 @@ const Header = () => {
               />
             ) : (
               <img
-                src='/default-avatar.png'
+                src="/default-avatar.png"
                 alt={`Foto de perfil de ${authUser.username}`}
               />
             )
@@ -49,7 +51,11 @@ const Header = () => {
             // o no logeados.
             authUser ? (
               <>
+                <li>
+                  <NavLink to="/user/:userId">Perfil de usuario</NavLink>
+                </li>
                 <button
+                  className="border-solid border-2 border-red-600 rounded-md px-2"
                   onClick={() => {
                     authLogoutState();
                   }}
@@ -60,10 +66,10 @@ const Header = () => {
             ) : (
               <>
                 <li>
-                  <NavLink to='/register'>Registro</NavLink>
+                  <NavLink to="/register">Registro</NavLink>
                 </li>
                 <li>
-                  <NavLink to='/login'>Login</NavLink>
+                  <NavLink to="/login">Login</NavLink>
                 </li>
               </>
             )

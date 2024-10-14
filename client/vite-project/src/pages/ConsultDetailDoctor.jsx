@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 const ConsultDetail = () => {
@@ -65,33 +64,12 @@ const ConsultDetail = () => {
   return (
     <div>
       <h2>Detalles de la Consulta</h2>
-      <p>
-        <strong>Nombre:</strong> {consult.name}
-      </p>
-      <p>
-        <strong>Email:</strong> {consult.email}
-      </p>
-      <p>
-        <strong>Mensaje:</strong> {consult.message}
-      </p>
+      <p><strong>Nombre:</strong> {consult.name}</p>
+      <p><strong>Email:</strong> {consult.email}</p>
+      <p><strong>Mensaje:</strong> {consult.message}</p>
       <button onClick={handleAccept}>Aceptar Consulta</button>
     </div>
   );
 };
 
 export default ConsultDetail;
-=======
-const ConsultDetail = () => {
-    return
-    <main>
-        <h1>Tu Consulta</h1>
-        <ul><li>Consulta ID</li>
-        <li>Cuadro de texto respuesta del doctor</li>
-        <li>Historial Consulta</ul>
-        <button>Eliminar Consulta</button>
-        <button>Responder Consulta</button>
-        <ul><li>Puntua esta Consulta : 1/5 estrella</li></ul>
-    </main>
-}
-export default ConsultDetail
->>>>>>> b210575 (Hooks, forms y cambios varios)

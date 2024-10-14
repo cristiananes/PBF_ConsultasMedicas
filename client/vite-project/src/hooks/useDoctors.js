@@ -1,19 +1,22 @@
 // Importamos los hooks.
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 // Importamos la función toast.
 import toast from 'react-hot-toast';
+import { AuthContext } from '../contexts/AuthContext';
 
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
 
+
 // Inicializamos el hook.
 const useDoctors = () => {
+    const { authToken } = useContext(AuthContext);
     // Declaramos una variable en el State que permita almacenar el array de entradas.
     const [doctors, setDoctors] = useState([]);
 
     // Declaramos dos variables que asignaremos a los inputs de filtrado.
-    const [specialty, setSpecialty] = useState({});
+    const [specialty] = useState({});
 
 
     // Obtenemos los doctores cuando se monta el componente.
@@ -23,7 +26,12 @@ const useDoctors = () => {
             try {
                 // Obtenmemos una respuesta del servidor.
                 const res = await fetch(
-                    `${VITE_API_URL}/api/users/doctors`
+                    `${VITE_API_URL}/api/users/doctors`, {
+                    method: 'get',
+                    headers: {
+                        Authorization: authToken
+                    }
+                }
                 );
 
                 // Obtenemos el body de la ruta anteriormete seleccionada (entiendo).
@@ -45,10 +53,10 @@ const useDoctors = () => {
 
         // Llamamos a la función anterior.
         fetchDoctors();
-    }, [specialty]);
+    }, [doctors, specialty]);
 
-    // Retornamos las entradas.
-    return { doctors, specialty, setDoctors, setSpecialty };
+    // Retornamos los Doctores y la especialidad para filtrarlos.
+    return { doctors, specialty };
 };
 
 export default useDoctors;

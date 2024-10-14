@@ -34,15 +34,13 @@ const App = () => {
           duration: 5000,
         }}
       />
-      <div className="App">
-        <ConsultDetail />
-      </div>
+
       {/* Todas las rutas han de definirse dentro del compontente <Routes>. */}
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/DoctorConsults" element={<DoctorConsultsPage />} />
+        <Route path="/doctorConsults" element={<DoctorConsultsPage />} />
         <Route path="/consultPage" element={<ConsultDetail />} />
-        <Route path="/DoctorListPage" element={<DoctorListPage />} />
+        <Route path="/doctorList" element={<DoctorListPage />} />
         <Route path="/*" element={<NotFoundPage />} />
         <Route path="/register" element={<RegisterPage />} />
 

@@ -7,18 +7,18 @@ import Footer from "./components/Footer.jsx";
 // Importamos las páginas.
 
 import HomePage from './pages/HomePage';
-import ConsultDetail from './pages/ConsultDetail';
-import DoctorConsultsPage from './pages/DoctorConsults';
+import ConsultDetail from './pages/ConsultDetailDoctor.jsx';
+import DoctorConsultsPage from './pages/DoctorConsultsList.jsx';
 import RegisterPage from './pages/RegisterPage';
 import ActivateUserPage from './pages/ActivateUserPage';
 import LoginPage from './pages/LoginPage';
-
-
+import UserProfilePage from './pages/UserProfilePage.jsx'
+import NotFoundPage from './pages/NotFoundPage.jsx';
 
 // Aplicamos los estilos.
 
 import './index.css';
-import NotFoundPage from './pages/NotFoundPage.jsx';
+
 
 
 // Inicializamos el componente principal.

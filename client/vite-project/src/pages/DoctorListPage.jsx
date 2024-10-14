@@ -11,27 +11,33 @@
 //la HomePage de Diario de viajes
 
 // Importamos los hooks.
-
+import { useContext } from "react";
+import useDoctors from "../hooks/useDoctors";
 // Importamos el contexto.
-
+import { AuthContext } from "../contexts/AuthContext";
 // Importamos moment para manipular fechar.
 import moment from "moment";
-import useDoctors from "../hooks/useDoctors";
+import { Navigate } from "react-router-dom";
 
 // Importamos los componentes.
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+
 // Importamos los formularios.
 
 // Inicializamos el componente.
 const DoctorListPage = () => {
+  const { authUser, authToken } = useContext(AuthContext);
   //Aqui tengo que extraer la lista de doctores del params
   // Importamos los datos de los doctores.
   //saco las variables
+
   const { doctors, Specialty } = useDoctors();
 
   // Declaramos una variable para indicar cuando estamos haciendo fetch al servidor y poder
   // deshabilitar así los botones durante ese proceso.
+
+  /*   if (!authUser) {
+    return <Navigate to="/login" />;
+  } */
 
   return (
     doctors && (
@@ -39,8 +45,6 @@ const DoctorListPage = () => {
         <h2>Listado de medicos</h2>
 
         {/* Establecemos las fotos. */}
-
-        <Header />
 
         <ul>
           {doctors.map((doctor) => (
@@ -54,8 +58,6 @@ const DoctorListPage = () => {
             </li>
           ))}
         </ul>
-
-        <Footer />
       </main>
     )
   );

@@ -7,7 +7,7 @@ import Footer from "./components/Footer.jsx";
 // Importamos las páginas.
 
 import HomePage from './pages/HomePage';
-import ConsultDetail from './pages/ConsultDetailDoctor.jsx';
+import ConsultDetail from './pages/ConsultDetail.jsx';
 import DoctorConsultsPage from './pages/DoctorConsultsList.jsx';
 import RegisterPage from './pages/RegisterPage';
 import ActivateUserPage from './pages/ActivateUserPage';

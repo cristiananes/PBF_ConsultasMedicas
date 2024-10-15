@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 const { VITE_API_URL } = import.meta.env;
 
 // Inicializamos el componente.
-const AddVoteForm = ({ entryId, updateEntryVotes, loading, setLoading }) => {
+const AddVoteForm = ({ replyId, updateReplyVotes, loading, setLoading }) => {
     // Obtenemos el token.
     const { authToken } = useContext(AuthContext);
 
@@ -22,7 +22,7 @@ const AddVoteForm = ({ entryId, updateEntryVotes, loading, setLoading }) => {
     const [value, setValue] = useState(5);
 
     // Función que permite votar una entrada.
-    const handleVoteEntry = async (e) => {
+    const handleVoteReply = async (e) => {
         try {
             // Prevenimos el comportamiento por defecto.
             e.preventDefault();
@@ -32,7 +32,7 @@ const AddVoteForm = ({ entryId, updateEntryVotes, loading, setLoading }) => {
 
             // Obtenemos una respuesta del servidor.
             const res = await fetch(
-                `${VITE_API_URL}/api/entries/${entryId}/votes`,
+                `${VITE_API_URL}/api/reply/:replyId/rating`,
                 {
                     method: 'post',
                     headers: {
@@ -55,15 +55,15 @@ const AddVoteForm = ({ entryId, updateEntryVotes, loading, setLoading }) => {
             }
 
             // Actualizamos la media de votos en el State.
-            updateEntryVotes(body.data.votesAvg);
+            updateReplyVotes(body.data.votesAvg);
 
             // Indicamos al usuario que todo ha ido bien.
             toast.success(body.message, {
-                id: 'entryDetails',
+                id: 'replyDetails',
             });
         } catch (err) {
             toast.error(err.message, {
-                id: 'entryDetails',
+                id: 'replyDetails',
             });
         } finally {
             // Indicamos que ha finalizado el fetch.
@@ -72,7 +72,7 @@ const AddVoteForm = ({ entryId, updateEntryVotes, loading, setLoading }) => {
     };
 
     return (
-        <form onSubmit={handleVoteEntry}>
+        <form onSubmit={handleVoteReply}>
             <label htmlFor='vote'>Votar:</label>
             <input
                 type='number'
@@ -91,8 +91,8 @@ const AddVoteForm = ({ entryId, updateEntryVotes, loading, setLoading }) => {
 
 // Validamos las props.
 AddVoteForm.propTypes = {
-    entryId: PropTypes.string.isRequired,
-    updateEntryVotes: PropTypes.func.isRequired,
+    replyId: PropTypes.string.isRequired,
+    updateReplyVotes: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     setLoading: PropTypes.func.isRequired,
 };

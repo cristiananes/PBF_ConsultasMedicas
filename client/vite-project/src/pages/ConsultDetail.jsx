@@ -1,3 +1,6 @@
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
 const ConsultDetail = () => {
   const { id } = useParams(); // Obtén el ID desde los parámetros de la URL
   const [consult, setConsult] = useState(null);

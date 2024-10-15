@@ -9,22 +9,18 @@ import Footer from "./components/Footer.jsx";
 import HomePage from './pages/HomePage';
 import ConsultDetail from './pages/ConsultDetail.jsx';
 import DoctorConsultsPage from './pages/DoctorConsultsList.jsx';
+import ConsultDetail from './pages/ConsultDetail.jsx';
+import DoctorConsultsPage from './pages/DoctorConsultsList.jsx';
 import RegisterPage from './pages/RegisterPage';
 import ActivateUserPage from './pages/ActivateUserPage';
 import LoginPage from './pages/LoginPage';
-<<<<<<< HEAD
-import UserProfilePage from './pages/UserProfilePage.jsx';
-import NewConsultPage from './pages/newConsultPage.jsx';
-import DoctorListPage from "./pages/DoctorListPage";
-
+import UserProfilePage from './pages/UserProfilePage.jsx'
+import NotFoundPage from './pages/NotFoundPage.jsx';
 
 // Aplicamos los estilos.
 
-import "./index.css";
-import NotFoundPage from "./pages/NotFoundPage.jsx";
-=======
-import UserProfilePage from './pages/UserProfilePage.jsx'
-import NotFoundPage from './pages/NotFoundPage.jsx';
+import './index.css';
+
 
 // Aplicamos los estilos.
 

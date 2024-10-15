@@ -24,47 +24,86 @@ import DoctorListPage from './pages/DoctorListPage';
 // Aplicamos los estilos.
 
 import './index.css';
+import NotFoundPage from './pages/NotFoundPage.jsx';
 
 // Inicializamos el componente principal.
 const App = () => {
     return (
         <>
             <Header className="text-3xl font-bold underline" />
+            return (
+            <>
+                <Header className="text-3xl font-bold underline" />
 
+                {/* Este componente se encargará de renderizar los mensajes que queramos mostrar
             {/* Este componente se encargará de renderizar los mensajes que queramos mostrar
                 con react-hot-toast. */}
-            <Toaster
-                position="top-center"
-                toastOptions={{
-                    duration: 5000,
-                }}
-            />
-            {/* Todas las rutas han de definirse dentro del compontente <Routes>. */}
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route
-                    path="/doctorConsults"
-                    element={<DoctorConsultsPage />}
+                <Toaster
+                    position="top-center"
+                    toastOptions={{
+                        duration: 5000,
+                    }}
                 />
-                <Route path="/consultPage" element={<ConsultDetail />} />
-                <Route
-                    path="/consult/new-consult"
-                    element={<NewConsultPage />}
-                />
-                <Route path="/*" element={<NotFoundPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route
-                    path="/admin-register"
-                    element={<WorkerCreationPage />}
-                />
-                <Route
-                    path="/user/validate/:registrationCode"
-                    element={<ActivateUserPage />}
-                />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/user/:userId" element={<UserProfilePage />} />
-            </Routes>
 
+                {/* Todas las rutas han de definirse dentro del compontente <Routes>. */}
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route
+                        path="/doctorConsults"
+                        element={<DoctorConsultsPage />}
+                    />
+                    <Route path="/consultPage" element={<ConsultDetail />} />
+                    <Route
+                        path="/consult/new-consult"
+                        element={<NewConsultPage />}
+                    />
+                    <Route path="/*" element={<NotFoundPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/doctorList" element={<DoctorListPage />} />
+                    <Route path="/*" element={<NotFoundPage />} />
+
+                    <Route
+                        path="/user/validate/:registrationCode"
+                        element={<ActivateUserPage />}
+                    />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/user/:userId" element={<UserProfilePage />} />
+                </Routes>
+                <Toaster
+                    position="top-center"
+                    toastOptions={{
+                        duration: 5000,
+                    }}
+                />
+                {/* Todas las rutas han de definirse dentro del compontente <Routes>. */}
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route
+                        path="/doctorConsults"
+                        element={<DoctorConsultsPage />}
+                    />
+                    <Route path="/consultPage" element={<ConsultDetail />} />
+                    <Route
+                        path="/consult/new-consult"
+                        element={<NewConsultPage />}
+                    />
+                    <Route path="/*" element={<NotFoundPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route
+                        path="/admin-register"
+                        element={<WorkerCreationPage />}
+                    />
+                    <Route
+                        path="/user/validate/:registrationCode"
+                        element={<ActivateUserPage />}
+                    />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/user/:userId" element={<UserProfilePage />} />
+                </Routes>
+
+                <Footer />
+            </>
+            );
             <Footer />
         </>
     );

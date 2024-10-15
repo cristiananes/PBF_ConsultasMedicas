@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 
 // Importamos los componentes.
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 // Importamos la función toast.
 import toast from 'react-hot-toast';
@@ -18,7 +18,9 @@ const UserProfilePage = () => {
   // Obtenemos los datos del usuario, el token y la función que actualiza el avatar.
   const { authUser, authToken, authUpdateAvatarState } =
     useContext(AuthContext);
+  console.log('Usuario:', authUser);
 
+  const navigate = useNavigate();
   // Declaramos una variable en el State para almacenar el valor del input.
   const [avatar, setAvatar] = useState(null);
 
@@ -73,6 +75,9 @@ const UserProfilePage = () => {
       setLoading(false);
     }
   };
+  const handleAdminRegister = () => {
+    navigate('/admin-register');
+  };
 
   // Si NO estamos logueados redirigimos a la página de login.
   if (!authUser) return <Navigate to='/login' />;
@@ -111,7 +116,9 @@ const UserProfilePage = () => {
         {/* Habilitamos o deshabilitamos el botón en función de si estamos haciendo un fetch o no. */}
         <button disabled={loading}>Enviar</button>
       </form>
-
+      {authUser.role === 'admin' && (
+        <button onClick={handleAdminRegister}>Añadir nuevo empleado</button>
+      )}
       <ul>
         <li>Usuario: {authUser.username}</li>
         <li>Email: {authUser.email}</li>

@@ -15,8 +15,8 @@ const getUserInfoController = async (req, res, next) => {
 
         // Obtenemos los datos del usuario.
         const [users] = await pool.query(
-            `SELECT email, username, firstName, lastName, biography, avatar FROM users WHERE id = ?`,
-            [req.user.id],
+            `SELECT email, username, firstName, lastName, biography, avatar, role FROM users WHERE id = ?`,
+            [req.user.id]
         );
 
         // Lanzamos un error si el usuario no existe.
@@ -35,6 +35,7 @@ const getUserInfoController = async (req, res, next) => {
                     lastName: users[0].lastName,
                     biography: users[0].biography,
                     avatar: users[0].avatar,
+                    role: users[0].role,
                 },
             },
         });

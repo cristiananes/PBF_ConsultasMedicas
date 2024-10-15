@@ -24,13 +24,15 @@ const listMedicsController = async (req, res, next) => {
             FROM users u
             INNER JOIN doctorData d ON u.id = d.userId
             INNER JOIN specialities s ON d.specialityId = s.id  
-            WHERE (u.firstName LIKE ? OR u.lastName LIKE ?)
-            AND u.role = 'doctor' 
+
+            WHERE  u.role = 'doctor' 
+
         `,
             // Si "firstName" o "lastName" es undefined establecemos un string vacío. De lo contrario no
             // figurará ninguna entrada como resultado.
             [`%${firstName || ''}%`, `%${lastName || ''}%`]
         );
+        console.log(users);
 
         // Enviamos una respuesta al cliente.
         res.send({

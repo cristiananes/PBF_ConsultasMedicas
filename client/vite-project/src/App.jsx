@@ -15,16 +15,15 @@ import DoctorConsultsPage from './pages/DoctorConsultsList.jsx';
 import RegisterPage from './pages/RegisterPage';
 import ActivateUserPage from './pages/ActivateUserPage';
 import LoginPage from './pages/LoginPage';
-import UserProfilePage from './pages/UserProfilePage.jsx'
+import UserProfilePage from './pages/UserProfilePage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import NewConsultPage from './pages/newConsultPage.jsx';
+import WorkerCreationPage from './pages/WorkerCreationPage.jsx';
 import DoctorListPage from './pages/DoctorListPage';
-
 
 // Aplicamos los estilos.
 
 import './index.css';
-
 
 // Inicializamos el componente principal.
 const App = () => {
@@ -40,12 +39,11 @@ const App = () => {
                     duration: 5000,
                 }}
             />
-
             {/* Todas las rutas han de definirse dentro del compontente <Routes>. */}
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route
-                    path="/doctorConsults"
+                    path="/DoctorConsults"
                     element={<DoctorConsultsPage />}
                 />
                 <Route path="/consultPage" element={<ConsultDetail />} />
@@ -55,9 +53,6 @@ const App = () => {
                 />
                 <Route path="/*" element={<NotFoundPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-                <Route path="/doctorList" element={<DoctorListPage />} />
-                <Route path="/*" element={<NotFoundPage />} />
-
                 <Route
                     path="/user/validate/:registrationCode"
                     element={<ActivateUserPage />}

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Importamos la función que genera un contexto y los hooks.
 import { createContext, useState, useEffect } from 'react';
 //Importamos hooks
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 // Importamos la función toast.
 import toast from 'react-hot-toast';

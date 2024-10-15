@@ -43,7 +43,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route
-                    path="/DoctorConsults"
+                    path="/doctorConsults"
                     element={<DoctorConsultsPage />}
                 />
                 <Route path="/consultPage" element={<ConsultDetail />} />
@@ -53,6 +53,10 @@ const App = () => {
                 />
                 <Route path="/*" element={<NotFoundPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route
+                    path="/admin-register"
+                    element={<WorkerCreationPage />}
+                />
                 <Route
                     path="/user/validate/:registrationCode"
                     element={<ActivateUserPage />}

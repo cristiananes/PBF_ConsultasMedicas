@@ -55,16 +55,9 @@ const Header = () => {
                         authUser ? (
                             <>
                                 <li>
-                                    <ButtonAction
-                                        to="/user/:userId"
-                                        text="Perfil de usuario"
-                                    />
-                                    {/* <NavLink
-                                        to="/user/:userId"
-                                        className="border-solid border-2 border-green-400 rounded-md px-2"
-                                    >
-                                        Perfil de usuario
-                                    </NavLink> */}
+                                    <NavLink to="/user/:userId">
+                                        <ButtonAction text="Perfil de usuario" />
+                                    </NavLink>
                                 </li>
 
                                 <button

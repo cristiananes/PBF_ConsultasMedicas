@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 const ConsultDetail = () => {
@@ -64,9 +64,15 @@ const ConsultDetail = () => {
   return (
     <div>
       <h2>Detalles de la Consulta</h2>
-      <p><strong>Nombre:</strong> {consult.name}</p>
-      <p><strong>Email:</strong> {consult.email}</p>
-      <p><strong>Mensaje:</strong> {consult.message}</p>
+      <p>
+        <strong>Nombre:</strong> {consult.name}
+      </p>
+      <p>
+        <strong>Email:</strong> {consult.email}
+      </p>
+      <p>
+        <strong>Mensaje:</strong> {consult.message}
+      </p>
       <button onClick={handleAccept}>Aceptar Consulta</button>
     </div>
   );

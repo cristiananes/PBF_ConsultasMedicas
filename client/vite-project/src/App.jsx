@@ -6,14 +6,16 @@ import Footer from "./components/Footer.jsx";
 
 // Importamos las páginas.
 
-import HomePage from "./pages/HomePage";
-import ConsultDetail from "./pages/ConsultDetail";
-import DoctorConsultsPage from "./pages/DoctorConsults";
-import RegisterPage from "./pages/RegisterPage";
-import ActivateUserPage from "./pages/ActivateUserPage";
-import LoginPage from "./pages/LoginPage";
-import UserProfilePage from "./pages/UserProfilePage.jsx";
+import HomePage from './pages/HomePage';
+import ConsultDetail from './pages/ConsultDetail';
+import DoctorConsultsPage from './pages/DoctorConsults';
+import RegisterPage from './pages/RegisterPage';
+import ActivateUserPage from './pages/ActivateUserPage';
+import LoginPage from './pages/LoginPage';
+import UserProfilePage from './pages/UserProfilePage.jsx';
+import NewConsultPage from './pages/newConsultPage.jsx';
 import DoctorListPage from "./pages/DoctorListPage";
+
 
 // Aplicamos los estilos.
 
@@ -39,10 +41,13 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/doctorConsults" element={<DoctorConsultsPage />} />
-        <Route path="/consultPage" element={<ConsultDetail />} />
+        <Route path='/consultPage' element={<ConsultDetail />} />
+        <Route path='/consult/new-consult' element={<NewConsultPage />} />
+        <Route path='/*' element={<NotFoundPage />} />
+        <Route path='/register' element={<RegisterPage />} />
         <Route path="/doctorList" element={<DoctorListPage />} />
         <Route path="/*" element={<NotFoundPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+       
 
         <Route
           path="/user/validate/:registrationCode"

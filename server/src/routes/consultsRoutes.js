@@ -7,7 +7,7 @@ import {
     getConsultByIdController,
     listConsultsController,
     newConsultController,
-    replyUserController,
+    replyConsultController,
     voteConsultController,
     deleteReplyConsultId,
 } from '../controllers/consults/index.js';
@@ -39,7 +39,7 @@ router.get(`/consult/:consultId`, authUserController, getConsultByIdController);
 router.post(
     `/consult/:consultId/reply`,
     authUserController,
-    replyUserController
+    replyConsultController
 );
 //middleware que permite valorar una consulta
 router.post(

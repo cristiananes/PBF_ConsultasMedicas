@@ -11,13 +11,13 @@
 //la HomePage de Diario de viajes
 
 // Importamos los hooks.
-import { useContext } from "react";
+/* import { useContext } from "react"; */
 import useDoctors from "../hooks/useDoctors";
 // Importamos el contexto.
-import { AuthContext } from "../contexts/AuthContext";
+/* import { AuthContext } from "../contexts/AuthContext"; */
 // Importamos moment para manipular fechar.
 import moment from "moment";
-import { Navigate } from "react-router-dom";
+/* import { Navigate } from "react-router-dom"; */
 
 // Importamos los componentes.
 
@@ -25,12 +25,13 @@ import { Navigate } from "react-router-dom";
 
 // Inicializamos el componente.
 const DoctorListPage = () => {
-  const { authUser, authToken } = useContext(AuthContext);
+  /*   const { authUser, authToken } = useContext(AuthContext); */
   //Aqui tengo que extraer la lista de doctores del params
   // Importamos los datos de los doctores.
   //saco las variables
 
   const { doctors, Specialty } = useDoctors();
+  console.log(doctors);
 
   // Declaramos una variable para indicar cuando estamos haciendo fetch al servidor y poder
   // deshabilitar así los botones durante ese proceso.

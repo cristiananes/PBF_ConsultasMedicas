@@ -36,6 +36,7 @@ const useDoctors = () => {
 
                 // Obtenemos el body de la ruta anteriormete seleccionada (entiendo).
                 const body = await res.json();
+                console.log(body);
 
                 // Si hay algún error lo lanzamos.
                 if (body.status === 'error') {
@@ -43,7 +44,8 @@ const useDoctors = () => {
                 }
 
                 // Almacenamos los doctores.
-                setDoctors(body.data.doctors);
+                //era data.user no data.doctors
+                setDoctors(body.data.users);
             } catch (err) {
                 toast.error(err.message, {
                     id: 'listDoctors',
@@ -53,10 +55,12 @@ const useDoctors = () => {
 
         // Llamamos a la función anterior.
         fetchDoctors();
-    }, [doctors, specialty]);
+    }, [authToken]);
+    console.log("devolvemos los doctores: " + doctors)  //esta variable da undefind con lo cual doctors no se rellena debe estar por aqui el error que hay que buscar, me queda penduente buscarlo, puedo encontrar algo por lo que estuve viendo ahora en wallapof useProducts.
 
     // Retornamos los Doctores y la especialidad para filtrarlos.
     return { doctors, specialty };
+
 };
 
 export default useDoctors;

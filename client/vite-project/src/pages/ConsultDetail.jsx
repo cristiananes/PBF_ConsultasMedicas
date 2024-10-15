@@ -27,28 +27,6 @@ const ConsultDetail = () => {
     fetchConsult();
   }, [id]);
 
-  const handleAccept = async () => {
-    try {
-      // Simulación de una llamada a la API para aceptar la consulta
-      const response = await fetch(`/api/consults/${id}/accept`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al aceptar la consulta');
-      }
-
-      const data = await response.json();
-      setConsult(data); // Actualiza el estado de la consulta si es necesario
-      alert('Consulta aceptada con éxito');
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
   if (loading) {
     return <div>Cargando...</div>;
   }
@@ -64,16 +42,9 @@ const ConsultDetail = () => {
   return (
     <div>
       <h2>Detalles de la Consulta</h2>
-      <p>
-        <strong>Nombre:</strong> {consult.name}
-      </p>
-      <p>
-        <strong>Email:</strong> {consult.email}
-      </p>
-      <p>
-        <strong>Mensaje:</strong> {consult.message}
-      </p>
-      <button onClick={handleAccept}>Aceptar Consulta</button>
+      <p><strong>Nombre:</strong> {consult.name}</p>
+      <p><strong>Email:</strong> {consult.email}</p>
+      <p><strong>Mensaje:</strong> {consult.message}</p>
     </div>
   );
 };

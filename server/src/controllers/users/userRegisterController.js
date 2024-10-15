@@ -68,7 +68,7 @@ const userRegisterController = async (req, res, next) => {
 
             Gracias por registrarte en Consultas Medicas (estas a salvo). Para activar tu cuenta, haz click en el siguiente enlace:
 
-            <a href="${process.env.CLIENT_URL}/api/user/validate/${registrationCode}">¡Activa tu usuario!</a>
+            <a href="${process.env.CLIENT_URL}/user/validate/${registrationCode}">¡Activa tu usuario!</a>
         `;
         await sendMailUtil(email, emailSubject, emailBody);
         // Enviamos una respuesta al cliente.

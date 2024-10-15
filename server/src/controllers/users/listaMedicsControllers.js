@@ -14,18 +14,18 @@ const listMedicsController = async (req, res, next) => {
         const [users] = await pool.query(
             `
             SELECT  
-             u.id, 
-             u.username, 
-             u.firstName, 
-             u.lastName, 
-             u.email, 
-             s.name AS specialty,  
-             d.experience
+            u.id, 
+            u.username, 
+            u.firstName, 
+            u.lastName, 
+            u.email, 
+            s.name AS specialty,  
+            d.experience
             FROM users u
             INNER JOIN doctorData d ON u.id = d.userId
             INNER JOIN specialities s ON d.specialityId = s.id  
             WHERE (u.firstName LIKE ? OR u.lastName LIKE ?)
-              AND u.role = 'doctor' 
+            AND u.role = 'doctor' 
         `,
             // Si "firstName" o "lastName" es undefined establecemos un string vacío. De lo contrario no
             // figurará ninguna entrada como resultado.

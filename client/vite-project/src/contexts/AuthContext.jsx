@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
   // Declaramos una variable en el State para almacenar los datos del usuario.
   const [authUser, setAuthUser] = useState(null);
-  const { userId } = useParams();
+  //const { userId } = useParams();
   // Solicitamos los datos del usuario si existe un token.
   useEffect(() => {
     // Función que obtiene los datos del usuario.
@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
         //Comprobamos la id del usuario
 
         // Obtenemos una respuesta del servidor.
-        const res = await fetch(`${VITE_API_URL}/api/user/${userId}`, {
+        const res = await fetch(`${VITE_API_URL}/api/user`, {
           headers: {
             Authorization: authToken,
           },
@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }) => {
       // Vaciamos los datos del usuario.
       setAuthUser(null);
     }
-  }, [authToken, userId]);
+  }, [authToken]);
 
   // Función que guarda el token.
   const authLoginState = (token) => {

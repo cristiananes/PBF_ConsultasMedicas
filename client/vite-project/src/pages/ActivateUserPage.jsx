@@ -25,7 +25,7 @@ const ActivateUserPage = () => {
         const res = await fetch(
           `${VITE_API_URL}/api/user/validate/${registrationCode}`,
           {
-            method: 'patch',
+            method: 'PATCH',
           }
         );
 

@@ -13,6 +13,7 @@ import RegisterPage from './pages/RegisterPage';
 import ActivateUserPage from './pages/ActivateUserPage';
 import LoginPage from './pages/LoginPage';
 import UserProfilePage from './pages/UserProfilePage.jsx';
+import NewConsultPage from './pages/newConsultPage.jsx';
 
 // Aplicamos los estilos.
 
@@ -33,17 +34,14 @@ const App = () => {
           duration: 5000,
         }}
       />
-      <div className='App'>
-        <ConsultDetail />
-      </div>
       {/* Todas las rutas han de definirse dentro del compontente <Routes>. */}
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/DoctorConsults' element={<DoctorConsultsPage />} />
         <Route path='/consultPage' element={<ConsultDetail />} />
+        <Route path='/consult/new-consult' element={<NewConsultPage />} />
         <Route path='/*' element={<NotFoundPage />} />
         <Route path='/register' element={<RegisterPage />} />
-
         <Route
           path='/user/validate/:registrationCode'
           element={<ActivateUserPage />}

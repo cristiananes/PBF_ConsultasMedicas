@@ -8,8 +8,8 @@ import generateErrorUtil from '../../utils/generateErrorUtil.js';
 const replyConsultController = async (req, res, next) => {
     try {
         // Obtenemos los datos necesarios.
-        const { consultId, answerText } = req.body;
-
+        const { consultId } = req.params;
+        const { answerText } = req.body;
         // Lanzamos un error si faltan campos.
         if (!consultId || !answerText) {
             generateErrorUtil('Faltan campos', 400);

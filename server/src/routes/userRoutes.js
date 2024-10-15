@@ -29,9 +29,10 @@ const router = express.Router();
 //middleware que registra usuarios
 router.post(`/user/register`, userRegisterController);
 
-//middleware que crea admis
+//middleware de creación de usuarios para admins (permite crear: pacientes, medicos y admins)
 router.post(
     `/user/admin-register`,
+    authUserController,
     authAdminController,
     adminRegisterController
 );
@@ -49,7 +50,7 @@ router.patch(`/user/validate/:registrationCode`, validateUserController);
 router.post(`/user/login`, userLoginController);
 
 //middleware que retorna info del user
-router.get(`/user/:userId`, authUserController, userInfoController);
+router.get(`/user`, authUserController, userInfoController);
 
 //middleware que cambia la contraseña
 router.patch(
@@ -61,7 +62,7 @@ router.patch(
 //middleware que retorna el listado de medicos
 router.get(
     `/users/doctors`,
-    //añadir cuando se cree
+
     authUserController,
     listMedicsController
 );
@@ -69,7 +70,7 @@ router.get(
 //middleware que retorna las especialidades
 router.get(
     `/specialties`,
-    //añadir cuando se cree clase
+
     authUserController,
     listSpecialitiesController
 );
@@ -77,4 +78,4 @@ router.get(
 //middleware detalle medico
 router.get(`/doctor/:userId`, authUserController, doctorDetailsController);
 
-export default router; // Esta es la exportación por defecto
+export default router;

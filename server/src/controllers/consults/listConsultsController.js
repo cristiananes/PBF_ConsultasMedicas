@@ -17,7 +17,8 @@ const listconsultsController = async (req, res, next) => {
                 c.title,
                 c.description,
                 u.username AS author,
-                c.createdAt
+                c.createdAt,
+                c.doctorId
             FROM consults c
             INNER JOIN users u ON u.id = c.userId
             

@@ -94,7 +94,7 @@ const RegisterPage = () => {
     }
 
     return (
-        <main className="flex items-center justify-center min-h-screen bg-eggblue">
+        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet py-10">
             <div className="bg-white p-5 rounded-lg shadow-md max-w-lg w-full">
                 <H2 text="Registro de usuario" />
 

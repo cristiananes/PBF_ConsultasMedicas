@@ -1,7 +1,7 @@
 // Inicializamos el componente.
 const HomePage = () => {
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-eggblue">
+        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet py-10">
             {/* Contenedor superior para Logo y Eslogan */}
             <div className="flex flex-col md:flex-row items-center justify-between w-full max-w-4xl px-4 py-8">
                 {/* Logo */}

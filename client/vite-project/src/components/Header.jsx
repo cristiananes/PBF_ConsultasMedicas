@@ -55,22 +55,9 @@ const Header = () => {
                         authUser ? (
                             <>
                                 <li>
-<<<<<<< HEAD
                                     <NavLink to="/user/:userId">
                                         <ButtonAction text="Perfil de usuario" />
                                     </NavLink>
-=======
-                                    <ButtonAction
-                                        to="/user/:userId"
-                                        text="Perfil de usuario"
-                                    />
-                                    {/* <NavLink
-                                        to="/user/:userId"
-                                        className="border-solid border-2 border-green-400 rounded-md px-2"
-                                    >
-                                        Perfil de usuario
-                                    </NavLink> */}
->>>>>>> 8759023 (tailwind en register page y login, creados los componentes H2, Label y ButtonAction.)
                                 </li>
 
                                 <button

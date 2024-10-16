@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 const { VITE_API_URL } = import.meta.env;
 import { AuthContext } from '../contexts/AuthContext';
-
+import moment from 'moment';
 const ConsultDetail = () => {
     const { consultId } = useParams(); // Obtén el ID desde los parámetros de la URL
     const [consult, setConsult] = useState(null);
@@ -55,19 +55,17 @@ const ConsultDetail = () => {
     return (
         <div>
             <h2>Detalles de la Consulta</h2>
-            <p>
-                <strong>Nombre:</strong> {consult.author}
-            </p>
-            <p>
-                <strong>titulo:</strong> {consult.title}
-            </p>
-            <p>
-                <strong>descripcion:</strong> {consult.description}
-            </p>
+            <h3>Nombre de usuario: {consult.author}</h3>
+            <h3>Título: {consult.title}</h3>
+            <h3>Descripción: {consult.description}</h3>
             <h3>Nombre del paciente: {consult.patientFirstName}</h3>
             <h3>Apellido: {consult.patientLastName}</h3>
-            <h3>especialidad: {consult.specialityName}</h3>
-            <h3>urgencia: {consult.urgency}</h3>
+            <h3>Especialidad: {consult.specialityName}</h3>
+            <h3>Urgencia: {consult.urgency}</h3>
+            <h3>
+                Consulta creada el día:{' '}
+                {moment(consult.createdAt).format('DD/MM/YYYY HH:mm')}
+            </h3>
         </div>
     );
 };

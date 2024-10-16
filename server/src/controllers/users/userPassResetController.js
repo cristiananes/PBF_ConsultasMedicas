@@ -7,7 +7,6 @@ import getPool from '../../db/getPool.js';
 // Importamos la función que genera un error.
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
-
 // Función controladora que permite resetear la contraseña con un código de recuperación.
 const userPassResetController = async (req, res, next) => {
     try {
@@ -15,16 +14,11 @@ const userPassResetController = async (req, res, next) => {
         const { recoverPassCode } = req.params;
 
         // Obtenemos la nueva contraseña.
-        const { newPassword, repeatedPassword } = req.body;
+        const { newPassword } = req.body;
 
         // Si falta algún campo lanzamos un error.
-        if (!newPassword || !repeatedPassword) {
+        if (!newPassword) {
             generateErrorUtil('Faltan campos', 400);
-        }
-
-        // Si las contraseñas no son idénticas lanzamos un error.
-        if (newPassword !== repeatedPassword) {
-            generateErrorUtil('Las contraseñas no coinciden', 400);
         }
 
         // Obtenemos una conexión con la base de datos.
@@ -33,12 +27,15 @@ const userPassResetController = async (req, res, next) => {
         // Tratamos de obtener al usuario con el código de recuperación recibido.
         const [users] = await pool.query(
             `SELECT id FROM users WHERE recoverPassCode = ?`,
-            [recoverPassCode],
+            [recoverPassCode]
         );
 
         // Si no existe ningún usuario con ese código de recuperación lanzamos un error.
         if (users.length < 1) {
-            generateErrorUtil('Código de recuperación de contraseña inválido', 401);
+            generateErrorUtil(
+                'Código de recuperación de contraseña inválido',
+                401
+            );
         }
 
         // Encriptamos la contraseña.
@@ -47,7 +44,7 @@ const userPassResetController = async (req, res, next) => {
         // Actualizamos la contraseña del usuario.
         await pool.query(
             `UPDATE users SET password = ?, recoverPassCode = NULL WHERE recoverPassCode = ?`,
-            [hashedPass, recoverPassCode],
+            [hashedPass, recoverPassCode]
         );
 
         // Enviamos una respuesta al cliente.
@@ -61,4 +58,3 @@ const userPassResetController = async (req, res, next) => {
 };
 
 export default userPassResetController;
-

@@ -1,156 +1,169 @@
+import { ButtonAction } from '../components/ButtonAction';
 // Importamos los hooks.
-import { useContext, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from 'react';
 
+import { NavLink } from 'react-router-dom';
 // Importamos el contexto.
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from '../contexts/AuthContext';
 
 // Importamos la función toast.
-import toast from "react-hot-toast";
+import toast from 'react-hot-toast';
+
+// Importamos el hook para obtener la lista de especialidades médicas.
+import { useSpecialties } from '../hooks/useSpecialty';
 
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
 
 // Inicializamos el componente.
 const NewConsultPage = () => {
-  // Obtenemos los datos del usuario y el token.
-  const { authUser, authToken } = useContext(AuthContext);
+    // Obtenemos los datos del usuario y el token.
+    const { authToken } = useContext(AuthContext);
 
-  // Importamos la función navigate.
-  const navigate = useNavigate();
+    // Declaramos una variable en el State para cada input.
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [urgency, setUrgency] = useState('');
+    const [specialtyName, setSpecialtyName] = useState('');
+    const [file, setFile] = useState(null);
 
-  // Declaramos una variable en el State para cada input.
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [urgency, setUrgency] = useState("");
-  const [specialty, setSpecialty] = useState("");
-  const [userId, setUserId] = useState("");
-  const [file, setFile] = useState(null);
+    // Variable para almacenar la lista de especialidades disponibles
+    const [specialties, setSpecialties] = useState([]);
 
-  // Variable que indica cuando termina el fetch de crear una nueva entrada.
-  const [loading, setLoading] = useState(false);
+    // Variable que indica cuando termina el fetch de crear una nueva entrada.
+    const [loading, setLoading] = useState(false);
 
-  // Función que maneja el envío del formulario.
-  const handleAddEntry = async (e) => {
-    try {
-      // Prevenimos el comportamiento por defecto del formulario.
-      e.preventDefault();
+    useEffect(() => {
+        const fetchSpecialties = async () => {
+            console.log('Fetching specialties...');
+            const data = await useSpecialties(authToken);
+            console.log('Datos recibidos de especialidades:', data);
+            if (Array.isArray(data)) {
+                setSpecialties(data);
+                console.log('Especialidades establecidas:', data);
+            } else {
+                console.error('Error fetching specialties:', data);
+            }
+        };
 
-      // Para enviar archivos debemos crear un objeto de tipo FormData.
-      const formData = new FormData();
+        fetchSpecialties();
+    }, [authToken]);
 
-      // Ahora agregamos las propiedades y valores al objeto anterior.
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("urgency", urgency);
-      formData.append("specialty", specialty);
-      formData.append("userId", userId);
+    // Función que maneja el envío del formulario.
+    const handleAddEntry = async (e) => {
+        try {
+            // Prevenimos el comportamiento por defecto del formulario.
+            e.preventDefault();
 
-      // Las propiedades de las fotos las crearemos solo si existe la foto.
-      file && formData.append("file", file);
+            // Para enviar archivos debemos crear un objeto de tipo FormData.
+            const formData = new FormData();
 
-      // Indicamos que va a dar comienzo el fetch para deshabilitar el botón.
-      setLoading(true);
+            // Ahora agregamos las propiedades y valores al objeto anterior.
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('urgency', urgency);
+            formData.append('specialtyName', specialtyName);
 
-      // Obtenemos la respuesta del servidor.
-      const res = await fetch(`${VITE_API_URL}/api/consults`, {
-        method: "post",
-        headers: {
-          Authorization: authToken,
-        },
-        body: formData,
-      });
+            // Las propiedades de las fotos las crearemos solo si existe la foto.
+            file && formData.append('file', file);
 
-      // Obtenemos el body.
-      const body = await res.json();
+            // Indicamos que va a dar comienzo el fetch para deshabilitar el botón.
+            setLoading(true);
 
-      // Si hubo algún error lo lanzamos.
-      if (body.status === "error") {
-        throw new Error(body.message);
-      }
+            // Obtenemos la respuesta del servidor.
+            const res = await fetch(`${VITE_API_URL}/api/consult/new-consult`, {
+                method: 'post',
+                headers: {
+                    Authorization: authToken,
+                },
+                body: formData,
+            });
 
-      // Redirigimos a la página principal.
-      navigate("/");
+            // Obtenemos el body.
+            const body = await res.json();
 
-      // Mostramos un mensaje satisfactorio al usuario.
-      toast.success(body.message, {
-        id: "newConsult",
-      });
-    } catch (err) {
-      toast(err.message, {
-        id: "newConsult",
-      });
-    } finally {
-      // Indicamos que ha finalizado el fetch para habilitar el botón.
-      setLoading(false);
-    }
-  };
+            // Si hubo algún error lo lanzamos.
+            if (body.status === 'error') {
+                throw new Error(body.message);
+            }
 
-  // Si NO estamos logueados redirigimos a la página de login.
-  if (!authUser) return <Navigate to="/login" />;
+            // Mostramos un mensaje satisfactorio al usuario.
+            toast.success(body.message, {
+                id: 'newConsult',
+            });
+        } catch (err) {
+            toast.error(err.message, {
+                id: 'newConsult',
+            });
+        } finally {
+            // Indicamos que ha finalizado el fetch para habilitar el botón.
+            setLoading(false);
+        }
+    };
 
-  return (
-    <main>
-      <h2>Página de nueva consulta</h2>
+    return (
+        <main>
+            <h2>Página de nueva consulta</h2>
+            <NavLink to="/consults">
+                <ButtonAction text="Volver a consultas" />
+            </NavLink>
+            <form onSubmit={handleAddEntry}>
+                <label htmlFor="title">Título:</label>
+                <input
+                    type="text"
+                    id="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    required
+                />
 
-      <form onSubmit={handleAddEntry}>
-        <label htmlFor="title">Título:</label>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
+                <label htmlFor="description">Descripción:</label>
+                <textarea
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    required
+                ></textarea>
 
-        <label htmlFor="description">Descripción:</label>
-        <textarea
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        ></textarea>
+                <label htmlFor="urgency">Urgencia:</label>
+                <input
+                    type="text"
+                    id="urgency"
+                    value={urgency}
+                    onChange={(e) => setUrgency(e.target.value)}
+                    required
+                />
 
-        <label htmlFor="urgency">Urgencia:</label>
-        <input
-          type="text"
-          id="urgency"
-          value={urgency}
-          onChange={(e) => setUrgency(e.target.value)}
-          required
-        />
+                <label htmlFor="specialty">Especialidad:</label>
+                <select
+                    id="specialty"
+                    value={specialtyName}
+                    onChange={(e) => setSpecialtyName(e.target.value)}
+                    required
+                >
+                    <option value="" disabled>
+                        Selecciona una opción
+                    </option>
+                    {specialties.map((spec, index) => (
+                        <option key={index} value={spec}>
+                            {spec}
+                        </option>
+                    ))}
+                </select>
 
-        <label htmlFor="specialty">Especialidad:</label>
-        <input
-          type="text"
-          id="specialty"
-          value={specialty}
-          onChange={(e) => setSpecialty(e.target.value)}
-          required
-        />
+                <label htmlFor="file">Archivo:</label>
+                <input
+                    type="file"
+                    id="file"
+                    onChange={(e) => setFile(e.target.files[0])}
+                    accept="image/jpeg, image/png, image/jpg"
+                />
 
-        <label htmlFor="userId">Id de usuario:</label>
-        <input
-          type="number"
-          id="userId"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          required
-        />
-
-        <label htmlFor="file">Archivo:</label>
-        <input
-          type="file"
-          id="file"
-          onChange={(e) => setFile(e.target.files[0])}
-          accept="image/jpeg, image/png"
-        />
-
-        {/* Habilitamos o deshabilitamos el botón en función de si estamos haciendo un fetch o no. */}
-        <button disabled={loading}>Crear entrada</button>
-      </form>
-    </main>
-  );
+                {/* Habilitamos o deshabilitamos el botón en función de si estamos haciendo un fetch o no. */}
+                <button disabled={loading}>Crear entrada</button>
+            </form>
+        </main>
+    );
 };
 
 export default NewConsultPage;

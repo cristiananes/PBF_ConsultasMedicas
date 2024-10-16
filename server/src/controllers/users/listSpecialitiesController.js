@@ -10,8 +10,6 @@ const listSpecialitiesController = async (req, res, next) => {
             'SELECT name FROM specialities'
         );
 
-
-
         // Verificamos si existen resultados
         if (specialities.length === 0) {
             return res.status(404).json({
@@ -21,11 +19,11 @@ const listSpecialitiesController = async (req, res, next) => {
 
         // Enviamos la lista de nombres de especialidades
         res.status(200).json({
-            specialities: specialities.map((speciality) => speciality.name), // Solo devolvemos los nombres
+            specialities: specialities.map((speciality) => speciality.name),
         });
     } catch (err) {
         console.error(err);
-        next(err); // Pasamos el error al middleware de manejo de errores
+        next(err);
     }
 };
 

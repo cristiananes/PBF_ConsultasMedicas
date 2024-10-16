@@ -42,7 +42,7 @@ const HomePage = () => {
                                 className="w-32 h-32 mb-2"
                             />
                             <NavLink
-                                to="/consultas"
+                                to="/consults"
                                 className="text-lg font-semibold text-blue-500"
                             >
                                 Consultas
@@ -56,7 +56,7 @@ const HomePage = () => {
                                 className="w-32 h-32 mb-2"
                             />
                             <NavLink
-                                to="/medicos"
+                                to="/doctorList"
                                 className="text-lg font-semibold text-blue-500"
                             >
                                 Listado de Médicos
@@ -70,7 +70,7 @@ const HomePage = () => {
                                 className="w-32 h-32 mb-2"
                             />
                             <NavLink
-                                to="/perfil"
+                                to="/user/:userId"
                                 className="text-lg font-semibold text-blue-500"
                             >
                                 Perfil de Usuario

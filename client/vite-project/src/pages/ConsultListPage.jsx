@@ -1,24 +1,26 @@
 import { useConsults } from '../hooks/useConsults';
+import { useDoctorData } from '../hooks/useDoctorData';
 // Importamos el contexto.
 /* import { AuthContext } from "../contexts/AuthContext"; */
 // Importamos moment para manipular fechar.
 import { useEffect, useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../contexts/AuthContext';
-import { Link } from 'react-router-dom';
-/* import { Navigate } from "react-router-dom"; */
+import { NavLink } from 'react-router-dom';
 
 // Importamos los componentes.
-
+import { ButtonAction } from '../components/ButtonAction';
 // Importamos los formularios.
 
 // Inicializamos el componente.
 const ConsultListPage = () => {
-    const { authToken } = useContext(AuthContext);
+    const { authToken, authUser } = useContext(AuthContext);
     //Aqui tengo que extraer la lista de doctores del params
     const [consults, setConsutls] = useState([]);
+    const [doctorData, setDoctorData] = useState([]);
+
     // Importamos los datos de los doctores.
-    //saco las variables
+
     const fetchConsults = async () => {
         try {
             const response = await useConsults({ authToken });
@@ -27,38 +29,59 @@ const ConsultListPage = () => {
             toast.error(e.message);
         }
     };
+    const fetchDoctorData = async () => {
+        try {
+            const response = await useDoctorData({ authToken });
+            setDoctorData(response);
+        } catch (e) {
+            toast.error(e.message);
+        }
+    };
 
     useEffect(() => {
         fetchConsults();
+        fetchDoctorData();
     }, []);
 
-    // Declaramos una variable para indicar cuando estamos haciendo fetch al servidor y poder
-    // deshabilitar así los botones durante ese proceso.
-
-    /*   if (!authUser) {
-    return <Navigate to="/login" />;
-  } */
+    console.log('Consultas:', consults);
 
     return (
         consults && (
             <main>
                 <h2>Listado de consultas</h2>
 
-                {/* Establecemos las fotos. */}
+                <NavLink to="/user/:userId">
+                    <ButtonAction text="Volver a perfil" />
+                </NavLink>
 
                 <ul>
-                    {consults.map((consult) => (
-                        <li key={consult.id}>
-                            <h3>title: {consult.title}</h3>
-                            <h3>descripcion: {consult.description}</h3>
+                    {consults
+                        .filter((consult) => {
+                            // Si el usuario es un paciente, se filtran solo las consultas que ha creado.
+                            if (authUser.role === 'patient') {
+                                return consult.author === authUser.username;
+                            }
+                            // Si el usuario es un doctor, se filtran solo las consultas donde doctorId no sea null.
+                            else if (authUser.role === 'doctor') {
+                                return consult.doctorId !== null;
+                            }
+                            // Si el usuario es un admin, no se aplica ningún filtro.
+                            return true;
+                        })
+                        .map((consult) => (
+                            <li key={consult.id}>
+                                <h3>{consult.title}</h3>
+                                <h3>{consult.description}</h3>
 
-                            <h3>Autor: {consult.author}</h3>
-                            <h3>Creado: {consult.createdAt}</h3>
-
-                            <Link to={`/consult/${consult.id}`}>Ver</Link>
-                        </li>
-                    ))}
+                                <h3>{consult.author}</h3>
+                            </li>
+                        ))}
                 </ul>
+                <aside>
+                    <NavLink to="/consult/new-consult">
+                        <ButtonAction text="Añadir consulta" />
+                    </NavLink>
+                </aside>
             </main>
         )
     );

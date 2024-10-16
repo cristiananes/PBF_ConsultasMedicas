@@ -8,7 +8,7 @@ import saveFileUtil from '../../utils/saveFileUtil.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
 // Función controladora que permite crear una nueva entrada.
-const newconsultController = async (req, res, next) => {
+const newConsultController = async (req, res, next) => {
     try {
         // Obtenemos los datos desde el form-data.
         const { title, description, urgency, specialtyName } = req.body;
@@ -70,4 +70,4 @@ const newconsultController = async (req, res, next) => {
     }
 };
 
-export default newconsultController;
+export default newConsultController;

@@ -66,7 +66,9 @@ const Header = () => {
                                     }}
                                 >
                                     {' '}
-                                    <ButtonAction text="Log out" />
+                                    <NavLink to="/login">
+                                        <ButtonAction text="Log out" />
+                                    </NavLink>
                                 </button>
                             </>
                         ) : (

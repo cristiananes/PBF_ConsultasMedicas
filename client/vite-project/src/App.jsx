@@ -6,7 +6,7 @@ import Footer from './components/Footer.jsx';
 
 // Importamos las páginas.
 import HomePage from './pages/HomePage';
-import ConsultDetail from './pages/ConsultDetail.jsx';
+import ConsultDetailPage from './pages/ConsultDetailPage.jsx';
 import DoctorConsultsPage from './pages/DoctorConsultsList.jsx';
 import RegisterPage from './pages/RegisterPage';
 import ActivateUserPage from './pages/ActivateUserPage';
@@ -49,6 +49,10 @@ const App = () => {
                 <Route
                     path="/consult/new-consult"
                     element={<NewConsultPage />}
+                />
+                <Route
+                    path="/consults/:consultId"
+                    element={<ConsultDetailPage />}
                 />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/doctorList" element={<DoctorListPage />} />

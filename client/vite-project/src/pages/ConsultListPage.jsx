@@ -5,6 +5,7 @@ import { useConsults } from '../hooks/useConsults';
 import { useEffect, useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../contexts/AuthContext';
+import { Link } from 'react-router-dom';
 /* import { Navigate } from "react-router-dom"; */
 
 // Importamos los componentes.
@@ -52,6 +53,7 @@ const ConsultListPage = () => {
                             <h3>{consult.description}</h3>
 
                             <h3>{consult.author}</h3>
+                            <Link to={`/consult/${consult.id}`}>Ver</Link>
                         </li>
                     ))}
                 </ul>

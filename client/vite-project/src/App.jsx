@@ -17,6 +17,8 @@ import NewConsultPage from './pages/newConsultPage.jsx';
 import WorkerCreationPage from './pages/WorkerCreationPage.jsx';
 import DoctorListPage from './pages/DoctorListPage';
 
+import HomeUserPage from './pages/HomeUserPage.jsx';
+
 // Aplicamos los estilos.
 import './index.css';
 
@@ -41,6 +43,7 @@ const App = () => {
                     path="/doctorConsults"
                     element={<DoctorConsultsPage />}
                 />
+                <Route path="/userPage" element={<HomeUserPage />} />
                 <Route path="/consultPage" element={<ConsultDetail />} />
                 <Route
                     path="/consult/new-consult"

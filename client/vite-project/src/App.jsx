@@ -3,12 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
-import { ButtonAction } from './components/ButtonAction.jsx';
-import { H2 } from './components/H2.jsx';
-import { Label } from './components/Label.jsx';
 
 // Importamos las páginas.
-
 import HomePage from './pages/HomePage';
 import ConsultDetail from './pages/ConsultDetail.jsx';
 import DoctorConsultsPage from './pages/DoctorConsultsList.jsx';
@@ -22,7 +18,6 @@ import WorkerCreationPage from './pages/WorkerCreationPage.jsx';
 import DoctorListPage from './pages/DoctorListPage';
 
 // Aplicamos los estilos.
-
 import './index.css';
 
 // Inicializamos el componente principal.
@@ -31,15 +26,15 @@ const App = () => {
         <>
             <Header className="text-3xl font-bold underline" />
 
-            {/* Este componente se encargará de renderizar los mensajes que queramos mostrar
-                con react-hot-toast. */}
+            {/* Este componente se encargará de renderizar los mensajes que queramos mostrar con react-hot-toast. */}
             <Toaster
                 position="top-center"
                 toastOptions={{
                     duration: 5000,
                 }}
             />
-            {/* Todas las rutas han de definirse dentro del compontente <Routes>. */}
+
+            {/* Todas las rutas han de definirse dentro del componente <Routes>. */}
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route
@@ -51,8 +46,8 @@ const App = () => {
                     path="/consult/new-consult"
                     element={<NewConsultPage />}
                 />
-                <Route path="/*" element={<NotFoundPage />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/doctorList" element={<DoctorListPage />} />
                 <Route
                     path="/admin-register"
                     element={<WorkerCreationPage />}
@@ -63,6 +58,7 @@ const App = () => {
                 />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/user/:userId" element={<UserProfilePage />} />
+                <Route path="/*" element={<NotFoundPage />} />
             </Routes>
 
             <Footer />

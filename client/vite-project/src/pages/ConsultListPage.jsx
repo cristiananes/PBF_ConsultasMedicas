@@ -1,4 +1,4 @@
-import { useDoctors } from '../hooks/useDoctors';
+import { useConsults } from '../hooks/useConsults';
 // Importamos el contexto.
 /* import { AuthContext } from "../contexts/AuthContext"; */
 // Importamos moment para manipular fechar.
@@ -12,23 +12,23 @@ import { AuthContext } from '../contexts/AuthContext';
 // Importamos los formularios.
 
 // Inicializamos el componente.
-const DoctorListPage = () => {
+const ConsultListPage = () => {
     const { authToken } = useContext(AuthContext);
     //Aqui tengo que extraer la lista de doctores del params
-    const [doctors, setDoctors] = useState([]);
+    const [consults, setConsutls] = useState([]);
     // Importamos los datos de los doctores.
     //saco las variables
-    const fetchDoctors = async () => {
+    const fetchConsults = async () => {
         try {
-            const response = await useDoctors({ authToken });
-            setDoctors(response);
+            const response = await useConsults({ authToken });
+            setConsutls(response);
         } catch (e) {
             toast.error(e.message);
         }
     };
 
     useEffect(() => {
-        fetchDoctors();
+        fetchConsults();
     }, []);
 
     // Declaramos una variable para indicar cuando estamos haciendo fetch al servidor y poder
@@ -39,20 +39,19 @@ const DoctorListPage = () => {
   } */
 
     return (
-        doctors && (
+        consults && (
             <main>
-                <h2>Listado de medicos</h2>
+                <h2>Listado de consultas</h2>
 
                 {/* Establecemos las fotos. */}
 
                 <ul>
-                    {doctors.map((doctor) => (
-                        <li key={doctor.id}>
-                            <h3>{doctor.firstName}</h3>
-                            <h3>{doctor.lasName}</h3>
-                            <h3>{doctor.userName}</h3>
-                            <h3>{doctor.email}</h3>
-                            <p>{doctor.specialty}</p>
+                    {consults.map((consult) => (
+                        <li key={consult.id}>
+                            <h3>{consult.title}</h3>
+                            <h3>{consult.description}</h3>
+
+                            <h3>{consult.author}</h3>
                         </li>
                     ))}
                 </ul>
@@ -61,4 +60,4 @@ const DoctorListPage = () => {
     );
 };
 
-export default DoctorListPage;
+export default ConsultListPage;

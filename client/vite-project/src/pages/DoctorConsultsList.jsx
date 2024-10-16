@@ -1,6 +1,6 @@
 // src/pages/DoctorConsults.jsx
 
-import ConsultList from './ConsultList';
+import ConsultList from './ConsultListPage';
 
 const DoctorConsults = () => {
     return (

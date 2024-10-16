@@ -64,6 +64,10 @@ const ConsultDetail = () => {
             <p>
                 <strong>descripcion:</strong> {consult.description}
             </p>
+            <h3>Nombre del paciente: {consult.patientFirstName}</h3>
+            <h3>Apellido: {consult.patientLastName}</h3>
+            <h3>especialidad: {consult.specialityName}</h3>
+            <h3>urgencia: {consult.urgency}</h3>
         </div>
     );
 };

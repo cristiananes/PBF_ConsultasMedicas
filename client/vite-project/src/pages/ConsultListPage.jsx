@@ -49,10 +49,12 @@ const ConsultListPage = () => {
                 <ul>
                     {consults.map((consult) => (
                         <li key={consult.id}>
-                            <h3>{consult.title}</h3>
-                            <h3>{consult.description}</h3>
+                            <h3>title: {consult.title}</h3>
+                            <h3>descripcion: {consult.description}</h3>
 
-                            <h3>{consult.author}</h3>
+                            <h3>Autor: {consult.author}</h3>
+                            <h3>Creado: {consult.createdAt}</h3>
+
                             <Link to={`/consult/${consult.id}`}>Ver</Link>
                         </li>
                     ))}

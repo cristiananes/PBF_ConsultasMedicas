@@ -31,13 +31,13 @@ const HomePage = () => {
                 )}
             </div>
             {authUser && (
-                <div className="flex flex-col min-h-screen">
+                <div className="flex flex-col min-h-6 items-center justify-center bg-gray-100 mx-auto py-2 px-4 rounded-lg shadow-lg">
                     {/* Contenedor principal */}
-                    <main className="flex-grow grid grid-cols-3 gap-4 justify-items-center items-center bg-gray-100 py-10 px-6">
+                    <main className="flex-grow grid grid-cols-3 gap-4 justify-items-center place-items-start bg-gray-100 py-8 px-6">
                         {/* Bloque 1: Imagen + Texto Consultas */}
-                        <div className="flex flex-col items-center bg-white p-4 shadow-md rounded-lg">
+                        <div className="flex flex-col items-center bg-white p-4 shadow-lg rounded-lg ">
                             <img
-                                src="/path-to-image1.jpg"
+                                src="/public/consultas.jpg"
                                 alt="Consultas"
                                 className="w-32 h-32 mb-2"
                             />
@@ -51,7 +51,7 @@ const HomePage = () => {
                         {/* Bloque 2: Imagen + Texto Listado de Médicos */}
                         <div className="flex flex-col items-center bg-white p-4 shadow-md rounded-lg">
                             <img
-                                src="/path-to-image2.jpg"
+                                src="/public/listado.jpeg"
                                 alt="Listado de Médicos"
                                 className="w-32 h-32 mb-2"
                             />
@@ -65,7 +65,7 @@ const HomePage = () => {
                         {/* Bloque 3: Imagen + Texto Perfil de Usuario */}
                         <div className="flex flex-col items-center bg-white p-4 shadow-md rounded-lg">
                             <img
-                                src="/path-to-image3.jpg"
+                                src="/public/usuario.png"
                                 alt="Perfil de Usuario"
                                 className="w-32 h-32 mb-2"
                             />

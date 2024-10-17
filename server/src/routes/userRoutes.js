@@ -43,12 +43,6 @@ router.put(
     upload.single('avatar'),
     userAvatarController
 );
-router.put(
-    '/user/avatar',
-    authUserController,
-    upload.single('avatar'),
-    userAvatarController
-);
 
 //middleware que valida usuarios
 router.patch(`/user/validate/:registrationCode`, validateUserController);

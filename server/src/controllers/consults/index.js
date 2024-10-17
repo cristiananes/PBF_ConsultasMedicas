@@ -6,6 +6,7 @@ import voteConsultController from './voteConsultController.js';
 import deleteConsultController from './deleteConsultController.js';
 import replyConsultController from './replyConsultController.js';
 import deleteReplyConsultId from './deleteReplyConsultId.js';
+import getReplyByConsultIdController from './getReplyByConsultIdController.js';
 
 export {
     newConsultController,
@@ -15,4 +16,5 @@ export {
     deleteConsultController,
     replyConsultController,
     deleteReplyConsultId,
+    getReplyByConsultIdController,
 };

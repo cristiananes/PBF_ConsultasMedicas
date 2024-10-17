@@ -10,6 +10,7 @@ import {
     replyConsultController,
     voteConsultController,
     deleteReplyConsultId,
+    getReplyByConsultIdController,
 } from '../controllers/consults/index.js';
 
 //importamos los utils
@@ -46,6 +47,11 @@ router.post(
     `/reply/:replyId/rating`,
     authUserController,
     voteConsultController
+);
+router.get(
+    `/replies/:consultId`,
+    authUserController,
+    getReplyByConsultIdController
 );
 
 //middleware que permite eliminar una consulta

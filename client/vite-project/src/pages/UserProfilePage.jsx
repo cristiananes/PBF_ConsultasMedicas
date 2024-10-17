@@ -86,7 +86,7 @@ const UserProfilePage = () => {
     if (!authUser) return <Navigate to="/login" />;
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet py-10 p-6">
+        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet p-10">
             <div className="max-w-full w-full mx-auto p-6 bg-white shadow-md rounded-md mt-10 px-6 ">
                 <H2 text="Perfil de usuario" />
 

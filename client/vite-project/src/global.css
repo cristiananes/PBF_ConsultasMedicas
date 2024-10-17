@@ -1,0 +1,93 @@
+/* Estilos generales para todo el proyecto */
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(
+        135deg,
+        #52489c,
+        #59c3c3
+    ); /* Degradado de violeta a azul */
+    color: #333; /* Color de texto general */
+    min-height: 100vh; /* Asegura que el fondo cubra toda la pantalla */
+    margin: 0;
+}
+
+/* Estilos para los encabezados */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Segoe UI', sans-serif;
+    color: #4062bb; /* Color de encabezados */
+    margin-bottom: 1rem;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+/* Botones generales */
+button {
+    background-color: #4062bb;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #52489c;
+}
+
+/* Enlaces */
+a {
+    color: #4062bb;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Inputs */
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #52489c;
+    outline: none;
+}
+
+/* Formularios */
+form {
+    margin-bottom: 20px;
+}
+
+/* Contenedores generales */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Tarjetas o cajas */
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}

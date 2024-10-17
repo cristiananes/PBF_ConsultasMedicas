@@ -1,28 +1,33 @@
+import { Link } from 'react-router-dom';
 import { useConsults } from '../hooks/useConsults';
-// Importamos el contexto.
-/* import { AuthContext } from "../contexts/AuthContext"; */
-// Importamos moment para manipular fechar.
+import { useDoctorData } from '../hooks/useDoctorData';
 import { useEffect, useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../contexts/AuthContext';
-import { Link } from 'react-router-dom';
-/* import { Navigate } from "react-router-dom"; */
+import { NavLink } from 'react-router-dom';
+import { ButtonAction } from '../components/ButtonAction';
 
-// Importamos los componentes.
-
-// Importamos los formularios.
-
-// Inicializamos el componente.
 const ConsultListPage = () => {
-    const { authToken } = useContext(AuthContext);
-    //Aqui tengo que extraer la lista de doctores del params
-    const [consults, setConsutls] = useState([]);
-    // Importamos los datos de los doctores.
-    //saco las variables
+    const { authToken, authUser } = useContext(AuthContext);
+    const [consults, setConsults] = useState([]);
+    const [doctorData, setDoctorData] = useState([]);
+    const [showUnassigned, setShowUnassigned] = useState(false);
+
+    // Fetch de las consultas.
     const fetchConsults = async () => {
         try {
             const response = await useConsults({ authToken });
-            setConsutls(response);
+            setConsults(response);
+        } catch (e) {
+            toast.error(e.message);
+        }
+    };
+
+    // Fetch de los datos de los doctores.
+    const fetchDoctorData = async () => {
+        try {
+            const response = await useDoctorData({ authToken });
+            setDoctorData(response);
         } catch (e) {
             toast.error(e.message);
         }
@@ -30,35 +35,74 @@ const ConsultListPage = () => {
 
     useEffect(() => {
         fetchConsults();
-    }, []);
+        fetchDoctorData();
+    }, [authToken]);
 
-    // Declaramos una variable para indicar cuando estamos haciendo fetch al servidor y poder
-    // deshabilitar así los botones durante ese proceso.
-
-    /*   if (!authUser) {
-    return <Navigate to="/login" />;
-  } */
+    // Función para alternar el filtro de consultas no asignadas
+    const toggleUnassignedFilter = () => {
+        setShowUnassigned((prev) => {
+            const newValue = !prev;
+            console.log('showUnassigned cambiado a:', newValue); // Verifica el cambio
+            return newValue;
+        });
+    };
 
     return (
         consults && (
             <main>
                 <h2>Listado de consultas</h2>
 
-                {/* Establecemos las fotos. */}
+                {/* Botón solo visible para doctores para ver consultas no asignadas */}
+                {authUser && authUser.role === 'doctor' && (
+                    <ButtonAction
+                        text={
+                            showUnassigned
+                                ? 'Ver consultas asignadas'
+                                : 'Ver consultas no asignadas'
+                        }
+                        onClick={toggleUnassignedFilter}
+                    />
+                )}
 
                 <ul>
-                    {consults.map((consult) => (
-                        <li key={consult.id}>
-                            <h3>title: {consult.title}</h3>
-                            <h3>descripcion: {consult.description}</h3>
+                    {consults
+                        .filter((consult) => {
+                            if (authUser.role === 'patient') {
+                                // Filtra las consultas que el paciente ha creado
+                                return consult.author === authUser.username;
+                            } else if (authUser.role === 'doctor') {
+                                // Filtra las consultas no asignadas si el filtro está activo
+                                if (showUnassigned) {
+                                    return consult.doctorId === null;
+                                }
+                                // Si no se filtran las no asignadas, muestra todas las consultas asignadas
+                                return consult.doctorId !== null;
+                            }
+                            return true; // Admin o cualquier otro rol ve todas las consultas
+                        })
+                        .map((consult) => (
+                            <li key={consult.id}>
+                                <h3>Asunto: {consult.title}</h3>
+                                <h3>Descripción: {consult.description}</h3>
+                                <h3>Paciente: {consult.author}</h3>
 
-                            <h3>Autor: {consult.author}</h3>
-                            <h3>Creado: {consult.createdAt}</h3>
-
-                            <Link to={`/consult/${consult.id}`}>Ver</Link>
-                        </li>
-                    ))}
+                                <Link to={`/consult/${consult.id}`}>Ver</Link>
+                            </li>
+                        ))}
                 </ul>
+
+                {/* Sidebar con opciones adicionales */}
+                <aside>
+                    {/* Mostrar botón de añadir consulta solo para pacientes */}
+                    {authUser && authUser.role === 'patient' && (
+                        <NavLink to="/consult/new-consult">
+                            <ButtonAction text="Añadir consulta" />
+                        </NavLink>
+                    )}
+                    <NavLink to={`/user/${authUser ? authUser.id : ''}`}>
+                        <ButtonAction text="Volver a perfil" />
+                    </NavLink>
+                </aside>
             </main>
         )
     );

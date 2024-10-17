@@ -42,7 +42,7 @@ const HomePage = () => {
                                 className="w-32 h-32 mb-2"
                             />
                             <NavLink
-                                to="/doctorConsults"
+                                to="/consults"
                                 className="text-lg font-semibold text-blue-500"
                             >
                                 Consultas

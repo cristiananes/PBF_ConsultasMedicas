@@ -1,6 +1,7 @@
+import { ButtonAction } from '../components/ButtonAction';
 // Importamos los hooks.
 import { useContext, useState } from 'react';
-
+import { NavLink } from 'react-router-dom';
 // Obtenemos el contexto.
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -215,6 +216,14 @@ const UserProfilePage = () => {
                 <li>Nombre: {authUser.firstName}</li>
                 <li>Apellidos: {authUser.lastName}</li>
                 <li>Biografía: {authUser.biography}</li>
-            </ul> */
+            </ul>
+            <aside>
+                <NavLink to="/consults">
+                    <ButtonAction text="Consultas" />
+                </NavLink>
+            </aside>
+        </main>
+    );
+
 };
 export default UserProfilePage;

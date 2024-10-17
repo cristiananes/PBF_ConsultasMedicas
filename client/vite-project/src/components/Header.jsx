@@ -32,15 +32,19 @@ const Header = () => {
                         // Si el usuario tiene avatar lo mostramos, de lo contrario ponemos
                         // un avatar por defecto.
                         authUser.avatar ? (
-                            <img
-                                src={`${VITE_API_URL}/${authUser.avatar}`}
-                                alt={`Foto de perfil de ${authUser.username}`}
-                            />
+                            <NavLink to={`/user/:userId`}>
+                                <img
+                                    src={`${VITE_API_URL}/${authUser.avatar}`}
+                                    alt={`Foto de perfil de ${authUser.username}`}
+                                />
+                            </NavLink>
                         ) : (
-                            <img
-                                src="/default-avatar.png"
-                                alt={`Foto de perfil de ${authUser.username}`}
-                            />
+                            <NavLink to={`/user/:userId`}>
+                                <img
+                                    src="/default-avatar.png"
+                                    alt={`Foto de perfil de ${authUser.username}`}
+                                />
+                            </NavLink>
                         )
                     }
                     <p>@{authUser.username}</p>
@@ -66,7 +70,9 @@ const Header = () => {
                                     }}
                                 >
                                     {' '}
-                                    <ButtonAction text="Log out" />
+                                    <NavLink to="/login">
+                                        <ButtonAction text="Log out" />
+                                    </NavLink>
                                 </button>
                             </>
                         ) : (

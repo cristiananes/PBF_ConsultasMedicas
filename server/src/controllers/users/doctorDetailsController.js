@@ -5,7 +5,7 @@ import getPool from '../../db/getPool.js';
 import generateErrorUtil from '../../utils/generateErrorUtil.js';
 
 // Función controladora que retorna info privada del médico.
-const getPrivateUserInfoController = async (req, res, next) => {
+const doctorDetailsController = async (req, res, next) => {
     try {
         // Obtenemos el ID del usuario desde los parámetros.
         const { userId } = req.params; // Asegúrate de que la ID se pase en los parámetros.
@@ -38,4 +38,4 @@ const getPrivateUserInfoController = async (req, res, next) => {
     }
 };
 
-export default getPrivateUserInfoController;
+export default doctorDetailsController;

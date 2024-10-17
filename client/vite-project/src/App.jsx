@@ -13,7 +13,7 @@ import ActivateUserPage from './pages/ActivateUserPage';
 import LoginPage from './pages/LoginPage';
 import UserProfilePage from './pages/UserProfilePage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
-import NewConsultPage from './pages/newConsultPage.jsx';
+import NewConsultPage from './pages/NewConsultPage.jsx';
 import WorkerCreationPage from './pages/WorkerCreationPage.jsx';
 import DoctorListPage from './pages/DoctorListPage';
 
@@ -45,15 +45,15 @@ const App = () => {
                 />
                 <Route path="/consults" element={<ConsultListPage />} />
 
-                <Route path="/consult/:consultId" element={<ConsultDetail />} />
+                <Route
+                    path="/consult/:consultId"
+                    element={<ConsultDetailPage />}
+                />
                 <Route
                     path="/consult/new-consult"
                     element={<NewConsultPage />}
                 />
-                <Route
-                    path="/consults/:consultId"
-                    element={<ConsultDetailPage />}
-                />
+
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/doctorList" element={<DoctorListPage />} />
                 <Route

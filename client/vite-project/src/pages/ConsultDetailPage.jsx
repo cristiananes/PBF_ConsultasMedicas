@@ -5,13 +5,13 @@ import { AuthContext } from '../contexts/AuthContext';
 import { NavLink } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
 import RespuestaConsultas from '../components/ReplyConsult';
-
+import { Navigate } from 'react-router-dom';
 const { VITE_API_URL } = import.meta.env;
 
 const ConsultDetail = () => {
     const { consultId } = useParams();
     const [consult, setConsult] = useState(null);
-    const { authToken } = useContext(AuthContext);
+    const { authToken, authUser } = useContext(AuthContext);
     const [replies, setReplies] = useState([]);
     const [loadingConsult, setLoadingConsult] = useState(true);
     const [loadingReplies, setLoadingReplies] = useState(true);
@@ -77,6 +77,13 @@ const ConsultDetail = () => {
 
     if (errorConsult) {
         return <div>Error al cargar la consulta: {errorConsult}</div>;
+    }
+
+    console.log(consult);
+    console.log(authUser);
+
+    if (consult.author !== authUser.username) {
+        return <Navigate to="/login" />;
     }
 
     return (

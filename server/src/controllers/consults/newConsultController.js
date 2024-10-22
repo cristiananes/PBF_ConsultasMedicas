@@ -66,7 +66,7 @@ const newConsultController = async (req, res, next) => {
             message: 'Entrada creada',
         });
     } catch (err) {
-        next(err); // Pasamos el error al middleware de errores
+        next(err);
     }
 };
 

@@ -1,11 +1,11 @@
 import { useDoctors } from '../hooks/useDoctors';
 // Importamos el contexto.
-/* import { AuthContext } from "../contexts/AuthContext"; */
+import { AuthContext } from '../contexts/AuthContext';
 // Importamos moment para manipular fechar.
 import { useEffect, useContext, useState } from 'react';
 import toast from 'react-hot-toast';
-import { AuthContext } from '../contexts/AuthContext';
-/* import { Navigate } from "react-router-dom"; */
+
+import { Navigate } from 'react-router-dom';
 
 // Importamos los componentes.
 
@@ -13,7 +13,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 // Inicializamos el componente.
 const DoctorListPage = () => {
-    const { authToken } = useContext(AuthContext);
+    const { authToken, authUser } = useContext(AuthContext);
     //Aqui tengo que extraer la lista de doctores del params
     const [doctors, setDoctors] = useState([]);
     // Importamos los datos de los doctores.
@@ -31,12 +31,10 @@ const DoctorListPage = () => {
         fetchDoctors();
     }, []);
 
-    // Declaramos una variable para indicar cuando estamos haciendo fetch al servidor y poder
-    // deshabilitar así los botones durante ese proceso.
-
-    /*   if (!authUser) {
-    return <Navigate to="/login" />;
-  } */
+    // Si el usuario no tiene token, lo enviamos a la página de login
+    if (!authUser) {
+        return <Navigate to="/login" />;
+    }
 
     return (
         doctors && (

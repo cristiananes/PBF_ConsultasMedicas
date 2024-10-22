@@ -194,29 +194,19 @@ const UserProfilePage = () => {
                     </div>
                 </div>
             </div>
-        </main>
-    );
-    //              {/* Botón para añadir nuevo empleado si el usuario es admin */}
-    //             {authUser.role === 'admin' && (
-    //                 <div className="mt-8 text-center">
-    //                     <button
-    //                         onClick={handleAdminRegister}
-    //                         className="px-6 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-600"
-    //                     >
-    //                         Añadir nuevo empleado
-    //                     </button>
-    //                 </div>
-    //             )}
 
-    // };
+            {/* Botón para añadir nuevo empleado si el usuario es admin */}
+            {authUser.role === 'admin' && (
+                <div className="mt-8 text-center">
+                    <button
+                        onClick={handleAdminRegister}
+                        className="px-6 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-600"
+                    >
+                        Añadir nuevo empleado
+                    </button>
+                </div>
+            )}
 
-    /* <ul>
-                <li>Usuario: {authUser.username}</li>
-                <li>Email: {authUser.email}</li>
-                <li>Nombre: {authUser.firstName}</li>
-                <li>Apellidos: {authUser.lastName}</li>
-                <li>Biografía: {authUser.biography}</li>
-            </ul>
             <aside>
                 <NavLink to="/consults">
                     <ButtonAction text="Consultas" />
@@ -224,6 +214,5 @@ const UserProfilePage = () => {
             </aside>
         </main>
     );
-
 };
 export default UserProfilePage;

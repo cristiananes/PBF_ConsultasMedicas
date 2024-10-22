@@ -3,7 +3,6 @@ import { ButtonAction } from '../components/ButtonAction';
 
 import { useContext, useEffect, useState } from 'react';
 
-
 import { NavLink } from 'react-router-dom';
 // Importamos el contexto.
 import { AuthContext } from '../contexts/AuthContext';
@@ -14,7 +13,6 @@ import toast from 'react-hot-toast';
 // Importamos el hook para obtener la lista de especialidades médicas.
 import { useSpecialties } from '../hooks/useSpecialty';
 
-
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
 
@@ -23,10 +21,6 @@ const NewConsultPage = () => {
     // Obtenemos los datos del usuario y el token.
 
     const { authUser, authToken } = useContext(AuthContext);
-
-    
-    const { authToken } = useContext(AuthContext);
-
 
     // Declaramos una variable en el State para cada input.
     const [title, setTitle] = useState('');
@@ -58,7 +52,6 @@ const NewConsultPage = () => {
         fetchSpecialties();
     }, [authToken]);
 
-
     // Función que maneja el envío del formulario.
     const handleAddEntry = async (e) => {
         try {
@@ -74,7 +67,6 @@ const NewConsultPage = () => {
             formData.append('urgency', urgency);
             formData.append('specialtyName', specialtyName);
 
-
             // Las propiedades de las fotos las crearemos solo si existe la foto.
             file && formData.append('file', file);
 
@@ -83,7 +75,6 @@ const NewConsultPage = () => {
 
             // Obtenemos la respuesta del servidor.
             const res = await fetch(`${VITE_API_URL}/api/consult/new-consult`, {
-
                 method: 'post',
                 headers: {
                     Authorization: authToken,
@@ -104,9 +95,7 @@ const NewConsultPage = () => {
                 id: 'newConsult',
             });
         } catch (err) {
-
             toast.error(err.message, {
-
                 id: 'newConsult',
             });
         } finally {
@@ -114,7 +103,6 @@ const NewConsultPage = () => {
             setLoading(false);
         }
     };
-
 
     return (
         <main>
@@ -172,11 +160,7 @@ const NewConsultPage = () => {
                     type="file"
                     id="file"
                     onChange={(e) => setFile(e.target.files[0])}
-
-                    accept="image/jpeg, image/png"
-
                     accept="image/jpeg, image/png, image/jpg"
-
                 />
 
                 {/* Habilitamos o deshabilitamos el botón en función de si estamos haciendo un fetch o no. */}

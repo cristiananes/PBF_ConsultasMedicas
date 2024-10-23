@@ -1,4 +1,3 @@
-import { ButtonAction } from '../components/ButtonAction';
 // Importamos los hooks.
 
 import { useContext, useEffect, useState } from 'react';
@@ -13,6 +12,10 @@ import toast from 'react-hot-toast';
 // Importamos el hook para obtener la lista de especialidades médicas.
 import { useSpecialties } from '../hooks/useSpecialty';
 
+//importamos tailwind components
+import { H2 } from '../components/H2';
+import { Label } from '../components/Label';
+
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
 
@@ -20,7 +23,7 @@ const { VITE_API_URL } = import.meta.env;
 const NewConsultPage = () => {
     // Obtenemos los datos del usuario y el token.
 
-    const { authUser, authToken } = useContext(AuthContext);
+    const { authToken } = useContext(AuthContext);
 
     // Declaramos una variable en el State para cada input.
     const [title, setTitle] = useState('');
@@ -105,67 +108,108 @@ const NewConsultPage = () => {
     };
 
     return (
-        <main>
-            <h2>Página de nueva consulta</h2>
-            <NavLink to="/consults">
-                <ButtonAction text="Volver a consultas" />
-            </NavLink>
-            <form onSubmit={handleAddEntry}>
-                <label htmlFor="title">Título:</label>
-                <input
-                    type="text"
-                    id="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                />
+        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet p-10">
+            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+                <H2 text="Página de nueva consulta" />
 
-                <label htmlFor="description">Descripción:</label>
-                <textarea
-                    id="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                ></textarea>
+                <form className="space-y-6" onSubmit={handleAddEntry}>
+                    {/*Fila 1: titulo y urgencia */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <Label htmlFor="title" text="Título:" />
+                            <input
+                                type="text"
+                                id="title"
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-eggblue focus:border-eggblue sm:backdrop:text-sm "
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <Label text="Urgencia" htmlFor="urgency" />
+                            <input
+                                type="text"
+                                id="urgency"
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-eggblue focus:border-eggblue sm:backdrop:text-sm "
+                                value={urgency}
+                                onChange={(e) => setUrgency(e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
 
-                <label htmlFor="urgency">Urgencia:</label>
-                <input
-                    type="text"
-                    id="urgency"
-                    value={urgency}
-                    onChange={(e) => setUrgency(e.target.value)}
-                    required
-                />
+                    {/*Fila 2: Especialidad y archivo*/}
 
-                <label htmlFor="specialty">Especialidad:</label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <Label htmlFor="specialty" text="Especialidad:" />
 
-                <select
-                    id="specialty"
-                    value={specialtyName}
-                    onChange={(e) => setSpecialtyName(e.target.value)}
-                    required
-                >
-                    <option value="" disabled>
-                        Selecciona una opción
-                    </option>
-                    {specialties.map((spec, index) => (
-                        <option key={index} value={spec}>
-                            {spec}
-                        </option>
-                    ))}
-                </select>
+                            <select
+                                id="specialty"
+                                value={specialtyName}
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-eggblue focus:border-eggblue sm:text-sm"
+                                onChange={(e) =>
+                                    setSpecialtyName(e.target.value)
+                                }
+                                required
+                            >
+                                <option value="" disabled>
+                                    Selecciona una opción
+                                </option>
+                                {specialties.map((spec, index) => (
+                                    <option key={index} value={spec}>
+                                        {spec}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <Label htmlFor="file" text="Archivo:" />
+                            <input
+                                type="file"
+                                id="file"
+                                className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300"
+                                onChange={(e) => setFile(e.target.files[0])}
+                                accept="image/jpeg, image/png, image/jpg"
+                            />
+                        </div>
+                    </div>
+                    {/* fila 3: Descripcion */}
+                    <div>
+                        <Label htmlFor="description" text="Descripción:" />
+                        <textarea
+                            id="description"
+                            value={description}
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                            rows="4"
+                            placeholder="Escribe una descripción..."
+                            onChange={(e) => setDescription(e.target.value)}
+                            required
+                        ></textarea>
+                    </div>
 
-                <label htmlFor="file">Archivo:</label>
-                <input
-                    type="file"
-                    id="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    accept="image/jpeg, image/png, image/jpg"
-                />
+                    {/* Botones volver y crear entrada */}
 
-                {/* Habilitamos o deshabilitamos el botón en función de si estamos haciendo un fetch o no. */}
-                <button disabled={loading}>Crear entrada</button>
-            </form>
+                    <div className="flex justify-between w-full">
+                        <NavLink to="/consults">
+                            <button
+                                type="button"
+                                className="px-8 py-3 bg-ultraviolet text-white font-semibold rounded-md hover:bg-black"
+                            >
+                                Volver
+                            </button>
+                        </NavLink>
+                        <button
+                            type="submit"
+                            className="px-8 py-3 bg-ultraviolet text-white font-semibold rounded-md hover:bg-black"
+                            disabled={loading}
+                        >
+                            Crear consulta
+                        </button>
+                    </div>
+                </form>
+            </div>
         </main>
     );
 };

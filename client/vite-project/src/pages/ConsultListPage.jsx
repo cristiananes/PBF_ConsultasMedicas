@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { AuthContext } from '../contexts/AuthContext';
 import { NavLink } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
+import { H2 } from '../components/H2';
 
 const ConsultListPage = () => {
     const { authToken, authUser } = useContext(AuthContext);
@@ -49,60 +50,64 @@ const ConsultListPage = () => {
 
     return (
         consults && (
-            <main>
-                <h2>Listado de consultas</h2>
+            <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet p-10">
+                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+                    <H2 text="Listado de consultas" />
 
-                {/* Botón solo visible para doctores para ver consultas no asignadas */}
-                {authUser && authUser.role === 'doctor' && (
-                    <ButtonAction
-                        text={
-                            showUnassigned
-                                ? 'Ver consultas asignadas'
-                                : 'Ver consultas no asignadas'
-                        }
-                        onClick={toggleUnassignedFilter}
-                    />
-                )}
-
-                <ul>
-                    {consults
-                        .filter((consult) => {
-                            if (authUser.role === 'patient') {
-                                // Filtra las consultas que el paciente ha creado
-                                return consult.author === authUser.username;
-                            } else if (authUser.role === 'doctor') {
-                                // Filtra las consultas no asignadas si el filtro está activo
-                                if (showUnassigned) {
-                                    return consult.doctorId === null;
-                                }
-                                // Si no se filtran las no asignadas, muestra todas las consultas asignadas
-                                return consult.doctorId !== null;
+                    {/* Botón solo visible para doctores para ver consultas no asignadas */}
+                    {authUser && authUser.role === 'doctor' && (
+                        <ButtonAction
+                            text={
+                                showUnassigned
+                                    ? 'Ver consultas asignadas'
+                                    : 'Ver consultas no asignadas'
                             }
-                            return true; // Admin o cualquier otro rol ve todas las consultas
-                        })
-                        .map((consult) => (
-                            <li key={consult.id}>
-                                <h3>Asunto: {consult.title}</h3>
-                                <h3>Descripción: {consult.description}</h3>
-                                <h3>Paciente: {consult.author}</h3>
-
-                                <Link to={`/consult/${consult.id}`}>Ver</Link>
-                            </li>
-                        ))}
-                </ul>
-
-                {/* Sidebar con opciones adicionales */}
-                <aside>
-                    {/* Mostrar botón de añadir consulta solo para pacientes */}
-                    {authUser && authUser.role === 'patient' && (
-                        <NavLink to="/consult/new-consult">
-                            <ButtonAction text="Añadir consulta" />
-                        </NavLink>
+                            onClick={toggleUnassignedFilter}
+                        />
                     )}
-                    <NavLink to={`/user/${authUser ? authUser.id : ''}`}>
-                        <ButtonAction text="Volver a perfil" />
-                    </NavLink>
-                </aside>
+
+                    <ul>
+                        {consults
+                            .filter((consult) => {
+                                if (authUser.role === 'patient') {
+                                    // Filtra las consultas que el paciente ha creado
+                                    return consult.author === authUser.username;
+                                } else if (authUser.role === 'doctor') {
+                                    // Filtra las consultas no asignadas si el filtro está activo
+                                    if (showUnassigned) {
+                                        return consult.doctorId === null;
+                                    }
+                                    // Si no se filtran las no asignadas, muestra todas las consultas asignadas
+                                    return consult.doctorId !== null;
+                                }
+                                return true; // Admin o cualquier otro rol ve todas las consultas
+                            })
+                            .map((consult) => (
+                                <li key={consult.id}>
+                                    <h3>Asunto: {consult.title}</h3>
+                                    <h3>Descripción: {consult.description}</h3>
+                                    <h3>Paciente: {consult.author}</h3>
+
+                                    <Link to={`/consult/${consult.id}`}>
+                                        Ver
+                                    </Link>
+                                </li>
+                            ))}
+                    </ul>
+
+                    {/* Sidebar con opciones adicionales */}
+                    <aside>
+                        {/* Mostrar botón de añadir consulta solo para pacientes */}
+                        {authUser && authUser.role === 'patient' && (
+                            <NavLink to="/consult/new-consult">
+                                <ButtonAction text="Añadir consulta" />
+                            </NavLink>
+                        )}
+                        <NavLink to={`/user/${authUser ? authUser.id : ''}`}>
+                            <ButtonAction text="Volver a perfil" />
+                        </NavLink>
+                    </aside>
+                </div>
             </main>
         )
     );

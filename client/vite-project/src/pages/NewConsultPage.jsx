@@ -131,6 +131,7 @@ const NewConsultPage = () => {
                             <input
                                 type="text"
                                 id="urgency"
+                                placeholder="Alta/Media/Baja"
                                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-eggblue focus:border-eggblue sm:backdrop:text-sm "
                                 value={urgency}
                                 onChange={(e) => setUrgency(e.target.value)}

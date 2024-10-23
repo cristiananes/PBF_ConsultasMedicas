@@ -6,6 +6,8 @@ import { NavLink } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
 import RespuestaConsultas from '../components/ReplyConsult';
 import { Navigate } from 'react-router-dom';
+import { H2 } from '../components/H2';
+import { Label } from '../components/Label';
 const { VITE_API_URL } = import.meta.env;
 
 const ConsultDetail = () => {
@@ -87,9 +89,10 @@ const ConsultDetail = () => {
     // }
 
     return (
-        <main>
+        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet p-10">
             {/* Sección de detalles de la consulta */}
             {consult ? (
+<<<<<<< HEAD
                 <div>
                     <h2>Detalles de la Consulta</h2>
                     <h3>Nombre de usuario: {consult.author}</h3>
@@ -117,8 +120,34 @@ const ConsultDetail = () => {
                             )
                         }
                     </div>
+=======
+                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+                    <H2 text="Detalles de la Consulta" />
+>>>>>>> 98bcc84 (mejoras perfil de usuario, listado de consultas, añadir consulta, detalles de consulta. Tailwind)
                     <h3>
-                        Consulta creada el día:{' '}
+                        <Label text="Nombre de usuario:" /> {consult.author}
+                    </h3>
+                    <h3>
+                        <Label text="Título:" /> {consult.title}
+                    </h3>
+                    <h3>
+                        <Label text="Descripción:" /> {consult.description}
+                    </h3>
+                    <h3>
+                        <Label text="Nombre del paciente:" />{' '}
+                        {consult.patientFirstName}
+                    </h3>
+                    <h3>
+                        <Label text="Apellido:" /> {consult.patientLastName}
+                    </h3>
+                    <h3>
+                        <Label text="Especialidad:" /> {consult.specialityName}
+                    </h3>
+                    <h3>
+                        <Label text="Urgencia:" /> {consult.urgency}
+                    </h3>
+                    <h3>
+                        <Label text="Consulta creada el día:" />{' '}
                         {moment(consult.createdAt).format('DD/MM/YYYY HH:mm')}
                     </h3>
                 </div>
@@ -127,8 +156,8 @@ const ConsultDetail = () => {
             )}
 
             {/* Sección para mostrar las respuestas */}
-            <div>
-                <h2>Respuestas:</h2>
+            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+                <H2 text="Respuestas:" />
                 {loadingReplies ? (
                     <p>Cargando respuestas...</p>
                 ) : errorReplies ? (
@@ -137,7 +166,10 @@ const ConsultDetail = () => {
                     <ul>
                         {replies.map((reply) => (
                             <li key={reply.id}>
-                                <h3>Respuesta de: {reply.author}</h3>
+                                <h3>
+                                    <Label text="Respuesta de:" />{' '}
+                                    {reply.author}
+                                </h3>
                                 <p>{reply.answerText}</p>
                                 {reply.rating && (
                                     <p>Valoración: {reply.rating}</p>
@@ -155,7 +187,7 @@ const ConsultDetail = () => {
                                     </p>
                                 )}
                                 <p>
-                                    Respondido el:{' '}
+                                    <Label text="Respondido el:" />{' '}
                                     {moment(reply.createdAt).format(
                                         'DD/MM/YYYY HH:mm'
                                     )}
@@ -170,13 +202,14 @@ const ConsultDetail = () => {
 
             {/* Sección para responder a la consulta */}
             {consult && (
-                <div>
-                    <h2>Responder a la Consulta</h2>
+                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+                    <H2 text="Responder a la Consulta" />
+
                     <RespuestaConsultas consultId={consultId} />
                 </div>
             )}
 
-            <div>
+            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
                 <NavLink to="/consults">
                     <ButtonAction text="Volver a lista de consultas" />
                 </NavLink>

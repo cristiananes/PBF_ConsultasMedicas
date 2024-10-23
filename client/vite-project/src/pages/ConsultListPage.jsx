@@ -5,6 +5,7 @@ import { useEffect, useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../contexts/AuthContext';
 import { NavLink } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
 
 const ConsultListPage = () => {
@@ -16,7 +17,7 @@ const ConsultListPage = () => {
     // Fetch de las consultas.
     const fetchConsults = async () => {
         try {
-            const response = await useConsults({ authToken });
+            const response = await useConsults({ authUser, authToken });
             setConsults(response);
         } catch (e) {
             toast.error(e.message);
@@ -32,6 +33,7 @@ const ConsultListPage = () => {
             toast.error(e.message);
         }
     };
+    console.log(setDoctorData);
 
     useEffect(() => {
         fetchConsults();
@@ -46,6 +48,11 @@ const ConsultListPage = () => {
             return newValue;
         });
     };
+
+    // Si el usuario no tiene token, lo enviamos a la página de login
+    if (!authUser) {
+        return <Navigate to="/login" />;
+    }
 
     return (
         consults && (

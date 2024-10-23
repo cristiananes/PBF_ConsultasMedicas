@@ -18,6 +18,7 @@ const DoctorListPage = () => {
     const [doctors, setDoctors] = useState([]);
     // Importamos los datos de los doctores.
     //saco las variables
+
     const fetchDoctors = async () => {
         try {
             const response = await useDoctors({ authToken });

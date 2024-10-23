@@ -4,6 +4,7 @@ import { ButtonAction } from '../components/ButtonAction';
 import { useContext, useEffect, useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 // Importamos el contexto.
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -103,6 +104,11 @@ const NewConsultPage = () => {
             setLoading(false);
         }
     };
+
+    // Si el usuario no tiene token, lo enviamos a la página de login
+    if (!authUser) {
+        return <Navigate to="/login" />;
+    }
 
     return (
         <main>

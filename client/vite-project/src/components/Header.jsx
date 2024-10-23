@@ -64,16 +64,14 @@ const Header = () => {
                                     </NavLink>
                                 </li>
 
-                                <button
+                                <NavLink
+                                    to="/login"
                                     onClick={() => {
                                         authLogoutState();
                                     }}
                                 >
-                                    {' '}
-                                    <NavLink to="/login">
-                                        <ButtonAction text="Log out" />
-                                    </NavLink>
-                                </button>
+                                    <ButtonAction text="Log out" />
+                                </NavLink>
                             </>
                         ) : (
                             <>

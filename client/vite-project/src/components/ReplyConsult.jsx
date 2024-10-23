@@ -45,11 +45,18 @@ const RespuestaConsultas = ({ consultId }) => {
         <form onSubmit={handleSubmit}>
             <textarea
                 value={answerText}
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                rows="4"
                 onChange={(e) => setAnswerText(e.target.value)}
                 placeholder="Escribe tu respuesta aquí..."
                 required
             />
-            <button type="submit">Enviar Respuesta</button>
+            <button
+                type="submit"
+                className="px-8 py-3 bg-ultraviolet text-white font-semibold rounded-md hover:bg-black"
+            >
+                Enviar Respuesta
+            </button>
         </form>
     );
 };

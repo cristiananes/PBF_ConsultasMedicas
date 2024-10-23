@@ -118,12 +118,12 @@ const UserProfilePage = () => {
                     onSubmit={handleUpdateAvatar}
                     className="flex flex-col items-center"
                 >
-                    <label
+                    {/* <label
                         htmlFor="avatar"
                         className="mb-2 text-sm font-medium text-gray-700"
                     >
                         Actualizar avatar
-                    </label>
+                    </label> */}
                     <input
                         type="file"
                         id="avatar"
@@ -135,7 +135,7 @@ const UserProfilePage = () => {
                     {/* Habilitamos o deshabilitamos el botón en función de si estamos haciendo un fetch o no. */}
                     <button
                         disabled={loading}
-                        className="mt-4 px-4 py-2 bg-trueblue text-white font-bold rounded-md hover: to-black disabled:opacity-50"
+                        className="mt-4 px-4 py-2 bg-eggblue text-white font-bold rounded-md hover: to-black disabled:opacity-50 mb-3"
                     >
                         {loading ? 'Enviando...' : 'Actualizar Avatar'}
                     </button>

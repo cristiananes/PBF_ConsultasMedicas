@@ -7,6 +7,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import { NavLink } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
 import { H2 } from '../components/H2';
+import { Label } from '../components/Label';
 
 const ConsultListPage = () => {
     const { authToken, authUser } = useContext(AuthContext);
@@ -84,12 +85,25 @@ const ConsultListPage = () => {
                             })
                             .map((consult) => (
                                 <li key={consult.id}>
-                                    <h3>Asunto: {consult.title}</h3>
-                                    <h3>Descripción: {consult.description}</h3>
-                                    <h3>Paciente: {consult.author}</h3>
+                                    <h3>
+                                        <Label text="Asunto:" /> {consult.title}
+                                    </h3>
+                                    <h3>
+                                        <Label text="Descripción:" />{' '}
+                                        {consult.description}
+                                    </h3>
+                                    <h3>
+                                        <Label text="Paciente:" />{' '}
+                                        {consult.author}
+                                    </h3>
 
                                     <Link to={`/consult/${consult.id}`}>
-                                        Ver
+                                        <button
+                                            type="button"
+                                            className="px-8 py-3 bg-eggblue text-white font-semibold rounded-md hover:bg-black"
+                                        >
+                                            Ver consulta
+                                        </button>
                                     </Link>
                                 </li>
                             ))}

@@ -90,24 +90,24 @@ const UserProfilePage = () => {
 
     return (
         <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet p-10">
-            <div className="max-w-full w-full mx-auto p-6 bg-white shadow-md rounded-md mt-10 px-6 ">
+            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
                 <H2 text="Perfil de usuario" />
 
-                <div className="flex flex-col md:flex-row gap-8 items-start">
+                <div className="flex flex-col md:flex-row gap-12 items-start">
                     {/* Avatar del Usuario */}
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center md:w-1/4">
                         {
                             // Si el usuario tiene avatar lo mostramos, de lo contrario ponemos
                             // un avatar por defecto.
                             authUser.avatar ? (
                                 <img
-                                    className="w-32 h-32 rounded-full object-cover mb-4"
+                                    className="w-40 h-40 rounded-full object-cover mb-4"
                                     src={`${VITE_API_URL}/${authUser.avatar}`}
                                     alt={`Foto de perfil de ${authUser.username}`}
                                 />
                             ) : (
                                 <img
-                                    className="w-32 h-32 rounded-full object-cover mb-4"
+                                    className="w-40 h-40 rounded-full object-cover mb-4"
                                     src="/default-avatar.png"
                                     alt={`Foto de perfil de ${authUser.username}`}
                                 />
@@ -148,8 +148,8 @@ const UserProfilePage = () => {
                     </button>
                 )}
                 {/* Información del Usuario */}
-                <div className="flex-1">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex-1 md:w-3/4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700">
                                 Nombre
@@ -185,16 +185,21 @@ const UserProfilePage = () => {
                     </div>
 
                     {/* Biografía */}
-                    <div className="mt-6">
+                    <div className="mt-8">
                         <label className="block text-sm font-medium text-gray-700">
                             Biografía
                         </label>
-                        <p className="mt-1 text-lg text-gray-900 bg-gray-100 p-4 rounded-md">
+                        <div className="mt-2 text-lg text-gray-900 bg-gray-100 p-6 rounded-md min-h-[150px]">
                             {authUser.biography ||
                                 'No hay biografía disponible.'}
-                        </p>
+                        </div>
                     </div>
                 </div>
+                <aside className="mt-10">
+                    <NavLink to="/consults">
+                        <ButtonAction text="Mis consultas" />
+                    </NavLink>
+                </aside>
             </div>
 
             {/* Botón para añadir nuevo empleado si el usuario es admin */}
@@ -209,11 +214,11 @@ const UserProfilePage = () => {
                 </div>
             )}
 
-            <aside>
+            {/* <aside className="mt-10">
                 <NavLink to="/consults">
                     <ButtonAction text="Consultas" />
                 </NavLink>
-            </aside>
+            </aside> */}
         </main>
     );
 };

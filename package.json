@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@headlessui/react": "^0.0.0-insiders.5eb3b12",
+    "@smastrom/react-rating": "^1.5.0"
+  }
+}

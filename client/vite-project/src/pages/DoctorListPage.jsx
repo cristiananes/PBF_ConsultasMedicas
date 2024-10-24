@@ -4,7 +4,7 @@ import { AuthContext } from '../contexts/AuthContext';
 // Importamos moment para manipular fechar.
 import { useEffect, useContext, useState } from 'react';
 import toast from 'react-hot-toast';
-
+import SearchComponent from '../components/SearchComponent';
 import { Navigate } from 'react-router-dom';
 
 // Importamos los componentes.
@@ -38,25 +38,12 @@ const DoctorListPage = () => {
     }
 
     return (
-        doctors && (
-            <main>
-                <h2>Listado de medicos</h2>
+        <main>
+            <h2>Listado de medicos</h2>
 
-                {/* Establecemos las fotos. */}
-
-                <ul>
-                    {doctors.map((doctor) => (
-                        <li key={doctor.id}>
-                            <h3>{doctor.firstName}</h3>
-                            <h3>A{doctor.lasName}</h3>
-                            <h3>{doctor.userName}</h3>
-                            <h3>{doctor.email}</h3>
-                            <p>{doctor.specialty}</p>
-                        </li>
-                    ))}
-                </ul>
-            </main>
-        )
+            {/* Establecemos las fotos. */}
+            <SearchComponent />
+        </main>
     );
 };
 

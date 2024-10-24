@@ -7,7 +7,9 @@ import crypto from 'crypto';
 
 const saveFile = async (file, width) => {
     try {
-        const uploadsPath = path.join(process.cwd(), 'public/uploads');
+        const uploadsPath = path.join(process.cwd(), 'public', 'uploads');
+
+        console.log('uploadsPath', uploadsPath);
 
         // Verifica si la carpeta de uploads existe, y si no, la crea
         try {
@@ -26,12 +28,23 @@ const saveFile = async (file, width) => {
             sharpImg.resize(Number(width));
             await sharpImg.toFile(filePath);
         } else {
-            // Para otros archivos (videos, PDFs), simplemente lo guarda
+            console.log(
+                'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaa'
+            );
+            // Para otros archivos (videos, PDFs), simplemente lo guarda i
             await fs.copyFile(file.path, filePath);
         }
 
         // Elimina el archivo temporal
-        await fs.unlink(file.path);
+        console.log('>>>>>>>>>', path.join(process.cwd(), file.path));
+        try {
+            await fs.unlink(path.join(process.cwd(), file.path));
+        } catch (e) {
+            console.log(
+                'Error a eliminar ',
+                path.join(process.cwd(), file.path)
+            );
+        }
 
         return fileName;
     } catch (err) {

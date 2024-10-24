@@ -61,12 +61,7 @@ router.patch(
 );
 
 //middleware que retorna el listado de medicos
-router.get(
-    `/users/doctors`,
-
-    authUserController,
-    listMedicsController
-);
+router.get(`/users/doctors`, authUserController, listMedicsController);
 
 //middleware que retorna las especialidades
 router.get(

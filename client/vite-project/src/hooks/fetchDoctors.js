@@ -1,6 +1,6 @@
 const { VITE_API_URL } = import.meta.env;
 
-export const useDoctors = async ({ authToken }) => {
+export const fetchDoctors = async ({ authToken }) => {
     try {
         // Obtenmemos una respuesta del servidor.
         const res = await fetch(`${VITE_API_URL}/api/users/doctors`, {
@@ -20,7 +20,6 @@ export const useDoctors = async ({ authToken }) => {
         }
 
         // Almacenamos los doctores.
-        //era data.user no data.doctors
         console.log(body.data.users);
 
         return body.data.users;

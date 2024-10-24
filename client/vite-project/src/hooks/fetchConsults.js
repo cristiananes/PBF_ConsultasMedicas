@@ -1,18 +1,17 @@
 const { VITE_API_URL } = import.meta.env;
-export const useConsults = async ({ authToken }) => {
+
+export const fetchConsults = async ({ authToken }) => {
     try {
-        //obtenemos la respuesta del servidor 
-        const res = await fetch(
-            `${VITE_API_URL}/api/consults`, {
+        //obtenemos la respuesta del servidor
+        const res = await fetch(`${VITE_API_URL}/api/consults`, {
             method: 'get',
             headers: {
-                Authorization: authToken
-            }
-        }
-        );
+                Authorization: authToken,
+            },
+        });
         //obtenemos el body de la ruta anteriormente seleccionada
         const body = await res.json();
-        console.log(body)
+        console.log(body);
 
         // Si hay algún error lo lanzamos.
         if (body.status === 'error') {
@@ -26,4 +25,4 @@ export const useConsults = async ({ authToken }) => {
     } catch (err) {
         return err.message;
     }
-}
+};

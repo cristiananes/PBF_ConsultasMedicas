@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
-import { useConsults } from '../hooks/useConsults';
-import { useDoctorData } from '../hooks/useDoctorData';
-import { useEffect, useContext, useState } from 'react';
-import toast from 'react-hot-toast';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { NavLink } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
+const { VITE_API_URL } = import.meta.env;
+import { useParams } from 'react-router-dom';
 
 const ConsultListPage = () => {
+    const { userId } = useParams();
     const { authToken, authUser } = useContext(AuthContext);
     const [consults, setConsults] = useState([]);
     const [doctorData, setDoctorData] = useState([]);
@@ -17,28 +17,63 @@ const ConsultListPage = () => {
     // Fetch de las consultas.
     const fetchConsults = async () => {
         try {
-            const response = await useConsults({ authUser, authToken });
-            setConsults(response);
-        } catch (e) {
-            toast.error(e.message);
+            //obtenemos la respuesta del servidor
+            const res = await fetch(`${VITE_API_URL}/api/consults`, {
+                method: 'get',
+                headers: {
+                    Authorization: authToken,
+                },
+            });
+            //obtenemos el body de la ruta anteriormente seleccionada
+            const body = await res.json();
+            console.log(body);
+
+            // Si hay algún error lo lanzamos.
+            if (body.status === 'error') {
+                throw new Error(body.message);
+            }
+
+            //Almacenamos las consultas
+            console.log(body.data.consults);
+            setConsults(body.data.consults);
+            return body.data.consults;
+        } catch (err) {
+            return err.message;
         }
     };
 
     // Fetch de los datos de los doctores.
     const fetchDoctorData = async () => {
         try {
-            const response = await useDoctorData({ authToken });
-            setDoctorData(response);
-        } catch (e) {
-            toast.error(e.message);
+            // Obtenemos la respuesta del servidor para la ruta específica del doctor.
+            const res = await fetch(`${VITE_API_URL}/api/doctor/${userId}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: authToken,
+                },
+            });
+
+            // Obtenemos el body de la respuesta.
+            const body = await res.json();
+            console.log(body);
+
+            // Si hay algún error, lanzamos una excepción.
+            if (body.status === 'error') {
+                throw new Error(body.message);
+            }
+
+            // Almacenamos los datos del doctor.
+            console.log(body.data.doctorData);
+            setDoctorData(body.data.doctorData);
+            return body.data.doctorData;
+        } catch (err) {
+            return err.message;
         }
     };
     console.log(setDoctorData);
 
-    useEffect(() => {
-        fetchConsults();
-        fetchDoctorData();
-    }, [authToken]);
+    fetchConsults();
+    fetchDoctorData();
 
     // Función para alternar el filtro de consultas no asignadas
     const toggleUnassignedFilter = () => {
@@ -77,7 +112,10 @@ const ConsultListPage = () => {
                             if (authUser.role === 'patient') {
                                 // Filtra las consultas que el paciente ha creado
                                 return consult.author === authUser.username;
-                            } else if (authUser.role === 'doctor') {
+                            } else if (
+                                authUser.role === 'doctor' &&
+                                consult.doctorId === doctorData.id
+                            ) {
                                 // Filtra las consultas no asignadas si el filtro está activo
                                 if (showUnassigned) {
                                     return consult.doctorId === null;

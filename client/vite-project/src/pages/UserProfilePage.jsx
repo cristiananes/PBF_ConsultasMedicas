@@ -1,4 +1,3 @@
-import { ButtonAction } from '../components/ButtonAction';
 // Importamos los hooks.
 import { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -87,136 +86,118 @@ const UserProfilePage = () => {
     if (!authUser) return <Navigate to="/login" />;
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet p-10">
-            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
-                <H2 text="Perfil de usuario" />
+        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] p-10">
+            <div className="max-w-4xl w-full mx-auto p-8 bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-2xl mt-12">
+                <H2
+                    text="
+                    Perfil de usuario"
+                />
 
-                <div className="flex flex-col md:flex-row gap-12 items-start">
+                <div className=" max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 flex flex-col md:flex-row gap-12 items-start">
                     {/* Avatar del Usuario */}
                     <div className="flex flex-col items-center md:w-1/4">
-                        {
-                            // Si el usuario tiene avatar lo mostramos, de lo contrario ponemos
-                            // un avatar por defecto.
-                            authUser.avatar ? (
-                                <img
-                                    className="w-40 h-40 rounded-full object-cover mb-4"
-                                    src={`${VITE_API_URL}/${authUser.avatar}`}
-                                    alt={`Foto de perfil de ${authUser.username}`}
-                                />
-                            ) : (
-                                <img
-                                    className="w-40 h-40 rounded-full object-cover mb-4"
-                                    src="/default-avatar.png"
-                                    alt={`Foto de perfil de ${authUser.username}`}
-                                />
-                            )
-                        }
+                        {authUser.avatar ? (
+                            <img
+                                className="w-40 h-40 rounded-full object-cover mb-4 shadow-md"
+                                src={`${VITE_API_URL}/${authUser.avatar}`}
+                                alt={`Foto de perfil de ${authUser.username}`}
+                            />
+                        ) : (
+                            <img
+                                className="w-40 h-40 rounded-full object-cover mb-4 shadow-md"
+                                src="/default-avatar.png"
+                                alt={`Foto de perfil de ${authUser.username}`}
+                            />
+                        )}
+                        {/* Formulario de actualización de avatar */}
+                        <form
+                            onSubmit={handleUpdateAvatar}
+                            className="flex flex-col items-center mt-4"
+                        >
+                            <input
+                                type="file"
+                                id="avatar"
+                                accept="image/jpeg, image/png"
+                                onChange={(e) => setAvatar(e.target.files[0])}
+                                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300"
+                                required
+                            />
+                            <button
+                                disabled={loading}
+                                className="mt-4 px-6 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-black transition-colors duration-300 disabled:opacity-50 mb-3"
+                            >
+                                {loading ? 'Enviando...' : 'Actualizar Avatar'}
+                            </button>
+                        </form>
+                    </div>
+
+                    {/* Información del Usuario */}
+                    <div className="flex-1 md:w-3/4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Nombre
+                                </label>
+                                <p className="mt-1 text-lg text-gray-900">
+                                    {authUser.firstName}
+                                </p>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Apellidos
+                                </label>
+                                <p className="mt-1 text-lg text-gray-900">
+                                    {authUser.lastName}
+                                </p>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Usuario
+                                </label>
+                                <p className="mt-1 text-lg text-gray-900">
+                                    {authUser.username}
+                                </p>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Email
+                                </label>
+                                <p className="mt-1 text-lg text-gray-900">
+                                    {authUser.email}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Biografía */}
+                        <div className="mt-8">
+                            <label className="block text-sm font-medium text-gray-700">
+                                Biografía
+                            </label>
+                            <div className="mt-2 text-lg text-gray-900 bg-gray-100 p-6 rounded-md min-h-[150px] shadow-inner">
+                                {authUser.biography ||
+                                    'No hay biografía disponible.'}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <form
-                    onSubmit={handleUpdateAvatar}
-                    className="flex flex-col items-center"
-                >
-                    {/* <label
-                        htmlFor="avatar"
-                        className="mb-2 text-sm font-medium text-gray-700"
-                    >
-                        Actualizar avatar
-                    </label> */}
-                    <input
-                        type="file"
-                        id="avatar"
-                        accept="image/jpeg, image/png"
-                        onChange={(e) => setAvatar(e.target.files[0])}
-                        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300"
-                        required
-                    />
-                    {/* Habilitamos o deshabilitamos el botón en función de si estamos haciendo un fetch o no. */}
-                    <button
-                        disabled={loading}
-                        className="mt-4 px-4 py-2 bg-eggblue text-white font-bold rounded-md hover: to-black disabled:opacity-50 mb-3"
-                    >
-                        {loading ? 'Enviando...' : 'Actualizar Avatar'}
-                    </button>
-                </form>
-                {authUser.role === 'admin' && (
-                    <button onClick={handleAdminRegister}>
-                        Añadir nuevo empleado
-                    </button>
-                )}
-                {/* Información del Usuario */}
-                <div className="flex-1 md:w-3/4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Nombre
-                            </label>
-                            <p className="mt-1 text-lg text-gray-900">
-                                {authUser.firstName}
-                            </p>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Apellidos
-                            </label>
-                            <p className="mt-1 text-lg text-gray-900">
-                                {authUser.lastName}
-                            </p>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Usuario
-                            </label>
-                            <p className="mt-1 text-lg text-gray-900">
-                                {authUser.username}
-                            </p>
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Email
-                            </label>
-                            <p className="mt-1 text-lg text-gray-900">
-                                {authUser.email}
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Biografía */}
-                    <div className="mt-8">
-                        <label className="block text-sm font-medium text-gray-700">
-                            Biografía
-                        </label>
-                        <div className="mt-2 text-lg text-gray-900 bg-gray-100 p-6 rounded-md min-h-[150px]">
-                            {authUser.biography ||
-                                'No hay biografía disponible.'}
-                        </div>
-                    </div>
-                </div>
-                <aside className="mt-10">
+                {/* Opciones adicionales */}
+                <aside className="mt-10 flex justify-center gap-4">
                     <NavLink to="/consults">
-                        <ButtonAction text="Mis consultas" />
+                        <button className="px-6 py-2 bg-blue-600 text-white font-bold rounded-md hover:bg-black transition-colors duration-300">
+                            Mis consultas
+                        </button>
                     </NavLink>
+                    {authUser.role === 'admin' && (
+                        <button
+                            onClick={handleAdminRegister}
+                            className="px-6 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-600 transition-colors duration-300"
+                        >
+                            Añadir nuevo empleado
+                        </button>
+                    )}
                 </aside>
             </div>
-
-            {/* Botón para añadir nuevo empleado si el usuario es admin */}
-            {authUser.role === 'admin' && (
-                <div className="mt-8 text-center">
-                    <button
-                        onClick={handleAdminRegister}
-                        className="px-6 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-600"
-                    >
-                        Añadir nuevo empleado
-                    </button>
-                </div>
-            )}
-
-            {/* <aside className="mt-10">
-                <NavLink to="/consults">
-                    <ButtonAction text="Consultas" />
-                </NavLink>
-            </aside> */}
         </main>
     );
 };

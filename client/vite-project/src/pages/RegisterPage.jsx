@@ -94,8 +94,8 @@ const RegisterPage = () => {
     }
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet py-10">
-            <div className="bg-white p-5 rounded-lg shadow-md max-w-lg w-full">
+        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] py-10">
+            <div className="bg-white p-5 rounded-lg shadow-md max-w-lg w-full animate-slideIn bg-opacity-80">
                 <H2 text="Registro de usuario" />
 
                 <form
@@ -107,7 +107,7 @@ const RegisterPage = () => {
                         <input
                             type="text"
                             id="firstName"
-                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
                             value={firstName}
                             onChange={(e) => setFirstName(e.target.value)}
                             required
@@ -118,7 +118,7 @@ const RegisterPage = () => {
                         <input
                             type="text"
                             id="lastName"
-                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2  focus:ring-blue-400"
                             value={lastName}
                             onChange={(e) => setLastName(e.target.value)}
                             required
@@ -131,7 +131,7 @@ const RegisterPage = () => {
                         <input
                             type="text"
                             id="username"
-                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2  focus:ring-blue-400"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             required
@@ -143,7 +143,7 @@ const RegisterPage = () => {
                         <input
                             type="email"
                             id="email"
-                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2  focus:ring-blue-400"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -155,7 +155,7 @@ const RegisterPage = () => {
                         <input
                             type="password"
                             id="pass"
-                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2  focus:ring-blue-400"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
@@ -169,7 +169,7 @@ const RegisterPage = () => {
                         <input
                             type="password"
                             id="repeatedPass"
-                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                            className="border border-gray-300 rounded-md px-4 py-1 mt-1 focus:outline-none focus:ring-2  focus:ring-blue-400"
                             value={repeatedPass}
                             onChange={(e) => setRepeatedPass(e.target.value)}
                             required

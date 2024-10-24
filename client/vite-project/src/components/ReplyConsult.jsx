@@ -53,7 +53,7 @@ const RespuestaConsultas = ({ consultId }) => {
             />
             <button
                 type="submit"
-                className="px-8 py-3 bg-ultraviolet text-white font-semibold rounded-md hover:bg-black"
+                className="px-8 py-3 bg-green-500 text-white font-semibold rounded-md hover:bg-black"
             >
                 Enviar Respuesta
             </button>

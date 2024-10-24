@@ -108,8 +108,8 @@ const NewConsultPage = () => {
     };
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet p-10">
-            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] p-10">
+            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-90 animate-slideIn ">
                 <H2 text="Página de nueva consulta" />
 
                 <form className="space-y-6" onSubmit={handleAddEntry}>
@@ -196,14 +196,14 @@ const NewConsultPage = () => {
                         <NavLink to="/consults">
                             <button
                                 type="button"
-                                className="px-8 py-3 bg-ultraviolet text-white font-semibold rounded-md hover:bg-black"
+                                className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-black"
                             >
                                 Volver
                             </button>
                         </NavLink>
                         <button
                             type="submit"
-                            className="px-8 py-3 bg-ultraviolet text-white font-semibold rounded-md hover:bg-black"
+                            className="px-8 py-3 bg-green-500 hover:bg-black focus:outline-none focus:ring-4 focus:ring-blue-300 transition text-white font-semibold rounded-md"
                             disabled={loading}
                         >
                             Crear consulta

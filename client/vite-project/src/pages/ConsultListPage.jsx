@@ -51,8 +51,8 @@ const ConsultListPage = () => {
 
     return (
         consults && (
-            <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet p-10">
-                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+            <main className="flex flex-col items-center justify-center bg-[url('/public/fondoaz.jpg')] bg-cover bg-center min-h-screen py-10">
+                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-90 ">
                     <H2 text="Listado de consultas" />
 
                     {/* Botón solo visible para doctores para ver consultas no asignadas */}
@@ -85,22 +85,25 @@ const ConsultListPage = () => {
                             })
                             .map((consult) => (
                                 <li key={consult.id}>
-                                    <h3>
-                                        <Label text="Asunto:" /> {consult.title}
-                                    </h3>
-                                    <h3>
-                                        <Label text="Descripción:" />{' '}
-                                        {consult.description}
-                                    </h3>
-                                    <h3>
-                                        <Label text="Paciente:" />{' '}
-                                        {consult.author}
-                                    </h3>
+                                    <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-90 ">
+                                        <h3>
+                                            <Label text="Asunto:" />{' '}
+                                            {consult.title}
+                                        </h3>
+                                        <h3>
+                                            <Label text="Descripción:" />{' '}
+                                            {consult.description}
+                                        </h3>
+                                        <h3>
+                                            <Label text="Paciente:" />{' '}
+                                            {consult.author}
+                                        </h3>
+                                    </div>
 
                                     <Link to={`/consult/${consult.id}`}>
                                         <button
                                             type="button"
-                                            className="px-8 py-3 bg-eggblue text-white font-semibold rounded-md hover:bg-black"
+                                            className="bg-black mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
                                         >
                                             Ver consulta
                                         </button>
@@ -113,12 +116,24 @@ const ConsultListPage = () => {
                     <aside>
                         {/* Mostrar botón de añadir consulta solo para pacientes */}
                         {authUser && authUser.role === 'patient' && (
-                            <NavLink to="/consult/new-consult">
-                                <ButtonAction text="Añadir consulta" />
+                            <NavLink
+                                to={`/user/${authUser ? authUser.id : ''}`}
+                            >
+                                <button
+                                    type="button"
+                                    className="bg-blue-500 ml-60 mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
+                                >
+                                    Volver a perfil
+                                </button>
                             </NavLink>
                         )}
-                        <NavLink to={`/user/${authUser ? authUser.id : ''}`}>
-                            <ButtonAction text="Volver a perfil" />
+                        <NavLink to="/consult/new-consult">
+                            <button
+                                type="button"
+                                className="bg-green-500 ml-20 mr-0 mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
+                            >
+                                Crear nueva consulta
+                            </button>
                         </NavLink>
                     </aside>
                 </div>

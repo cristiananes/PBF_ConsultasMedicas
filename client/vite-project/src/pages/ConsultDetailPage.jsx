@@ -89,9 +89,10 @@ const ConsultDetail = () => {
     // }
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet p-10">
+        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] p-10">
             {/* Sección de detalles de la consulta */}
             {consult ? (
+<<<<<<< HEAD
 <<<<<<< HEAD
                 <div>
                     <h2>Detalles de la Consulta</h2>
@@ -150,59 +151,96 @@ const ConsultDetail = () => {
                         <Label text="Consulta creada el día:" />{' '}
                         {moment(consult.createdAt).format('DD/MM/YYYY HH:mm')}
                     </h3>
+=======
+                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-70">
+                    <H2 text="Detalles de la Consulta" />
+                    <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+                        <h3>
+                            <Label text="Nombre de usuario:" /> {consult.author}
+                        </h3>
+                        <h3>
+                            <Label text="Título:" /> {consult.title}
+                        </h3>
+                        <h3>
+                            <Label text="Descripción:" /> {consult.description}
+                        </h3>
+                        <h3>
+                            <Label text="Nombre del paciente:" />{' '}
+                            {consult.patientFirstName}
+                        </h3>
+                        <h3>
+                            <Label text="Apellido:" /> {consult.patientLastName}
+                        </h3>
+                        <h3>
+                            <Label text="Especialidad:" />{' '}
+                            {consult.specialityName}
+                        </h3>
+                        <h3>
+                            <Label text="Urgencia:" /> {consult.urgency}
+                        </h3>
+                        <h3>
+                            <Label text="Consulta creada el día:" />{' '}
+                            {moment(consult.createdAt).format(
+                                'DD/MM/YYYY HH:mm'
+                            )}
+                        </h3>
+                    </div>
+>>>>>>> 118d8b4 (cambio de diseño en todas las páginas, fallos en la de registro de usuario médico)
                 </div>
             ) : (
                 <p>No se encontró la consulta.</p>
             )}
 
             {/* Sección para mostrar las respuestas */}
-            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-70 ">
                 <H2 text="Respuestas:" />
-                {loadingReplies ? (
-                    <p>Cargando respuestas...</p>
-                ) : errorReplies ? (
-                    <p>{errorReplies}</p>
-                ) : Array.isArray(replies) && replies.length > 0 ? (
-                    <ul>
-                        {replies.map((reply) => (
-                            <li key={reply.id}>
-                                <h3>
-                                    <Label text="Respuesta de:" />{' '}
-                                    {reply.author}
-                                </h3>
-                                <p>{reply.answerText}</p>
-                                {reply.rating && (
-                                    <p>Valoración: {reply.rating}</p>
-                                )}
-                                {reply.file && (
-                                    <p>
-                                        Archivo adjunto:{' '}
-                                        <a
-                                            href={`${VITE_API_URL}/uploads/${reply.file}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Ver archivo
-                                        </a>
-                                    </p>
-                                )}
-                                <p>
-                                    <Label text="Respondido el:" />{' '}
-                                    {moment(reply.createdAt).format(
-                                        'DD/MM/YYYY HH:mm'
+                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+                    {loadingReplies ? (
+                        <p>Cargando respuestas...</p>
+                    ) : errorReplies ? (
+                        <p>{errorReplies}</p>
+                    ) : Array.isArray(replies) && replies.length > 0 ? (
+                        <ul>
+                            {replies.map((reply) => (
+                                <li key={reply.id}>
+                                    <h3>
+                                        <Label text="Respuesta de:" />{' '}
+                                        {reply.author}
+                                    </h3>
+                                    <p>{reply.answerText}</p>
+                                    {reply.rating && (
+                                        <p>Valoración: {reply.rating}</p>
                                     )}
-                                </p>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No hay respuestas para esta consulta aún.</p>
-                )}
+                                    {reply.file && (
+                                        <p>
+                                            Archivo adjunto:{' '}
+                                            <a
+                                                href={`${VITE_API_URL}/uploads/${reply.file}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                Ver archivo
+                                            </a>
+                                        </p>
+                                    )}
+                                    <p>
+                                        <Label text="Respondido el:" />{' '}
+                                        {moment(reply.createdAt).format(
+                                            'DD/MM/YYYY HH:mm'
+                                        )}
+                                    </p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No hay respuestas para esta consulta aún.</p>
+                    )}
+                </div>
             </div>
 
             {/* Sección para responder a la consulta */}
             {consult && (
-                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg bg-opacity-80 mt-10 px-6 ">
                     <H2 text="Responder a la Consulta" />
 
                     <RespuestaConsultas consultId={consultId} />

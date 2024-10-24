@@ -8,9 +8,6 @@ import { AuthContext } from '../contexts/AuthContext';
 // Importamos la función toast.
 import toast from 'react-hot-toast';
 
-import { ButtonAction } from '../components/ButtonAction';
-import { H2 } from '../components/H2';
-
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
 
@@ -80,34 +77,62 @@ const LoginPage = () => {
     }
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-eggblue to-ultraviolet py-10">
-            <div className="bg-white p-5 rounded-lg shadow-md max-w-lg w-full">
-                <H2 text="Página de Login" />
+        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')]">
+            <div className="bg-white p-8 rounded-lg bg-opacity-70 shadow-xl max-w-md w-full animate-slideIn">
+                {/* Título de la página */}
+                <h2 className="text-3xl font-bold text-blue-700 text-center mb-6">
+                    Página de Login
+                </h2>
 
+                {/* Formulario de Login */}
                 <form
                     onSubmit={handleLoginUser}
-                    className="grid grid-cols-2 gap-5"
+                    className="flex flex-col gap-6"
                 >
-                    <label htmlFor="username">Nombre de usuario:</label>{' '}
-                    <input
-                        className="border-solid border-2 rounded-md px-2"
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        required
-                    />
-                    <label htmlFor="pass">Contraseña:</label>
-                    <input
-                        className="border-solid border-2 rounded-md px-2"
-                        type="password"
-                        id="pass"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    {/* Habilitamos o deshabilitamos el botón en función de si estamos haciendo un fetch o no. */}
-                    <ButtonAction disabled={loading} text="Loguearme" />
+                    {/* Campo Nombre de Usuario */}
+                    <div>
+                        <label
+                            htmlFor="username"
+                            className="block text-lg font-medium text-gray-700 mb-2"
+                        >
+                            Nombre de usuario:
+                        </label>
+                        <input
+                            className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            type="text"
+                            id="username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    {/* Campo Contraseña */}
+                    <div>
+                        <label
+                            htmlFor="pass"
+                            className="block text-lg font-medium text-gray-700 mb-2"
+                        >
+                            Contraseña:
+                        </label>
+                        <input
+                            className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            type="password"
+                            id="pass"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    {/* Botón de acción */}
+                    <button
+                        type="submit"
+                        className="bg-blue-500 text-white py-3 rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition"
+                        disabled={loading}
+                    >
+                        Loguearme
+                    </button>
                 </form>
             </div>
         </main>

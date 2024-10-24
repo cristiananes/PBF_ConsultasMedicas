@@ -2,7 +2,7 @@ export const ButtonAction = ({ text, onClick }) => {
     return (
         <button
             onClick={onClick}
-            className="col-span-2 w-full bg-ultraviolet text-white rounded-md px-6 py-3 mt-4 hover:bg-black focus:outline-none focus:ring-4 focus:ring-blue-400 transition duration-300"
+            className="col-span-2 w-full bg-blue-500 text-white py-3 rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition"
         >
             {' '}
             {text}

@@ -1,5 +1,5 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@keyframes;
 @import '/client/vite-project/src/global.css';

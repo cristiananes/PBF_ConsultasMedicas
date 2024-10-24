@@ -1,6 +1,6 @@
 const { VITE_API_URL } = import.meta.env;
 
-export const useDoctorData = async ({ userId, authToken }) => {
+export const fetchDoctorData = async ({ userId, authToken }) => {
     try {
         // Obtenemos la respuesta del servidor para la ruta específica del doctor.
         const res = await fetch(`${VITE_API_URL}/api/doctor/${userId}`, {

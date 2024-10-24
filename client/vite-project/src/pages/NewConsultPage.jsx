@@ -1,7 +1,6 @@
 import { ButtonAction } from '../components/ButtonAction';
 
 // Importamos los hooks.
-
 import { useContext, useEffect, useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
@@ -13,7 +12,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 
 // Importamos el hook para obtener la lista de especialidades médicas.
-import { useSpecialties } from '../hooks/useSpecialty';
+import { fetchSpecialties } from '../hooks/fetchSpecialty';
 
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
@@ -21,7 +20,6 @@ const { VITE_API_URL } = import.meta.env;
 // Inicializamos el componente.
 const NewConsultPage = () => {
     // Obtenemos los datos del usuario y el token.
-
     const { authUser, authToken } = useContext(AuthContext);
 
     // Declaramos una variable en el State para cada input.
@@ -37,22 +35,6 @@ const NewConsultPage = () => {
 
     // Variable que indica cuando termina el fetch de crear una nueva entrada.
     const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        const fetchSpecialties = async () => {
-            console.log('Fetching specialties...');
-            const data = await useSpecialties(authToken);
-            console.log('Datos recibidos de especialidades:', data);
-            if (Array.isArray(data)) {
-                setSpecialties(data);
-                console.log('Especialidades establecidas:', data);
-            } else {
-                console.error('Error fetching specialties:', data);
-            }
-        };
-
-        fetchSpecialties();
-    }, [authToken]);
 
     // Función que maneja el envío del formulario.
     const handleAddEntry = async (e) => {
@@ -105,6 +87,21 @@ const NewConsultPage = () => {
             setLoading(false);
         }
     };
+
+    // useEffect para cargar las especialidades al montar el componente
+    useEffect(() => {
+        const loadSpecialties = async () => {
+            try {
+                const fetchedSpecialties = await fetchSpecialties(authToken);
+                setSpecialties(fetchedSpecialties); // Actualizamos el estado con las especialidades
+            } catch (err) {
+                console.error('Error loading specialties:', err);
+            }
+        };
+
+        // Llamamos a la función para cargar las especialidades.
+        loadSpecialties();
+    }, [authToken]);
 
     // Si el usuario no tiene token, lo enviamos a la página de login
     if (!authUser) {

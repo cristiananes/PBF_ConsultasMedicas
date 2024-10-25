@@ -2,8 +2,8 @@ import { fetchDoctors } from '../hooks/fetchDoctors';
 // Importamos el contexto.
 import { AuthContext } from '../contexts/AuthContext';
 // Importamos moment para manipular fechar.
-import { useEffect, useContext, useState } from 'react';
-import toast from 'react-hot-toast';
+import { useContext } from 'react';
+import { SearchComponent } from '../components/SearchComponent';
 // import SearchComponent from '../components/SearchComponent';
 import { Navigate } from 'react-router-dom';
 
@@ -13,11 +13,7 @@ import { Navigate } from 'react-router-dom';
 
 // Inicializamos el componente.
 const DoctorListPage = () => {
-    const { authToken, authUser } = useContext(AuthContext);
-    //Aqui tengo que extraer la lista de doctores del params
-    const [doctors, setDoctors] = useState([]);
-    // Importamos los datos de los doctores.
-    //saco las variables
+    const { authUser } = useContext(AuthContext);
 
     fetchDoctors();
 
@@ -30,8 +26,7 @@ const DoctorListPage = () => {
         <main>
             <h2>Listado de medicos</h2>
 
-            {/* Establecemos las fotos. */}
-            {/* <SearchComponent /> */}
+            <SearchComponent />
         </main>
     );
 };

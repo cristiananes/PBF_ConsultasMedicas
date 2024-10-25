@@ -82,9 +82,9 @@ const ConsultDetail = () => {
     console.log(consult);
     console.log(authUser);
 
-    if (consult.author !== authUser.username) {
-        return <Navigate to="/login" />;
-    }
+    // if (consult.author !== authUser.username) {
+    //     return <Navigate to="/login" />;
+    // }
 
     return (
         <main>
@@ -99,6 +99,24 @@ const ConsultDetail = () => {
                     <h3>Apellido: {consult.patientLastName}</h3>
                     <h3>Especialidad: {consult.specialityName}</h3>
                     <h3>Urgencia: {consult.urgency}</h3>
+                    <div className="flex flex-col items-center">
+                        {
+                            // Si el usuario tiene avatar lo mostramos, de lo contrario ponemos
+                            // un avatar por defecto.
+                            consult.file ? (
+                                <img
+                                    className="w-32 h-32 object-cover mb-4"
+                                    src={`${VITE_API_URL}/${consult.file}`}
+                                    alt={`Archivo adjuntado a la consulta por el usuario`}
+                                />
+                            ) : (
+                                <h3>
+                                    Esta consulta no contiene archivos
+                                    adicionales
+                                </h3>
+                            )
+                        }
+                    </div>
                     <h3>
                         Consulta creada el día:{' '}
                         {moment(consult.createdAt).format('DD/MM/YYYY HH:mm')}

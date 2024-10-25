@@ -20,7 +20,8 @@ const listMedicsController = async (req, res, next) => {
             u.lastName, 
             u.email, 
             s.name AS specialty,  
-            d.experience
+            d.experience,
+            u.avatar
             FROM users u
             INNER JOIN doctorData d ON u.id = d.userId
             INNER JOIN specialities s ON d.specialityId = s.id  

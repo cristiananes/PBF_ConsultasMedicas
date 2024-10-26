@@ -97,6 +97,7 @@ const ConsultDetail = () => {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <div>
                     <h2>Detalles de la Consulta</h2>
                     <h3>Nombre de usuario: {consult.author}</h3>
@@ -197,6 +198,42 @@ const ConsultDetail = () => {
 =======
                 </Whitebox>
 >>>>>>> a2ad1dd (nuevos componentes creados)
+=======
+                <Whitebox>
+                    <H2 text="Detalles de la Consulta" />
+                    <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+                        <h3>
+                            <Label text="Nombre de usuario:" /> {consult.author}
+                        </h3>
+                        <h3>
+                            <Label text="Título:" /> {consult.title}
+                        </h3>
+                        <h3>
+                            <Label text="Descripción:" /> {consult.description}
+                        </h3>
+                        <h3>
+                            <Label text="Nombre del paciente:" />{' '}
+                            {consult.patientFirstName}
+                        </h3>
+                        <h3>
+                            <Label text="Apellido:" /> {consult.patientLastName}
+                        </h3>
+                        <h3>
+                            <Label text="Especialidad:" />{' '}
+                            {consult.specialityName}
+                        </h3>
+                        <h3>
+                            <Label text="Urgencia:" /> {consult.urgency}
+                        </h3>
+                        <h3>
+                            <Label text="Consulta creada el día:" />{' '}
+                            {moment(consult.createdAt).format(
+                                'DD/MM/YYYY HH:mm'
+                            )}
+                        </h3>
+                    </div>
+                </Whitebox>
+>>>>>>> a1783937d94d99088b7ae1e24b3692e413bf5e86
             ) : (
                 <p>No se encontró la consulta.</p>
             )}

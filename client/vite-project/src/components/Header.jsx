@@ -11,7 +11,7 @@ import { AuthContext } from '../contexts/AuthContext';
 const { VITE_API_URL } = import.meta.env;
 
 //Importamos abreviaturas tailwind.
-import { ButtonAction } from './ButtonAction';
+//import { ButtonAction } from './ButtonAction';
 
 // Inicializamos el componente.
 const Header = () => {

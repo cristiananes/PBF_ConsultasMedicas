@@ -4,8 +4,11 @@ import { AuthContext } from '../contexts/AuthContext';
 import { NavLink } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
+<<<<<<< HEAD
 const { VITE_API_URL } = import.meta.env;
 import { useParams } from 'react-router-dom';
+=======
+>>>>>>> a1783937d94d99088b7ae1e24b3692e413bf5e86
 import { H2 } from '../components/H2';
 import { Label } from '../components/Label';
 import MainContainer from '../components/Main';
@@ -129,6 +132,7 @@ const ConsultListPage = () => {
                             })
                             .map((consult) => (
                                 <li key={consult.id}>
+<<<<<<< HEAD
                                     <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-90 ">
                                         <h3>
                                             <Label text="Asunto:" />{' '}
@@ -151,6 +155,14 @@ const ConsultListPage = () => {
                                         >
                                             Ver consulta
                                         </button>
+=======
+                                    <h3>Asunto: {consult.title}</h3>
+                                    <h3>Descripción: {consult.description}</h3>
+                                    <h3>Paciente: {consult.author}</h3>
+
+                                    <Link to={`/consult/${consult.id}`}>
+                                        Ver
+>>>>>>> a1783937d94d99088b7ae1e24b3692e413bf5e86
                                     </Link>
                                 </li>
                             ))}

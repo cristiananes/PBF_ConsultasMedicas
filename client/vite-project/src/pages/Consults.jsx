@@ -1,13 +1,14 @@
 // src/pages/DoctorConsults.jsx
 import React from 'react';
 import ConsultList from '../components/ConsultList';
+import Whitebox from '../components/Whitebox';
 
 const Consults = () => {
     return (
-        <div>
+        <Whitebox>
             <h1>Consultas </h1>
             <ConsultList />
-        </div>
+        </Whitebox>
     );
 };
 

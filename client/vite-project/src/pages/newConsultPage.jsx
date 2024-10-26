@@ -15,6 +15,8 @@ import { useSpecialties } from '../hooks/useSpecialty';
 //importamos tailwind components
 import { H2 } from '../components/H2';
 import { Label } from '../components/Label';
+import MainContainer from '../components/Main';
+import Whiteboxanim from '../components/Whiteboxanim';
 
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
@@ -108,8 +110,8 @@ const NewConsultPage = () => {
     };
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] p-10">
-            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-90 animate-slideIn ">
+        <MainContainer>
+            <Whiteboxanim>
                 <H2 text="Página de nueva consulta" />
 
                 <form className="space-y-6" onSubmit={handleAddEntry}>
@@ -210,8 +212,8 @@ const NewConsultPage = () => {
                         </button>
                     </div>
                 </form>
-            </div>
-        </main>
+            </Whiteboxanim>
+        </MainContainer>
     );
 };
 

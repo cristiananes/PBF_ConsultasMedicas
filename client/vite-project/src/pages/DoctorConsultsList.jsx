@@ -1,13 +1,14 @@
 // src/pages/DoctorConsults.jsx
 
+import Whitebox from '../components/Whitebox';
 import ConsultList from './ConsultListPage';
 
 const DoctorConsults = () => {
     return (
-        <div>
+        <Whitebox>
             <h1>Consultas para Doctores</h1>
             <ConsultList />
-        </div>
+        </Whitebox>
     );
 };
 

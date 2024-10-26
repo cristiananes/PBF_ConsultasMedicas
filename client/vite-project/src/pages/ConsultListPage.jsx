@@ -8,6 +8,8 @@ import { NavLink } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
 import { H2 } from '../components/H2';
 import { Label } from '../components/Label';
+import MainContainer from '../components/Main';
+import Whitebox from '../components/Whitebox';
 
 const ConsultListPage = () => {
     const { authToken, authUser } = useContext(AuthContext);
@@ -51,8 +53,8 @@ const ConsultListPage = () => {
 
     return (
         consults && (
-            <main className="flex flex-col items-center justify-center bg-[url('/public/fondoaz.jpg')] bg-cover bg-center min-h-screen py-10">
-                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-90 ">
+            <MainContainer>
+                <Whitebox>
                     <H2 text="Listado de consultas" />
 
                     {/* Botón solo visible para doctores para ver consultas no asignadas */}
@@ -136,8 +138,8 @@ const ConsultListPage = () => {
                             </button>
                         </NavLink>
                     </aside>
-                </div>
-            </main>
+                </Whitebox>
+            </MainContainer>
         )
     );
 };

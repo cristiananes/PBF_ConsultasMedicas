@@ -8,6 +8,10 @@ import { AuthContext } from '../contexts/AuthContext';
 // Importamos la función toast.
 import toast from 'react-hot-toast';
 
+//importamos componentes
+import MainContainer from '../components/Main';
+import Whiteboxanim from '../components/Whiteboxanim';
+
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
 
@@ -77,9 +81,8 @@ const LoginPage = () => {
     }
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')]">
-            <div className="bg-white p-8 rounded-lg bg-opacity-70 shadow-xl max-w-md w-full animate-slideIn">
-                {/* Título de la página */}
+        <MainContainer>
+            <Whiteboxanim>
                 <h2 className="text-3xl font-bold text-blue-700 text-center mb-6">
                     Página de Login
                 </h2>
@@ -134,8 +137,8 @@ const LoginPage = () => {
                         Loguearme
                     </button>
                 </form>
-            </div>
-        </main>
+            </Whiteboxanim>
+        </MainContainer>
     );
 };
 

@@ -4,6 +4,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
 import { H2 } from '../components/H2';
 import { Label } from '../components/Label';
+import MainContainer from '../components/Main';
 
 // Importamos el contexto.
 import { AuthContext } from '../contexts/AuthContext';
@@ -94,7 +95,7 @@ const RegisterPage = () => {
     }
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] py-10">
+        <MainContainer>
             <div className="bg-white p-5 rounded-lg shadow-md max-w-lg w-full animate-slideIn bg-opacity-80">
                 <H2 text="Registro de usuario" />
 
@@ -180,7 +181,7 @@ const RegisterPage = () => {
                     <ButtonAction disabled={loading} text="Registrarme" />
                 </form>
             </div>
-        </main>
+        </MainContainer>
     );
 };
 

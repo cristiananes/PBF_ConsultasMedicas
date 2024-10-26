@@ -8,6 +8,7 @@ import { AuthContext } from '../contexts/AuthContext';
 // Importamos la función toast.
 import toast from 'react-hot-toast';
 import { H2 } from '../components/H2';
+import MainContainer from '../components/Main';
 
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
@@ -100,7 +101,7 @@ const WorkerCreationPage = () => {
     //   return <Navigate to='/' />;
     // }
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] p-10">
+        <MainContainer>
             <div className="max-w-2xl w-full bg-white bg-opacity-90 backdrop-blur-lg p-8 rounded-2xl shadow-lg">
                 <H2
                     text="
@@ -290,106 +291,12 @@ const WorkerCreationPage = () => {
                             disabled={loading}
                             className="px-6 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-black transition-colors duration-300 disabled:opacity-50"
                         >
-                            {loading ? 'Registrando...' : 'Registrarme'}
+                            {loading ? 'Registrando...' : 'Registrar'}
                         </button>
                     </div>
                 </form>
             </div>
-        </main>
-
-        // <main>
-        //   <h2>Página de registro</h2>
-
-        //   <form onSubmit={handleRegisterAdmin}>
-        //     <label htmlFor='firstName'>Nombre:</label>
-        //     <input
-        //       type='text'
-        //       id='firstName'
-        //       value={firstName}
-        //       onChange={(e) => setFirstName(e.target.value)}
-        //       required
-        //     />
-        //     <label htmlFor='lastName'>Apellido:</label>
-        //     <input
-        //       type='text'
-        //       id='lastName'
-        //       value={lastName}
-        //       onChange={(e) => setLastName(e.target.value)}
-        //       required
-        //     />
-        //     <label htmlFor='username'>Usuario:</label>
-        //     <input
-        //       type='text'
-        //       id='username'
-        //       value={username}
-        //       onChange={(e) => setUsername(e.target.value)}
-        //       required
-        //     />
-        //     <label htmlFor='email'>Email:</label>
-        //     <input
-        //       type='email'
-        //       id='email'
-        //       value={email}
-        //       onChange={(e) => setEmail(e.target.value)}
-        //       required
-        //     />
-        //     <label htmlFor='pass'>Contraseña:</label>
-        //     <input
-        //       type='password'
-        //       id='pass'
-        //       value={password}
-        //       onChange={(e) => setPassword(e.target.value)}
-        //       required
-        //     />
-        //     <label htmlFor='repeatedPass'>Repetir contraseña:</label>
-        //     <input
-        //       type='password'
-        //       id='repeatedPass'
-        //       value={repeatedPass}
-        //       onChange={(e) => setRepeatedPass(e.target.value)}
-        //       required
-        //     />
-        //     <label htmlFor='specialtyName'>Especialidad:</label>
-        //     <input
-        //       type='text'
-        //       id='specialty'
-        //       value={specialtyName}
-        //       onChange={(e) => setSpecialtyName(e.target.value)}
-        //       required
-        //     />
-        //     <label htmlFor='experience'>Experiencia:</label>
-        //     <input
-        //       type='text'
-        //       id='experience'
-        //       value={experience}
-        //       onChange={(e) => setExperience(e.target.value)}
-        //       required
-        //     />
-        //     <label htmlFor='licenseNumber'>Número de licencia: </label>
-        //     <input
-        //       type='text'
-        //       id='licenseNumber'
-        //       value={licenseNumber}
-        //       onChange={(e) => setLicenseNumber(e.target.value)}
-        //       required
-        //     />
-
-        //     <label htmlFor='role'>Rol</label>
-        //     <select
-        //       id='role'
-        //       value={role}
-        //       onChange={(e) => setRole(e.target.value)}
-        //       required
-        //     >
-        //       <option value=''>Selecciona una opción</option>
-        //       <option value='patient'>Patient</option>
-        //       <option value='doctor'>Doctor</option>
-        //       <option value='admin'>Admin</option>
-        //     </select>
-        //     {/* Habilitamos o deshabilitamos el botón en función de si estamos haciendo un fetch o no. */}
-        //     <button disabled={loading}>Registrarme</button>
-        //   </form>
-        // </main>
+        </MainContainer>
     );
 };
 

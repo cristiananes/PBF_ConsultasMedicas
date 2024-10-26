@@ -6,7 +6,9 @@ import { useEffect, useContext, useState } from 'react';
 import toast from 'react-hot-toast';
 
 import { Navigate } from 'react-router-dom';
-
+import { H2 } from '../components/H2';
+import MainContainer from '../components/Main';
+import Whiteboxanim from '../components/Whiteboxanim';
 // Importamos los componentes.
 
 // Importamos los formularios.
@@ -38,23 +40,25 @@ const DoctorListPage = () => {
 
     return (
         doctors && (
-            <main>
-                <h2>Listado de medicos</h2>
+            <MainContainer>
+                <Whiteboxanim>
+                    <H2 text="Listado de medicos" />
 
-                {/* Establecemos las fotos. */}
+                    {/* Establecemos las fotos. */}
 
-                <ul>
-                    {doctors.map((doctor) => (
-                        <li key={doctor.id}>
-                            <h3>{doctor.firstName}</h3>
-                            <h3>A{doctor.lasName}</h3>
-                            <h3>{doctor.userName}</h3>
-                            <h3>{doctor.email}</h3>
-                            <p>{doctor.specialty}</p>
-                        </li>
-                    ))}
-                </ul>
-            </main>
+                    <ul>
+                        {doctors.map((doctor) => (
+                            <li key={doctor.id}>
+                                <h3>{doctor.firstName}</h3>
+                                <h3>A{doctor.lasName}</h3>
+                                <h3>{doctor.userName}</h3>
+                                <h3>{doctor.email}</h3>
+                                <p>{doctor.specialty}</p>
+                            </li>
+                        ))}
+                    </ul>
+                </Whiteboxanim>
+            </MainContainer>
         )
     );
 };

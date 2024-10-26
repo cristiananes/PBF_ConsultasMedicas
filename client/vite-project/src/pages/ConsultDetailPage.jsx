@@ -8,6 +8,8 @@ import RespuestaConsultas from '../components/ReplyConsult';
 import { Navigate } from 'react-router-dom';
 import { H2 } from '../components/H2';
 import { Label } from '../components/Label';
+import MainContainer from '../components/Main';
+import Whitebox from '../components/Whitebox';
 const { VITE_API_URL } = import.meta.env;
 
 const ConsultDetail = () => {
@@ -89,10 +91,10 @@ const ConsultDetail = () => {
     }
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] p-10">
+        <MainContainer>
             {/* Sección de detalles de la consulta */}
             {consult ? (
-                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-70">
+                <Whitebox>
                     <H2 text="Detalles de la Consulta" />
                     <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
                         <h3>
@@ -125,13 +127,13 @@ const ConsultDetail = () => {
                             )}
                         </h3>
                     </div>
-                </div>
+                </Whitebox>
             ) : (
                 <p>No se encontró la consulta.</p>
             )}
 
             {/* Sección para mostrar las respuestas */}
-            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-70 ">
+            <Whitebox>
                 <H2 text="Respuestas:" />
                 <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
                     {loadingReplies ? (
@@ -175,23 +177,23 @@ const ConsultDetail = () => {
                         <p>No hay respuestas para esta consulta aún.</p>
                     )}
                 </div>
-            </div>
+            </Whitebox>
 
             {/* Sección para responder a la consulta */}
             {consult && (
-                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg bg-opacity-80 mt-10 px-6 ">
+                <Whitebox>
                     <H2 text="Responder a la Consulta" />
 
                     <RespuestaConsultas consultId={consultId} />
-                </div>
+                </Whitebox>
             )}
 
-            <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+            <Whitebox>
                 <NavLink to="/consults">
                     <ButtonAction text="Volver a lista de consultas" />
                 </NavLink>
-            </div>
-        </main>
+            </Whitebox>
+        </MainContainer>
     );
 };
 

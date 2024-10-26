@@ -83,8 +83,10 @@ const UserProfilePage = () => {
         navigate('/admin-register');
     };
 
-    // Si NO estamos logueados redirigimos a la página de login.
-    if (!authUser) return <Navigate to="/login" />;
+    // Si el usuario no tiene token, lo enviamos a la página de login
+    if (!authUser) {
+        return <Navigate to="/login" />;
+    }
 
     return (
         <MainContainer>

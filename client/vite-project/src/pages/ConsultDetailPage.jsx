@@ -86,9 +86,9 @@ const ConsultDetail = () => {
     console.log(consult);
     console.log(authUser);
 
-    if (consult.author !== authUser.username) {
-        return <Navigate to="/login" />;
-    }
+    // if (consult.author !== authUser.username) {
+    //     return <Navigate to="/login" />;
+    // }
 
     return (
         <MainContainer>

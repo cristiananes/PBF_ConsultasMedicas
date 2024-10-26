@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
-import { useConsults } from '../hooks/useConsults';
-import { useDoctorData } from '../hooks/useDoctorData';
-import { useEffect, useContext, useState } from 'react';
-import toast from 'react-hot-toast';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { NavLink } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
 import { H2 } from '../components/H2';
 import { Label } from '../components/Label';
@@ -12,6 +10,7 @@ import MainContainer from '../components/Main';
 import Whitebox from '../components/Whitebox';
 
 const ConsultListPage = () => {
+    const { userId } = useParams();
     const { authToken, authUser } = useContext(AuthContext);
     const [consults, setConsults] = useState([]);
     const [doctorData, setDoctorData] = useState([]);
@@ -20,27 +19,63 @@ const ConsultListPage = () => {
     // Fetch de las consultas.
     const fetchConsults = async () => {
         try {
-            const response = await useConsults({ authToken });
-            setConsults(response);
-        } catch (e) {
-            toast.error(e.message);
+            //obtenemos la respuesta del servidor
+            const res = await fetch(`${VITE_API_URL}/api/consults`, {
+                method: 'get',
+                headers: {
+                    Authorization: authToken,
+                },
+            });
+            //obtenemos el body de la ruta anteriormente seleccionada
+            const body = await res.json();
+            console.log(body);
+
+            // Si hay algún error lo lanzamos.
+            if (body.status === 'error') {
+                throw new Error(body.message);
+            }
+
+            //Almacenamos las consultas
+            console.log(body.data.consults);
+            setConsults(body.data.consults);
+            return body.data.consults;
+        } catch (err) {
+            return err.message;
         }
     };
 
     // Fetch de los datos de los doctores.
     const fetchDoctorData = async () => {
         try {
-            const response = await useDoctorData({ authToken });
-            setDoctorData(response);
-        } catch (e) {
-            toast.error(e.message);
+            // Obtenemos la respuesta del servidor para la ruta específica del doctor.
+            const res = await fetch(`${VITE_API_URL}/api/doctor/${userId}`, {
+                method: 'GET',
+                headers: {
+                    Authorization: authToken,
+                },
+            });
+
+            // Obtenemos el body de la respuesta.
+            const body = await res.json();
+            console.log(body);
+
+            // Si hay algún error, lanzamos una excepción.
+            if (body.status === 'error') {
+                throw new Error(body.message);
+            }
+
+            // Almacenamos los datos del doctor.
+            console.log(body.data.doctorData);
+            setDoctorData(body.data.doctorData);
+            return body.data.doctorData;
+        } catch (err) {
+            return err.message;
         }
     };
+    console.log(setDoctorData);
 
-    useEffect(() => {
-        fetchConsults();
-        fetchDoctorData();
-    }, [authToken]);
+    fetchConsults();
+    fetchDoctorData();
 
     // Función para alternar el filtro de consultas no asignadas
     const toggleUnassignedFilter = () => {
@@ -50,6 +85,11 @@ const ConsultListPage = () => {
             return newValue;
         });
     };
+
+    // Si el usuario no tiene token, lo enviamos a la página de login
+    if (!authUser) {
+        return <Navigate to="/login" />;
+    }
 
     return (
         consults && (
@@ -87,28 +127,12 @@ const ConsultListPage = () => {
                             })
                             .map((consult) => (
                                 <li key={consult.id}>
-                                    <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-90 ">
-                                        <h3>
-                                            <Label text="Asunto:" />{' '}
-                                            {consult.title}
-                                        </h3>
-                                        <h3>
-                                            <Label text="Descripción:" />{' '}
-                                            {consult.description}
-                                        </h3>
-                                        <h3>
-                                            <Label text="Paciente:" />{' '}
-                                            {consult.author}
-                                        </h3>
-                                    </div>
+                                    <h3>Asunto: {consult.title}</h3>
+                                    <h3>Descripción: {consult.description}</h3>
+                                    <h3>Paciente: {consult.author}</h3>
 
                                     <Link to={`/consult/${consult.id}`}>
-                                        <button
-                                            type="button"
-                                            className="bg-black mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
-                                        >
-                                            Ver consulta
-                                        </button>
+                                        Ver
                                     </Link>
                                 </li>
                             ))}

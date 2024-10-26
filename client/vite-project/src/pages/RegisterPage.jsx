@@ -89,7 +89,6 @@ const RegisterPage = () => {
     };
 
     // Si estamos logeados restringimos el acceso redirigiendo a la página principal.
-    // En este caso utilizaremos el componente Navigate (en lugar de la función).
     if (authUser) {
         return <Navigate to="/" />;
     }

@@ -1,7 +1,6 @@
-// hooks/useSpecialty.js
 const { VITE_API_URL } = import.meta.env;
 
-export const useSpecialties = async (authToken) => {
+export const fetchSpecialties = async (authToken) => {
     try {
         const res = await fetch(`${VITE_API_URL}/api/specialties`, {
             method: 'GET',

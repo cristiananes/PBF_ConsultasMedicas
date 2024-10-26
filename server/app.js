@@ -5,6 +5,7 @@ import 'dotenv/config';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
+//import fileUpload from 'express-fileupload';
 
 // Importamos las rutas.
 import userRoutes from './src/routes/userRoutes.js';

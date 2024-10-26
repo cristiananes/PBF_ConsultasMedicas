@@ -4,7 +4,7 @@ import { useContext, useState } from 'react';
 
 // Importamos el contexto.
 import { AuthContext } from '../contexts/AuthContext';
-
+import { Navigate } from 'react-router-dom';
 // Importamos la función toast.
 import toast from 'react-hot-toast';
 import { H2 } from '../components/H2';
@@ -18,7 +18,12 @@ const WorkerCreationPage = () => {
     // Importamos los datos del usuario.
     const { authUser, authToken } = useContext(AuthContext);
     console.log(authUser);
+    // Importamos los datos del usuario.
+    const { authUser, authToken } = useContext(AuthContext);
+    console.log(authUser);
 
+    // Importamos la función navigate.
+    // const navigate = useNavigate();
     // Importamos la función navigate.
     // const navigate = useNavigate();
 
@@ -33,10 +38,28 @@ const WorkerCreationPage = () => {
     const [experience, setExperience] = useState('');
     const [licenseNumber, setLicenseNumber] = useState('');
     const [role, setRole] = useState('');
+    // Declaramos una variable en el State para definir el valor de cada input.
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [repeatedPass, setRepeatedPass] = useState('');
+    const [specialtyName, setSpecialtyName] = useState('');
+    const [experience, setExperience] = useState('');
+    const [licenseNumber, setLicenseNumber] = useState('');
+    const [role, setRole] = useState('');
 
     // Variable que indica cuando termina el fetch.
     const [loading, setLoading] = useState(false);
+    // Variable que indica cuando termina el fetch.
+    const [loading, setLoading] = useState(false);
 
+    // Función que maneje el envío del formulario.
+    const handleRegisterAdmin = async (e) => {
+        try {
+            // Prevenimos el comportamiento por defecto del formulario.
+            e.preventDefault();
     // Función que maneje el envío del formulario.
     const handleRegisterAdmin = async (e) => {
         try {
@@ -47,10 +70,19 @@ const WorkerCreationPage = () => {
             if (password !== repeatedPass) {
                 throw new Error('Las contraseñas no coinciden');
             }
+            // Si las contraseñas no coinciden lanzamos un error.
+            if (password !== repeatedPass) {
+                throw new Error('Las contraseñas no coinciden');
+            }
 
             // Indicamos que va a dar comienzo el fetch.
             setLoading(true);
+            // Indicamos que va a dar comienzo el fetch.
+            setLoading(true);
 
+            // Obtenemos una respuesta.
+            const res = await fetch(`${VITE_API_URL}/api/user/admin-register`, {
+                method: 'post',
             // Obtenemos una respuesta.
             const res = await fetch(`${VITE_API_URL}/api/user/admin-register`, {
                 method: 'post',
@@ -72,7 +104,27 @@ const WorkerCreationPage = () => {
                     authToken,
                 }),
             });
+                headers: {
+                    Authorization: authToken,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    firstName,
+                    lastName,
+                    username,
+                    email,
+                    password,
+                    specialtyName,
+                    experience,
+                    licenseNumber,
+                    role,
+                    authToken,
+                }),
+            });
 
+            // Obtenemos el body.
+            const body = await res.json();
+            console.log(body);
             // Obtenemos el body.
             const body = await res.json();
             console.log(body);
@@ -81,7 +133,24 @@ const WorkerCreationPage = () => {
             if (body.status === 'error') {
                 throw new Error(body.message);
             }
+            // Si hubo algún error lo lanzamos.
+            if (body.status === 'error') {
+                throw new Error(body.message);
+            }
 
+            // Si todo va bien mostramos un mensaje indicándolo.
+            toast.success(body.message, {
+                id: 'register',
+            });
+        } catch (err) {
+            toast.error(err.message, {
+                id: 'register',
+            });
+        } finally {
+            // Indicamos que ha finalizado el fetch.
+            setLoading(false);
+        }
+    };
             // Si todo va bien mostramos un mensaje indicándolo.
             toast.success(body.message, {
                 id: 'register',

@@ -1,5 +1,6 @@
 // Importamos los componentes.
 import { NavLink } from 'react-router-dom';
+import MainContainer from '../components/Main';
 
 // Inicializamos el componente.
 // Importamos los hooks.
@@ -11,7 +12,7 @@ import { AuthContext } from '../contexts/AuthContext';
 const HomePage = () => {
     const { authUser } = useContext(AuthContext);
     return (
-        <main className="flex flex-col items-center justify-center bg-[url('/public/fondoaz.jpg')] bg-cover bg-center min-h-screen py-10">
+        <MainContainer>
             {/* Título principal */}
             <h1 className="text-5xl font-extrabold text-white mb-4 animate-fadeIn">
                 La plataforma de consultas médicas
@@ -79,7 +80,7 @@ const HomePage = () => {
                     </section>
                 </div>
             )}
-        </main>
+        </MainContainer>
     );
 };
 

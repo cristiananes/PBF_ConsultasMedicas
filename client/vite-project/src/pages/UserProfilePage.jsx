@@ -10,8 +10,9 @@ import { Navigate, useNavigate } from 'react-router-dom';
 // Importamos la función toast.
 import toast from 'react-hot-toast';
 
-//importamos componente H2
+//importamos componentes
 import { H2 } from '../components/H2';
+import MainContainer from '../components/Main';
 
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
@@ -88,7 +89,7 @@ const UserProfilePage = () => {
     }
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] p-10">
+        <MainContainer>
             <div className="max-w-4xl w-full mx-auto p-8 bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-2xl mt-12">
                 <H2
                     text="
@@ -200,7 +201,7 @@ const UserProfilePage = () => {
                     )}
                 </aside>
             </div>
-        </main>
+        </MainContainer>
     );
 };
 export default UserProfilePage;

@@ -8,6 +8,7 @@ import { Navigate } from 'react-router-dom';
 // Importamos la función toast.
 import toast from 'react-hot-toast';
 import { H2 } from '../components/H2';
+import MainContainer from '../components/Main';
 
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
@@ -201,7 +202,7 @@ const WorkerCreationPage = () => {
     //   return <Navigate to='/' />;
     // }
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] p-10">
+        <MainContainer>
             <div className="max-w-2xl w-full bg-white bg-opacity-90 backdrop-blur-lg p-8 rounded-2xl shadow-lg">
                 <H2
                     text="
@@ -391,11 +392,12 @@ const WorkerCreationPage = () => {
                             disabled={loading}
                             className="px-6 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-black transition-colors duration-300 disabled:opacity-50"
                         >
-                            {loading ? 'Registrando...' : 'Registrarme'}
+                            {loading ? 'Registrando...' : 'Registrar'}
                         </button>
                     </div>
                 </form>
             </div>
+<<<<<<< HEAD
         </main>
 
         // <main>
@@ -492,6 +494,9 @@ const WorkerCreationPage = () => {
         //   </form>
         // </main>
 >>>>>>> 118d8b4 (cambio de diseño en todas las páginas, fallos en la de registro de usuario médico)
+=======
+        </MainContainer>
+>>>>>>> a2ad1dd (nuevos componentes creados)
     );
 };
 

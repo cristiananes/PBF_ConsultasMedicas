@@ -1,15 +1,15 @@
 // src/pages/DoctorConsults.jsx
-import React from 'react';
-import ConsultList from '../components/ConsultList';
-import Whitebox from '../components/Whitebox';
 
-const Consults = () => {
+import Whitebox from '../components/Whitebox';
+import ConsultList from './ConsultListPage';
+
+const DoctorConsults = () => {
     return (
         <Whitebox>
-            <h1>Consultas </h1>
+            <h1>Consultas para Doctores</h1>
             <ConsultList />
         </Whitebox>
     );
 };
 
-export default Consults;
+export default DoctorConsults;

@@ -1,24 +1,21 @@
 // Importamos los hooks.
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 
-// Importamos el contexto.
+// Importamos el contexto y la función de especialidades.
 import { AuthContext } from '../contexts/AuthContext';
+import { fetchSpecialties } from '../hooks/fetchSpecialty';
 
-// Importamos la función toast.
+// Importamos la función toast y los componentes necesarios.
 import toast from 'react-hot-toast';
 import { H2 } from '../components/H2';
 import MainContainer from '../components/Main';
 
-// Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;
 
-// Inicializamos el componente.
 const WorkerCreationPage = () => {
-    // Importamos los datos del usuario.
     const { authUser, authToken } = useContext(AuthContext);
     console.log(authUser);
 
-    // Declaramos una variable en el State para definir el valor de cada input.
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
@@ -29,31 +26,33 @@ const WorkerCreationPage = () => {
     const [experience, setExperience] = useState('');
     const [licenseNumber, setLicenseNumber] = useState('');
     const [role, setRole] = useState('');
-
-    // Variable que indica cuando termina el fetch.
     const [loading, setLoading] = useState(false);
-    // Variable que indica cuando termina el fetch.
+    const [specialties, setSpecialties] = useState([]); // Estado para las especialidades
 
-    // Función que maneje el envío del formulario.
+    // Carga de especialidades al montar el componente.
+    useEffect(() => {
+        const loadSpecialties = async () => {
+            try {
+                const fetchedSpecialties = await fetchSpecialties(authToken);
+                setSpecialties(fetchedSpecialties);
+            } catch (err) {
+                console.error('Error al cargar especialidades:', err);
+            }
+        };
+        loadSpecialties();
+    }, [authToken]);
+
+    // Manejo del envío del formulario.
     const handleRegisterAdmin = async (e) => {
         try {
-            // Prevenimos el comportamiento por defecto del formulario.
             e.preventDefault();
-
-            // Si las contraseñas no coinciden lanzamos un error.
             if (password !== repeatedPass) {
                 throw new Error('Las contraseñas no coinciden');
             }
 
-            // Indicamos que va a dar comienzo el fetch.
             setLoading(true);
-            // Indicamos que va a dar comienzo el fetch.
-
-            // Obtenemos una respuesta.
             const res = await fetch(`${VITE_API_URL}/api/user/admin-register`, {
                 method: 'post',
-                // Obtenemos una respuesta.
-
                 headers: {
                     Authorization: authToken,
                     'Content-Type': 'application/json',
@@ -68,29 +67,15 @@ const WorkerCreationPage = () => {
                     experience,
                     licenseNumber,
                     role,
-                    authToken,
                 }),
             });
 
-            // Obtenemos el body.
             const body = await res.json();
-            console.log(body);
-
-            // Si hubo algún error lo lanzamos.
-            if (body.status === 'error') {
-                throw new Error(body.message);
-            }
-
-            // Si todo va bien mostramos un mensaje indicándolo.
-            toast.success(body.message, {
-                id: 'register',
-            });
+            if (body.status === 'error') throw new Error(body.message);
+            toast.success(body.message, { id: 'register' });
         } catch (err) {
-            toast.error(err.message, {
-                id: 'register',
-            });
+            toast.error(err.message, { id: 'register' });
         } finally {
-            // Indicamos que ha finalizado el fetch.
             setLoading(false);
         }
     };
@@ -98,11 +83,7 @@ const WorkerCreationPage = () => {
     return (
         <MainContainer>
             <div className="max-w-2xl w-full bg-white bg-opacity-90 backdrop-blur-lg p-8 rounded-2xl shadow-lg">
-                <H2
-                    text="
-                    Página de registro"
-                />
-
+                <H2 text="Página de registro" />
                 <form
                     onSubmit={handleRegisterAdmin}
                     className="grid grid-cols-1 gap-6"
@@ -211,19 +192,27 @@ const WorkerCreationPage = () => {
 
                     <div>
                         <label
-                            htmlFor="specialtyName"
+                            htmlFor="specialty"
                             className="block text-sm font-medium text-gray-700"
                         >
                             Especialidad:
                         </label>
-                        <input
-                            type="text"
+                        <select
                             id="specialty"
                             value={specialtyName}
                             onChange={(e) => setSpecialtyName(e.target.value)}
                             required
                             className="mt-1 w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-eggblue focus:border-eggblue"
-                        />
+                        >
+                            <option value="" disabled>
+                                Selecciona una opción
+                            </option>
+                            {specialties.map((spec, index) => (
+                                <option key={index} value={spec}>
+                                    {spec}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     <div>

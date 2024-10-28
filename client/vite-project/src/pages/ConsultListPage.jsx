@@ -3,7 +3,17 @@ import { useContext, useState, useEffect, useMemo } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { NavLink } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
+
 const { VITE_API_URL } = import.meta.env;
+
+import { useParams } from 'react-router-dom';
+
+
+import { H2 } from '../components/H2';
+import { Label } from '../components/Label';
+import MainContainer from '../components/Main';
+import Whitebox from '../components/Whitebox';
+
 
 const ConsultListPage = () => {
     const { authToken, authUser } = useContext(AuthContext);
@@ -65,18 +75,7 @@ const ConsultListPage = () => {
         fetchDoctorData();
     }, [authUser?.id, authUser?.role, authToken]);
 
-    // Log de datos de doctor y consultas
-    // useEffect(() => {
-    //     if (doctorData && consults.length > 0) {
-    //         console.log(
-    //             'DD spec:',
-    //             doctorData.specialty,
-    //             'Consultas:',
-    //             consults.map((c) => c.speciality)
-    //         );
-    //         console.log('role:', authUser.role);
-    //     }
-    // }, [authUser, doctorData, consults]);
+  
 
     // Función para alternar el filtro de consultas no asignadas
     const toggleUnassignedFilter = () => {
@@ -117,6 +116,105 @@ const ConsultListPage = () => {
     }, [consults, authUser, doctorData, showUnassigned]);
 
     return (
+
+        consults && (
+            <MainContainer>
+                <Whitebox>
+                    <H2 text="Listado de consultas" />
+
+                    {/* Botón solo visible para doctores para ver consultas no asignadas */}
+                    {authUser && authUser.role === 'doctor' && (
+                        <ButtonAction
+                            text={
+                                showUnassigned
+                                    ? 'Ver consultas asignadas'
+                                    : 'Ver consultas no asignadas'
+                            }
+                            onClick={toggleUnassignedFilter}
+                        />
+                    )}
+
+                    <ul>
+                        {consults
+                            .filter((consult) => {
+                                if (authUser.role === 'patient') {
+                                    // Filtra las consultas que el paciente ha creado
+                                    return consult.author === authUser.username;
+                                } else if (authUser.role === 'doctor') {
+                                    // Filtra las consultas no asignadas si el filtro está activo
+                                    if (showUnassigned) {
+                                        return consult.doctorId === null;
+                                    }
+                                    // Si no se filtran las no asignadas, muestra todas las consultas asignadas
+                                    return consult.doctorId !== null;
+                                }
+                                return true; // Admin o cualquier otro rol ve todas las consultas
+                            })
+                            .map((consult) => (
+                                <li key={consult.id}>
+                                    <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-90 ">
+                                        <h3>
+                                            <Label text="Asunto:" />{' '}
+                                            {consult.title}
+                                        </h3>
+                                        <h3>
+                                            <Label text="Descripción:" />{' '}
+                                            {consult.description}
+                                        </h3>
+                                        <h3>
+                                            <Label text="Paciente:" />{' '}
+                                            {consult.author}
+                                        </h3>
+                                    </div>
+
+                                    <Link to={`/consult/${consult.id}`}>
+                                        <button
+                                            type="button"
+                                            className="bg-black mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
+                                        >
+                                            Ver consulta
+                                        </button>
+
+                                    <h3>Asunto: {consult.title}</h3>
+                                    <h3>Descripción: {consult.description}</h3>
+                                    <h3>Paciente: {consult.author}</h3>
+
+                                    <Link to={`/consult/${consult.id}`}>
+                                        Ver
+
+                                    </Link>
+                                </li>
+                            ))}
+                    </ul>
+
+                    {/* Sidebar con opciones adicionales */}
+                    <aside>
+                        {/* Mostrar botón de añadir consulta solo para pacientes */}
+                        {authUser && authUser.role === 'patient' && (
+                            <NavLink
+                                to={`/user/${authUser ? authUser.id : ''}`}
+                            >
+                                <button
+                                    type="button"
+                                    className="bg-blue-500 ml-60 mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
+                                >
+                                    Volver a perfil
+                                </button>
+                            </NavLink>
+                        )}
+                        <NavLink to="/consult/new-consult">
+                            <button
+                                type="button"
+                                className="bg-green-500 ml-20 mr-0 mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
+                            >
+                                Crear nueva consulta
+                            </button>
+                        </NavLink>
+                    </aside>
+                </Whitebox>
+            </MainContainer>
+        )
+
         <main>
             <h2>Listado de consultas</h2>
 

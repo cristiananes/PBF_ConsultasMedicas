@@ -1,6 +1,6 @@
-import { ButtonAction } from '../components/ButtonAction';
 // Importamos los componentes.
 import { NavLink } from 'react-router-dom';
+import MainContainer from '../components/Main';
 
 // Inicializamos el componente.
 // Importamos los hooks.
@@ -12,74 +12,75 @@ import { AuthContext } from '../contexts/AuthContext';
 const HomePage = () => {
     const { authUser } = useContext(AuthContext);
     return (
-        <main className="flex flex-col items-start justify-center min-h-screen bg-[url('/public/fondo.jpg')] bg-cover bg-center py-10">
-            {/* Contenedor superior para Logo y Eslogan */}
-            <div className="text-left ml-8">
-                {/* Título principal */}
-                <h1 className="text-3xl font-bold text-gray-800 bg-gray-300 bg-opacity-40 mb-4">
-                    La plataforma de consultas médicas
-                </h1>
-                {/* Subtítulo */}
-                <p className="text-1xl text-gray-600 mb-8">
-                    Contacta con tu médico en un click.
-                </p>
-                {/* Botón de Registro */}
-                {!authUser && (
-                    <NavLink to="/register">
-                        <ButtonAction text="Crea tu cuenta ahora!" />
-                    </NavLink>
-                )}
-            </div>
+        <MainContainer>
+            {/* Título principal */}
+            <h1 className="text-5xl font-extrabold text-white mb-4 animate-fadeIn">
+                La plataforma de consultas médicas
+            </h1>
+            {/* Subtítulo */}
+            <p className="text-2xl text-white mb-10 animate-slideIn">
+                Contacta con tu médico en un click.
+            </p>
+
+            {!authUser && (
+                <NavLink to="/register">
+                    <button className="animate-fadeIn ml-20 bg-blue-500 text-white px-20 py-3 rounded-md shadow hover:bg-blue-600 transition focus:ring-4 focus:ring-blue-300">
+                        Crea tu cuenta ahora!
+                    </button>
+                </NavLink>
+            )}
+
             {authUser && (
-                <div className="flex flex-col min-h-6 items-center justify-center bg-gray-100 mx-auto py-2 px-4 rounded-lg shadow-lg">
-                    {/* Contenedor principal */}
-                    <main className="flex-grow grid grid-cols-3 gap-4 justify-items-center place-items-start bg-gray-100 py-8 px-6">
-                        {/* Bloque 1: Imagen + Texto Consultas */}
-                        <div className="flex flex-col items-center bg-white p-4 shadow-lg rounded-lg ">
+                <div className="bg-white bg-opacity-40 backdrop-blur-lg mx-auto py-12 px-8 rounded-xl shadow-md w-full max-w-6xl mt-12">
+                    <section className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+                        {/* Tarjeta 1: Consultas */}
+                        <div className="flex flex-col items-center bg-white bg-opacity-90 p-8 shadow-lg rounded-xl transform hover:scale-105 transition-transform duration-300">
                             <img
-                                src="/public/consultas.jpg"
+                                src="/public/consultas1.jpg"
                                 alt="Consultas"
-                                className="w-32 h-32 mb-2"
+                                className="w-24 h-24 mb-6 rounded-full"
                             />
                             <NavLink
                                 to="/consults"
-                                className="text-lg font-semibold text-blue-500"
+                                className="text-xl font-semibold text-blue-700 hover:text-blue-500 transition-colors"
                             >
                                 Consultas
                             </NavLink>
                         </div>
-                        {/* Bloque 2: Imagen + Texto Listado de Médicos */}
-                        <div className="flex flex-col items-center bg-white p-4 shadow-md rounded-lg">
+
+                        {/* Tarjeta 2: Listado de Médicos */}
+                        <div className="flex flex-col items-center bg-white bg-opacity-90 p-8 shadow-lg rounded-xl transform hover:scale-105 transition-transform duration-300">
                             <img
-                                src="/public/listado.jpeg"
+                                src="/public/listado1.jpg"
                                 alt="Listado de Médicos"
-                                className="w-32 h-32 mb-2"
+                                className="w-24 h-24 mb-6 rounded-full"
                             />
                             <NavLink
                                 to="/doctorList"
-                                className="text-lg font-semibold text-blue-500"
+                                className="text-xl font-semibold text-blue-700 hover:text-blue-500 transition-colors"
                             >
                                 Listado de Médicos
                             </NavLink>
                         </div>
-                        {/* Bloque 3: Imagen + Texto Perfil de Usuario */}
-                        <div className="flex flex-col items-center bg-white p-4 shadow-md rounded-lg">
+
+                        {/* Tarjeta 3: Perfil de Usuario */}
+                        <div className="flex flex-col items-center bg-white bg-opacity-90 p-8 shadow-lg rounded-xl transform hover:scale-105 transition-transform duration-300">
                             <img
                                 src="/public/usuario.png"
                                 alt="Perfil de Usuario"
-                                className="w-32 h-32 mb-2"
+                                className="w-24 h-24 mb-6 rounded-full"
                             />
                             <NavLink
                                 to="/user/:userId"
-                                className="text-lg font-semibold text-blue-500"
+                                className="text-xl font-semibold text-blue-700 hover:text-blue-500 transition-colors"
                             >
                                 Perfil de Usuario
                             </NavLink>
                         </div>
-                    </main>
+                    </section>
                 </div>
             )}
-        </main>
+        </MainContainer>
     );
 };
 

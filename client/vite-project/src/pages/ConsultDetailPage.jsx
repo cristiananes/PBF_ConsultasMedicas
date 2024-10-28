@@ -6,6 +6,12 @@ import { NavLink } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
 import RespuestaConsultas from '../components/ReplyConsult';
 
+import { Navigate } from 'react-router-dom';
+import { H2 } from '../components/H2';
+import { Label } from '../components/Label';
+import MainContainer from '../components/Main';
+import Whitebox from '../components/Whitebox';
+
 const { VITE_API_URL } = import.meta.env;
 
 const ConsultDetail = () => {
@@ -114,18 +120,12 @@ const ConsultDetail = () => {
     }
 
     return (
-        <main>
+        <MainContainer>
             {/* Sección de detalles de la consulta */}
             {consult ? (
-                <div>
-                    <h2>Detalles de la Consulta</h2>
-                    <h3>Nombre de usuario: {consult.author}</h3>
-                    <h3>Título: {consult.title}</h3>
-                    <h3>Descripción: {consult.description}</h3>
-                    <h3>Nombre del paciente: {consult.patientFirstName}</h3>
-                    <h3>Apellido: {consult.patientLastName}</h3>
-                    <h3>Especialidad: {consult.specialityName}</h3>
-                    <h3>Urgencia: {consult.urgency}</h3>
+
+
+<p> ============== </p>
                     <div className="flex flex-col items-center">
                         {consult.file ? (
                             <img
@@ -139,18 +139,56 @@ const ConsultDetail = () => {
                             </h3>
                         )}
                     </div>
-                    <h3>
-                        Consulta creada el día:{' '}
-                        {moment(consult.createdAt).format('DD/MM/YYYY HH:mm')}
-                    </h3>
-                </div>
+<p> ============== </p>
+               
+
+                
+
+                <Whitebox>
+                    <H2 text="Detalles de la Consulta" />
+                    <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+                        <h3>
+                            <Label text="Nombre de usuario:" /> {consult.author}
+                        </h3>
+                        <h3>
+                            <Label text="Título:" /> {consult.title}
+                        </h3>
+                        <h3>
+                            <Label text="Descripción:" /> {consult.description}
+                        </h3>
+                        <h3>
+                            <Label text="Nombre del paciente:" />{' '}
+                            {consult.patientFirstName}
+                        </h3>
+                        <h3>
+                            <Label text="Apellido:" /> {consult.patientLastName}
+                        </h3>
+                        <h3>
+                            <Label text="Especialidad:" />{' '}
+                            {consult.specialityName}
+                        </h3>
+                        <h3>
+                            <Label text="Urgencia:" /> {consult.urgency}
+                        </h3>
+                        <h3>
+                            <Label text="Consulta creada el día:" />{' '}
+                            {moment(consult.createdAt).format(
+                                'DD/MM/YYYY HH:mm'
+                            )}
+                        </h3>
+                    </div>
+                </Whitebox>
+
             ) : (
                 <p>No se encontró la consulta.</p>
             )}
 
             {/* Sección para mostrar las respuestas */}
-            <div>
-                <h2>Respuestas:</h2>
+
+            <Whitebox>
+                <H2 text="Respuestas:" />
+               
+                
                 {loadingReplies ? (
                     <p>Cargando respuestas...</p>
                 ) : errorReplies ? (
@@ -195,45 +233,37 @@ const ConsultDetail = () => {
                                     </div>
                                 ) : null}
                                 {reply.file && (
+
                                     <p>
-                                        Archivo adjunto:{' '}
-                                        <a
-                                            href={`${VITE_API_URL}/uploads/${reply.file}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Ver archivo
-                                        </a>
+                                        <Label text="Respondido el:" />{' '}
+                                        {moment(reply.createdAt).format(
+                                            'DD/MM/YYYY HH:mm'
+                                        )}
                                     </p>
-                                )}
-                                <p>
-                                    Respondido el:{' '}
-                                    {moment(reply.createdAt).format(
-                                        'DD/MM/YYYY HH:mm'
-                                    )}
-                                </p>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No hay respuestas para esta consulta aún.</p>
-                )}
-            </div>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No hay respuestas para esta consulta aún.</p>
+                    )}
+                </div>
+            </Whitebox>
 
             {/* Sección para responder a la consulta */}
             {consult && (
-                <div>
-                    <h2>Responder a la Consulta</h2>
+                <Whitebox>
+                    <H2 text="Responder a la Consulta" />
+
                     <RespuestaConsultas consultId={consultId} />
-                </div>
+                </Whitebox>
             )}
 
-            <div>
+            <Whitebox>
                 <NavLink to="/consults">
                     <ButtonAction text="Volver a lista de consultas" />
                 </NavLink>
-            </div>
-        </main>
+            </Whitebox>
+        </MainContainer>
     );
 };
 

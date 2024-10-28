@@ -1,9 +1,12 @@
+//importamos componentes.
+import MainContainer from '../components/Main';
+
 // Inicializamos el componente.
 const NotFoundPage = () => {
     return (
-        <main>
+        <MainContainer>
             <h2>Página no encontrada - 404</h2>
-        </main>
+        </MainContainer>
     );
 };
 

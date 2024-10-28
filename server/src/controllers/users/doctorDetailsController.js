@@ -8,17 +8,28 @@ import generateErrorUtil from '../../utils/generateErrorUtil.js';
 const doctorDetailsController = async (req, res, next) => {
     try {
         // Obtenemos el ID del usuario desde los parámetros.
-        const { userId } = req.params; // Asegúrate de que la ID se pase en los parámetros.
+        const { userId } = req.params;
 
         // Obtenemos una conexión con la base de datos.
         const pool = await getPool();
 
         // Obtenemos los datos del usuario, asegurando que sea un doctor.
         const [users] = await pool.query(
-            `SELECT id, username, email, avatar, role 
-             FROM users 
-             WHERE id = ? AND role = 'doctor'`, // Verificamos que el rol sea 'doctor'
-            [userId] // Usamos userId en lugar de req.user.id
+            `SELECT  
+            u.id,
+            
+            u.username, 
+            u.firstName, 
+            u.lastName, 
+            u.email, 
+            s.name AS specialty,  
+            d.experience,
+            u.avatar
+            FROM users u
+            INNER JOIN doctorData d ON u.id = d.userId
+            INNER JOIN specialities s ON d.specialityId = s.id
+            WHERE u.id = ?`,
+            [userId]
         );
 
         // Lanzamos un error si el usuario no existe o no es un doctor.

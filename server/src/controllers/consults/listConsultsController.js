@@ -18,11 +18,12 @@ const listconsultsController = async (req, res, next) => {
                 c.description,
                 u.username AS author,
                 c.createdAt,
-                c.doctorId
+                c.doctorId,
+                s.name AS speciality 
             FROM consults c
             INNER JOIN users u ON u.id = c.userId
-            
-        `
+            INNER JOIN specialities s ON s.id = c.specialityId 
+            `
         );
 
         // Enviamos una respuesta al cliente.

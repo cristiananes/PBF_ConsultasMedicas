@@ -1,102 +1,122 @@
 import { Link } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect, useMemo } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { NavLink } from 'react-router-dom';
-import { Navigate } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
-<<<<<<< HEAD
+
 const { VITE_API_URL } = import.meta.env;
+
 import { useParams } from 'react-router-dom';
-=======
->>>>>>> a1783937d94d99088b7ae1e24b3692e413bf5e86
+
+
 import { H2 } from '../components/H2';
 import { Label } from '../components/Label';
 import MainContainer from '../components/Main';
 import Whitebox from '../components/Whitebox';
 
+
 const ConsultListPage = () => {
-    const { userId } = useParams();
     const { authToken, authUser } = useContext(AuthContext);
     const [consults, setConsults] = useState([]);
-    const [doctorData, setDoctorData] = useState([]);
+    const [doctorData, setDoctorData] = useState(null);
     const [showUnassigned, setShowUnassigned] = useState(false);
 
     // Fetch de las consultas.
-    const fetchConsults = async () => {
-        try {
-            //obtenemos la respuesta del servidor
-            const res = await fetch(`${VITE_API_URL}/api/consults`, {
-                method: 'get',
-                headers: {
-                    Authorization: authToken,
-                },
-            });
-            //obtenemos el body de la ruta anteriormente seleccionada
-            const body = await res.json();
-            console.log(body);
+    useEffect(() => {
+        const fetchConsults = async () => {
+            try {
+                const res = await fetch(`${VITE_API_URL}/api/consults`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: authToken,
+                    },
+                });
+                const body = await res.json();
 
-            // Si hay algún error lo lanzamos.
-            if (body.status === 'error') {
-                throw new Error(body.message);
+                if (body.status === 'error') {
+                    throw new Error(body.message);
+                }
+
+                setConsults(body.data.consults);
+            } catch (err) {
+                console.error(err.message);
             }
-
-            //Almacenamos las consultas
-            console.log(body.data.consults);
-            setConsults(body.data.consults);
-            return body.data.consults;
-        } catch (err) {
-            return err.message;
-        }
-    };
+        };
+        fetchConsults();
+    }, [authToken]);
 
     // Fetch de los datos de los doctores.
-    const fetchDoctorData = async () => {
-        try {
-            // Obtenemos la respuesta del servidor para la ruta específica del doctor.
-            const res = await fetch(`${VITE_API_URL}/api/doctor/${userId}`, {
-                method: 'GET',
-                headers: {
-                    Authorization: authToken,
-                },
-            });
+    useEffect(() => {
+        if (!authUser.id || authUser.role !== 'doctor' || !authToken) return;
 
-            // Obtenemos el body de la respuesta.
-            const body = await res.json();
-            console.log(body);
+        const fetchDoctorData = async () => {
+            try {
+                const userId = authUser.id;
+                const res = await fetch(
+                    `${VITE_API_URL}/api/doctor/${userId}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            Authorization: authToken,
+                        },
+                    }
+                );
+                const body = await res.json();
 
-            // Si hay algún error, lanzamos una excepción.
-            if (body.status === 'error') {
-                throw new Error(body.message);
+                if (body.status === 'error') {
+                    throw new Error(body.message);
+                }
+
+                setDoctorData(body.data.user);
+            } catch (err) {
+                console.error(err.message);
             }
+        };
+        fetchDoctorData();
+    }, [authUser?.id, authUser?.role, authToken]);
 
-            // Almacenamos los datos del doctor.
-            console.log(body.data.doctorData);
-            setDoctorData(body.data.doctorData);
-            return body.data.doctorData;
-        } catch (err) {
-            return err.message;
-        }
-    };
-    console.log(setDoctorData);
-
-    fetchConsults();
-    fetchDoctorData();
+  
 
     // Función para alternar el filtro de consultas no asignadas
     const toggleUnassignedFilter = () => {
-        setShowUnassigned((prev) => {
-            const newValue = !prev;
-            console.log('showUnassigned cambiado a:', newValue); // Verifica el cambio
-            return newValue;
-        });
+        setShowUnassigned((prev) => !prev);
     };
 
-    // Si el usuario no tiene token, lo enviamos a la página de login
-    if (!authUser) {
-        return <Navigate to="/login" />;
-    }
+    // Filtrado de consultas
+    const filteredConsults = useMemo(() => {
+        console.log('bbbbbbbbbbbbbbbbbbb');
+        if (!doctorData && authUser.role !== 'patient') return consults;
+        console.log('aaaaaaaaaaaaaaaaaaaaaaaaa');
+
+        return consults.filter((consult) => {
+            if (authUser.role === 'patient') {
+                console.log(
+                    'autor: ',
+                    consult.author,
+                    'usuario: ',
+                    authUser.username
+                );
+
+                return consult.author === authUser.username;
+            } else if (authUser.role === 'doctor') {
+                if (showUnassigned) {
+                    return (
+                        consult.doctorId === null &&
+                        consult.speciality === doctorData.specialty
+                    );
+                } else {
+                    return (
+                        consult.doctorId === doctorData.id &&
+                        consult.speciality === doctorData.specialty
+                    );
+                }
+            }
+            return true;
+        });
+    }, [consults, authUser, doctorData, showUnassigned]);
 
     return (
+
         consults && (
             <MainContainer>
                 <Whitebox>
@@ -132,7 +152,6 @@ const ConsultListPage = () => {
                             })
                             .map((consult) => (
                                 <li key={consult.id}>
-<<<<<<< HEAD
                                     <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 bg-opacity-90 ">
                                         <h3>
                                             <Label text="Asunto:" />{' '}
@@ -155,14 +174,14 @@ const ConsultListPage = () => {
                                         >
                                             Ver consulta
                                         </button>
-=======
+
                                     <h3>Asunto: {consult.title}</h3>
                                     <h3>Descripción: {consult.description}</h3>
                                     <h3>Paciente: {consult.author}</h3>
 
                                     <Link to={`/consult/${consult.id}`}>
                                         Ver
->>>>>>> a1783937d94d99088b7ae1e24b3692e413bf5e86
+
                                     </Link>
                                 </li>
                             ))}
@@ -195,6 +214,45 @@ const ConsultListPage = () => {
                 </Whitebox>
             </MainContainer>
         )
+
+        <main>
+            <h2>Listado de consultas</h2>
+
+            {authUser && authUser.role === 'doctor' && (
+                <ButtonAction
+                    text={
+                        showUnassigned
+                            ? 'Ver consultas asignadas'
+                            : 'Ver consultas no asignadas'
+                    }
+                    onClick={toggleUnassignedFilter}
+                />
+            )}
+            <ul>
+                {filteredConsults.length === 0 ? (
+                    <p>No hay consultas para mostrar.</p>
+                ) : (
+                    filteredConsults.map((consult) => (
+                        <li key={consult.id}>
+                            <h3>Asunto: {consult.title}</h3>
+                            <h3>Descripción: {consult.description}</h3>
+                            <h3>Paciente: {consult.author}</h3>
+                            <Link to={`/consult/${consult.id}`}>Ver</Link>
+                        </li>
+                    ))
+                )}
+            </ul>
+            <aside>
+                {authUser && authUser.role === 'patient' && (
+                    <NavLink to="/consult/new-consult">
+                        <ButtonAction text="Añadir consulta" />
+                    </NavLink>
+                )}
+                <NavLink to={`/user/${authUser ? authUser.id : ''}`}>
+                    <ButtonAction text="Volver a perfil" />
+                </NavLink>
+            </aside>
+        </main>
     );
 };
 

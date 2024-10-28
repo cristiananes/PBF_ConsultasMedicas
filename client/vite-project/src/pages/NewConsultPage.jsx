@@ -12,7 +12,7 @@ const NewConsultPage = () => {
     const { authUser, authToken } = useContext(AuthContext);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [urgency, setUrgency] = useState('');
+    const [urgency, setUrgency] = useState(''); // Estado para urgencia
     const [specialtyName, setSpecialtyName] = useState('');
     const [file, setFile] = useState(null);
     const [specialties, setSpecialties] = useState([]);
@@ -26,7 +26,7 @@ const NewConsultPage = () => {
             const formData = new FormData();
             formData.append('title', title);
             formData.append('description', description);
-            formData.append('urgency', urgency);
+            formData.append('urgency', urgency); // Se envía el valor de urgencia
             formData.append('specialtyName', specialtyName);
             selectedDoctor && formData.append('doctorId', selectedDoctor.id);
             file && formData.append('file', file);
@@ -99,13 +99,19 @@ const NewConsultPage = () => {
                 />
 
                 <label htmlFor="urgency">Urgencia:</label>
-                <input
-                    type="text"
+                <select
                     id="urgency"
                     value={urgency}
                     onChange={(e) => setUrgency(e.target.value)}
                     required
-                />
+                >
+                    <option value="" disabled>
+                        Selecciona una urgencia
+                    </option>
+                    <option value="Baja">Baja</option>
+                    <option value="Media">Media</option>
+                    <option value="Alta">Alta</option>
+                </select>
 
                 <label htmlFor="specialty">Especialidad:</label>
                 <select

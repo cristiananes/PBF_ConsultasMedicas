@@ -69,6 +69,7 @@ const Header = () => {
                                     </NavLink>
                                 </li>
 
+
                                 <li>
                                     <button
                                         className="bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-600 focus:ring-4 focus:ring-red-300 transition"
@@ -79,6 +80,19 @@ const Header = () => {
                                         Log out
                                     </button>
                                 </li>
+
+                                
+                                {/* Botón para añadir nuevo empleado si el usuario es admin */}
+                                {authUser.role === 'admin' && (
+                                    <div className="mt-8 text-center">
+                                        <li>
+                                            <NavLink to="/admin-register">
+                                                <ButtonAction text="Herramientas de administrador" />
+                                            </NavLink>
+                                        </li>
+                                    </div>
+                                )}
+
                             </>
                         ) : (
                             <>
@@ -103,80 +117,7 @@ const Header = () => {
             </nav>
         </header>
 
-        // <header className="flex items-center place-content-between bg-white p-4">
-        //     <h1>
-        //         <NavLink className="text-3xl font-bold" to="/">
-        //             Consalut: Tus consultas médicas
-        //         </NavLink>
-        //     </h1>
-
-        //     {authUser && (
-        //         <div className="user-info">
-        //             {
-        //                 // Si el usuario tiene avatar lo mostramos, de lo contrario ponemos
-        //                 // un avatar por defecto.
-        //                 authUser.avatar ? (
-        //                     <NavLink to={`/user/:userId`}>
-        //                         <img
-        //                             src={`${VITE_API_URL}/${authUser.avatar}`}
-        //                             alt={`Foto de perfil de ${authUser.username}`}
-        //                         />
-        //                     </NavLink>
-        //                 ) : (
-        //                     <NavLink to={`/user/:userId`}>
-        //                         <img
-        //                             src="/default-avatar.png"
-        //                             alt={`Foto de perfil de ${authUser.username}`}
-        //                         />
-        //                     </NavLink>
-        //                 )
-        //             }
-        //             <p>@{authUser.username}</p>
-        //         </div>
-        //     )}
-
-        //     <nav>
-        //         <ul className="flex gap-2">
-        //             {
-        //                 // Mostramos unos botones de navegación u otros en función de si estamos
-        //                 // o no logeados.
-        //                 authUser ? (
-        //                     <>
-        //                         <li>
-        //                             <NavLink to="/user/:userId">
-        //                                 <ButtonAction text="Perfil de usuario" />
-        //                             </NavLink>
-        //                         </li>
-
-        //                         <button
-        //                             onClick={() => {
-        //                                 authLogoutState();
-        //                             }}
-        //                         >
-        //                             {' '}
-        //                             <NavLink to="/login">
-        //                                 <ButtonAction text="Log out" />
-        //                             </NavLink>
-        //                         </button>
-        //                     </>
-        //                 ) : (
-        //                     <>
-        //                         <li>
-        //                             <NavLink to="/register">
-        //                                 <ButtonAction text="Registro" />
-        //                             </NavLink>
-        //                         </li>
-        //                         <li>
-        //                             <NavLink to="/login">
-        //                                 <ButtonAction text="Login" />
-        //                             </NavLink>
-        //                         </li>
-        //                     </>
-        //                 )
-        //             }
-        //         </ul>
-        //     </nav>
-        // </header>
+       
     );
 };
 

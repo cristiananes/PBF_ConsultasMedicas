@@ -8,6 +8,7 @@ import doctorDetailsController from './doctorDetailsController.js';
 import listMedicsController from '../users/listaMedicsControllers.js';
 import listSpecialitiesController from './listSpecialitiesController.js';
 import userAvatarController from './userAvatarController.js';
+import updateUserInfoController from './updateUserInfoController.js';
 
 export {
     adminRegisterController,
@@ -19,4 +20,5 @@ export {
     doctorDetailsController,
     listMedicsController,
     listSpecialitiesController,
+    updateUserInfoController,
 };

@@ -6,7 +6,6 @@ import { NavLink } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
 import RespuestaConsultas from '../components/ReplyConsult';
 
-import { Navigate } from 'react-router-dom';
 import { H2 } from '../components/H2';
 import { Label } from '../components/Label';
 import MainContainer from '../components/Main';
@@ -23,10 +22,9 @@ const ConsultDetail = () => {
     const [loadingReplies, setLoadingReplies] = useState(true);
     const [errorConsult, setErrorConsult] = useState(null);
     const [errorReplies, setErrorReplies] = useState(null);
-    const [selectedRating, setSelectedRating] = useState(null); // Estado para la calificación seleccionada
+    const [selectedRating, setSelectedRating] = useState(null);
 
     useEffect(() => {
-        // Llama a la API local para obtener los detalles de la consulta
         const fetchConsult = async () => {
             try {
                 const response = await fetch(
@@ -50,7 +48,6 @@ const ConsultDetail = () => {
             }
         };
 
-        // Llama a la API para obtener las respuestas asociadas a la consulta
         const fetchReplies = async () => {
             try {
                 const response = await fetch(
@@ -80,7 +77,6 @@ const ConsultDetail = () => {
 
     const handleRating = async (replyId) => {
         if (selectedRating) {
-            // Enviar la calificación al backend
             try {
                 const response = await fetch(
                     `${VITE_API_URL}/api/reply/${replyId}/rating`,
@@ -102,7 +98,6 @@ const ConsultDetail = () => {
                 }
                 const result = await response.json();
                 alert('Calificación enviada correctamente: ' + result.message);
-                // Opcional: Actualiza la UI si es necesario
             } catch (err) {
                 alert('Error al enviar la calificación: ' + err.message);
             }
@@ -121,125 +116,121 @@ const ConsultDetail = () => {
 
     return (
         <MainContainer>
-            {/* Sección de detalles de la consulta */}
             {consult ? (
-
-
-<p> ============== </p>
-                    <div className="flex flex-col items-center">
-                        {consult.file ? (
-                            <img
-                                className="w-32 h-32 object-cover mb-4"
-                                src={`${VITE_API_URL}/${consult.file}`}
-                                alt={`Archivo adjuntado a la consulta por el usuario`}
-                            />
-                        ) : (
+                <>
+                    <Whitebox>
+                        <H2 text="Detalles de la Consulta" />
+                        <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
                             <h3>
-                                Esta consulta no contiene archivos adicionales
+                                <Label text="Nombre de usuario:" />{' '}
+                                {consult.author}
                             </h3>
-                        )}
-                    </div>
-<p> ============== </p>
-               
-
-                
-
-                <Whitebox>
-                    <H2 text="Detalles de la Consulta" />
-                    <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
-                        <h3>
-                            <Label text="Nombre de usuario:" /> {consult.author}
-                        </h3>
-                        <h3>
-                            <Label text="Título:" /> {consult.title}
-                        </h3>
-                        <h3>
-                            <Label text="Descripción:" /> {consult.description}
-                        </h3>
-                        <h3>
-                            <Label text="Nombre del paciente:" />{' '}
-                            {consult.patientFirstName}
-                        </h3>
-                        <h3>
-                            <Label text="Apellido:" /> {consult.patientLastName}
-                        </h3>
-                        <h3>
-                            <Label text="Especialidad:" />{' '}
-                            {consult.specialityName}
-                        </h3>
-                        <h3>
-                            <Label text="Urgencia:" /> {consult.urgency}
-                        </h3>
-                        <h3>
-                            <Label text="Consulta creada el día:" />{' '}
-                            {moment(consult.createdAt).format(
-                                'DD/MM/YYYY HH:mm'
-                            )}
-                        </h3>
-                    </div>
-                </Whitebox>
-
+                            <h3>
+                                <Label text="Título:" /> {consult.title}
+                            </h3>
+                            <h3>
+                                <Label text="Descripción:" />{' '}
+                                {consult.description}
+                            </h3>
+                            <h3>
+                                <Label text="Nombre del paciente:" />{' '}
+                                {consult.patientFirstName}
+                            </h3>
+                            <h3>
+                                <Label text="Apellido:" />{' '}
+                                {consult.patientLastName}
+                            </h3>
+                            <h3>
+                                <Label text="Especialidad:" />{' '}
+                                {consult.specialityName}
+                            </h3>
+                            <h3>
+                                <Label text="Urgencia:" /> {consult.urgency}
+                            </h3>
+                            <h3>
+                                <Label text="Consulta creada el día:" />{' '}
+                                {moment(consult.createdAt).format(
+                                    'DD/MM/YYYY HH:mm'
+                                )}
+                            </h3>
+                            <div className="flex flex-col items-center">
+                                {consult.file ? (
+                                    <img
+                                        className="w-80 h-80 object-cover mb-4"
+                                        src={`${VITE_API_URL}/${consult.file}`}
+                                        alt={`Archivo adjuntado a la consulta por el usuario`}
+                                    />
+                                ) : (
+                                    <h3>
+                                        Esta consulta no contiene archivos
+                                        adicionales
+                                    </h3>
+                                )}
+                            </div>
+                        </div>
+                    </Whitebox>
+                </>
             ) : (
                 <p>No se encontró la consulta.</p>
             )}
 
-            {/* Sección para mostrar las respuestas */}
-
             <Whitebox>
                 <H2 text="Respuestas:" />
-               
-                
-                {loadingReplies ? (
-                    <p>Cargando respuestas...</p>
-                ) : errorReplies ? (
-                    <p>{errorReplies}</p>
-                ) : Array.isArray(replies) && replies.length > 0 ? (
-                    <ul>
-                        {replies.map((reply) => (
-                            <li key={reply.id}>
-                                <h3>Respuesta de: {reply.author}</h3>
-                                <p>{reply.answerText}</p>
-                                {reply.userId !== authUser.id ? (
-                                    <div>
-                                        <span className="text-red-500 cursor-pointer">
-                                            Valora esta respuesta
-                                        </span>
-                                        <select
-                                            onChange={(e) =>
-                                                setSelectedRating(
-                                                    Number(e.target.value)
-                                                )
-                                            }
-                                            value={selectedRating}
-                                            className="ml-2"
-                                        >
-                                            <option value="">
-                                                Selecciona una calificación
-                                            </option>
-                                            {[1, 2, 3, 4, 5].map((num) => (
-                                                <option key={num} value={num}>
-                                                    {num}
+                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 ">
+                    {loadingReplies ? (
+                        <p>Cargando respuestas...</p>
+                    ) : errorReplies ? (
+                        <p>{errorReplies}</p>
+                    ) : Array.isArray(replies) && replies.length > 0 ? (
+                        <ul>
+                            {replies.map((reply) => (
+                                <li key={reply.id}>
+                                    <h3>Respuesta de: {reply.author}</h3>
+                                    <p>{reply.answerText}</p>
+                                    {reply.userId !== authUser.id && (
+                                        <div>
+                                            <span className="text-red-500 cursor-pointer">
+                                                Valora esta respuesta
+                                            </span>
+                                            <select
+                                                onChange={(e) =>
+                                                    setSelectedRating(
+                                                        Number(e.target.value)
+                                                    )
+                                                }
+                                                value={selectedRating}
+                                                className="ml-2"
+                                            >
+                                                <option value="">
+                                                    Selecciona una calificación
                                                 </option>
-                                            ))}
-                                        </select>
-                                        <button
-                                            onClick={() =>
-                                                handleRating(reply.id)
-                                            }
-                                            className="ml-2 bg-blue-500 text-white px-3 py-1 rounded"
-                                        >
-                                            Enviar
-                                        </button>
-                                    </div>
-                                ) : null}
-                                {reply.file && (
-
-                                    <p>
-                                        <Label text="Respondido el:" />{' '}
-                                        {moment(reply.createdAt).format(
-                                            'DD/MM/YYYY HH:mm'
-                                        )}
-                                    </p>
+                                                {[1, 2, 3, 4, 5].map((num) => (
+                                                    <option
+                                                        key={num}
+                                                        value={num}
+                                                    >
+                                                        {num}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                            <button
+                                                onClick={() =>
+                                                    handleRating(reply.id)
+                                                }
+                                                className="ml-2 bg-blue-500 text-white px-3 py-1 rounded"
+                                            >
+                                                Enviar
+                                            </button>
+                                        </div>
+                                    )}
+                                    {reply.file && (
+                                        <p>
+                                            <Label text="Respondido el:" />{' '}
+                                            {moment(reply.createdAt).format(
+                                                'DD/MM/YYYY HH:mm'
+                                            )}
+                                        </p>
+                                    )}
                                 </li>
                             ))}
                         </ul>
@@ -249,11 +240,9 @@ const ConsultDetail = () => {
                 </div>
             </Whitebox>
 
-            {/* Sección para responder a la consulta */}
             {consult && (
                 <Whitebox>
                     <H2 text="Responder a la Consulta" />
-
                     <RespuestaConsultas consultId={consultId} />
                 </Whitebox>
             )}

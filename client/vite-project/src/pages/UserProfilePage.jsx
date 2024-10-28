@@ -5,12 +5,12 @@ import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 
 // Importamos los componentes.
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 // Importamos la función toast.
 import toast from 'react-hot-toast';
 
-//importamos componentes
+// Importamos componentes
 import { H2 } from '../components/H2';
 import MainContainer from '../components/Main';
 
@@ -20,33 +20,30 @@ const { VITE_API_URL } = import.meta.env;
 // Inicializamos el componente.
 const UserProfilePage = () => {
     // Obtenemos los datos del usuario, el token y la función que actualiza el avatar.
-    const { authUser, authToken, authUpdateAvatarState } =
+    const { authUser, authToken, authUpdateAvatarState, authUpdateUserInfo } =
         useContext(AuthContext);
     console.log('Usuario:', authUser);
 
     const navigate = useNavigate();
     // Declaramos una variable en el State para almacenar el valor del input.
     const [avatar, setAvatar] = useState(null);
-
-    // Variable que indica cuando termina el fetch de crear una nueva entrada.
     const [loading, setLoading] = useState(false);
+    const [isEditing, setIsEditing] = useState(false); // Estado para el modo de edición
+    const [formData, setFormData] = useState({
+        firstName: authUser.firstName,
+        lastName: authUser.lastName,
+        username: authUser.username,
+        biography: authUser.biography || '', // Añadimos biografía
+    });
 
-    // Función que maneja el envío del formulario.
+    // Función que maneja el envío del formulario para actualizar el avatar
     const handleUpdateAvatar = async (e) => {
         try {
-            // Prevenimos el comportamiento por defecto.
             e.preventDefault();
-
-            // Creamos un objeto FormData.
             const formData = new FormData();
-
-            // Adjuntamos el avatar como propiedad del objeto anterior.
             formData.append('avatar', avatar);
 
-            // Indicamos que va a dar comienzo el fetch para deshabilitar el botón.
             setLoading(true);
-
-            // Obtenemos una respuesta del servidor.
             const res = await fetch(`${VITE_API_URL}/api/user/avatar`, {
                 method: 'put',
                 headers: {
@@ -55,63 +52,69 @@ const UserProfilePage = () => {
                 body: formData,
             });
 
-            // Obtenemos el body.
             const body = await res.json();
-
-            // Si hubo algún error lo lanzamos.
             if (body.status === 'error') {
                 throw new Error(body.message);
             }
 
-            // Actualizamos el avatar del usuario en el State.
             authUpdateAvatarState(body.data.avatar);
-
-            // Mostramos un mensaje satisfactorio al usuario.
-            toast.success(body.message, {
-                id: 'userProfile',
-            });
+            toast.success(body.message, { id: 'userProfile' });
         } catch (err) {
-            toast.error(err.message, {
-                id: 'userProfile',
-            });
+            toast.error(err.message, { id: 'userProfile' });
         } finally {
-            // Indicamos que ha finalizado el fetch para habilitar el botón.
             setLoading(false);
         }
     };
+
+    // Función para manejar el envío del formulario de edición
+    const handleUpdateUserInfo = async (e) => {
+        e.preventDefault();
+
+        try {
+            const res = await fetch(`${VITE_API_URL}/api/user/update`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: authToken,
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const body = await res.json();
+            if (body.status === 'error') {
+                throw new Error(body.message);
+            }
+
+            // Actualizamos el contexto con la nueva información
+            authUpdateUserInfo(formData);
+            toast.success(body.message, { id: 'userProfile' });
+            setIsEditing(false); // Salimos del modo de edición
+        } catch (err) {
+            toast.error(err.message, { id: 'userProfile' });
+        }
+    };
+
     const handleAdminRegister = () => {
         navigate('/admin-register');
     };
 
-    // Si el usuario no tiene token, lo enviamos a la página de login
-    if (!authUser) {
-        return <Navigate to="/login" />;
-    }
-
     return (
         <MainContainer>
             <div className="max-w-4xl w-full mx-auto p-8 bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-2xl mt-12">
-                <H2
-                    text="
-                    Perfil de usuario"
-                />
+                <H2 text="Perfil de usuario" />
 
-                <div className=" max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 flex flex-col md:flex-row gap-12 items-start">
+                <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 flex flex-col md:flex-row gap-12 items-start">
                     {/* Avatar del Usuario */}
                     <div className="flex flex-col items-center md:w-1/4">
-                        {authUser.avatar ? (
-                            <img
-                                className="w-40 h-40 rounded-full object-cover mb-4 shadow-md"
-                                src={`${VITE_API_URL}/${authUser.avatar}`}
-                                alt={`Foto de perfil de ${authUser.username}`}
-                            />
-                        ) : (
-                            <img
-                                className="w-40 h-40 rounded-full object-cover mb-4 shadow-md"
-                                src="/default-avatar.png"
-                                alt={`Foto de perfil de ${authUser.username}`}
-                            />
-                        )}
+                        <img
+                            className="w-40 h-40 rounded-full object-cover mb-4 shadow-md"
+                            src={
+                                authUser.avatar
+                                    ? `${VITE_API_URL}/${authUser.avatar}`
+                                    : '/public/default-avatar.jpg'
+                            }
+                            alt={`Foto de perfil de ${authUser.username}`}
+                        />
                         {/* Formulario de actualización de avatar */}
                         <form
                             onSubmit={handleUpdateAvatar}
@@ -136,51 +139,156 @@ const UserProfilePage = () => {
 
                     {/* Información del Usuario */}
                     <div className="flex-1 md:w-3/4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Nombre
-                                </label>
-                                <p className="mt-1 text-lg text-gray-900">
-                                    {authUser.firstName}
-                                </p>
+                        {/* Información y edición del Usuario */}
+                        {isEditing ? (
+                            <form
+                                onSubmit={handleUpdateUserInfo}
+                                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                            >
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Nombre
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={formData.firstName}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                firstName: e.target.value,
+                                            })
+                                        }
+                                        className="mt-1 text-lg text-gray-900 border border-gray-300 p-2 rounded-md"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Apellidos
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={formData.lastName}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                lastName: e.target.value,
+                                            })
+                                        }
+                                        className="mt-1 text-lg text-gray-900 border border-gray-300 p-2 rounded-md"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Usuario
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={formData.username}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                username: e.target.value,
+                                            })
+                                        }
+                                        className="mt-1 text-lg text-gray-900 border border-gray-300 p-2 rounded-md"
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Email
+                                    </label>
+                                    <p className="mt-1 text-lg text-gray-900">
+                                        {authUser.email}
+                                    </p>
+                                </div>
+                                <div className="col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Biografía
+                                    </label>
+                                    <textarea
+                                        value={formData.biography}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                biography: e.target.value,
+                                            })
+                                        }
+                                        className="mt-1 text-lg text-gray-900 border border-gray-300 p-2 rounded-md min-h-[100px]"
+                                    />
+                                </div>
+                                <div className="col-span-2">
+                                    <button
+                                        type="submit"
+                                        className="px-6 py-2 bg-green-500 text-white font-bold rounded-md hover:bg-green-600 transition-colors duration-300"
+                                    >
+                                        Guardar Cambios
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsEditing(false)}
+                                        className="ml-4 px-6 py-2 bg-red-500 text-white font-bold rounded-md hover:bg-red-600 transition-colors duration-300"
+                                    >
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Nombre
+                                    </label>
+                                    <p className="mt-1 text-lg text-gray-900">
+                                        {authUser.firstName}
+                                    </p>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Apellidos
+                                    </label>
+                                    <p className="mt-1 text-lg text-gray-900">
+                                        {authUser.lastName}
+                                    </p>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Usuario
+                                    </label>
+                                    <p className="mt-1 text-lg text-gray-900">
+                                        {authUser.username}
+                                    </p>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Email
+                                    </label>
+                                    <p className="mt-1 text-lg text-gray-900">
+                                        {authUser.email}
+                                    </p>
+                                </div>
+                                <div className="col-span-2 mt-8">
+                                    <button
+                                        onClick={() => setIsEditing(true)}
+                                        className="px-6 py-2 bg-yellow-500 text-white font-bold rounded-md hover:bg-yellow-600 transition-colors duration-300"
+                                    >
+                                        Editar Información
+                                    </button>
+                                </div>
+                                {/* Biografía */}
+                                <div className="col-span-2 mt-8">
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Biografía
+                                    </label>
+                                    <div className="mt-2 text-lg text-gray-900 bg-gray-100 p-6 rounded-md min-h-[150px] shadow-inner">
+                                        {authUser.biography ||
+                                            'No hay biografía disponible.'}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Apellidos
-                                </label>
-                                <p className="mt-1 text-lg text-gray-900">
-                                    {authUser.lastName}
-                                </p>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Usuario
-                                </label>
-                                <p className="mt-1 text-lg text-gray-900">
-                                    {authUser.username}
-                                </p>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Email
-                                </label>
-                                <p className="mt-1 text-lg text-gray-900">
-                                    {authUser.email}
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Biografía */}
-                        <div className="mt-8">
-                            <label className="block text-sm font-medium text-gray-700">
-                                Biografía
-                            </label>
-                            <div className="mt-2 text-lg text-gray-900 bg-gray-100 p-6 rounded-md min-h-[150px] shadow-inner">
-                                {authUser.biography ||
-                                    'No hay biografía disponible.'}
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </div>
 
@@ -204,4 +312,5 @@ const UserProfilePage = () => {
         </MainContainer>
     );
 };
+
 export default UserProfilePage;

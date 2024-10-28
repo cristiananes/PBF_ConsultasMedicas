@@ -3,7 +3,7 @@ import { useContext } from 'react';
 
 // Importamos los componentes.
 import { NavLink } from 'react-router-dom';
-
+import { ButtonAction } from '../components/ButtonAction';
 // Importamos el contexto.
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -45,7 +45,7 @@ const Header = () => {
                             <NavLink to={`/user/:userId`}>
                                 <img
                                     className="w-12 h-12 rounded-full shadow-md"
-                                    src="/default-avatar.png"
+                                    src={'/public/default-avatar.jpg'}
                                     alt={`Foto de perfil de ${authUser.username}`}
                                 />
                             </NavLink>
@@ -69,7 +69,6 @@ const Header = () => {
                                     </NavLink>
                                 </li>
 
-
                                 <li>
                                     <button
                                         className="bg-red-500 text-white px-4 py-2 rounded-md shadow hover:bg-red-600 focus:ring-4 focus:ring-red-300 transition"
@@ -81,7 +80,6 @@ const Header = () => {
                                     </button>
                                 </li>
 
-                                
                                 {/* Botón para añadir nuevo empleado si el usuario es admin */}
                                 {authUser.role === 'admin' && (
                                     <div className="mt-8 text-center">
@@ -92,7 +90,6 @@ const Header = () => {
                                         </li>
                                     </div>
                                 )}
-
                             </>
                         ) : (
                             <>
@@ -116,8 +113,6 @@ const Header = () => {
                 </ul>
             </nav>
         </header>
-
-       
     );
 };
 

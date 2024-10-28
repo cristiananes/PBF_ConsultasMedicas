@@ -109,7 +109,20 @@ export const AuthProvider = ({ children }) => {
             avatar,
         });
     };
+    const authUpdateUserInfo = (updatedInfo) => {
+        setAuthUser((prevUser) => ({
+            ...prevUser,
+            ...updatedInfo,
+        }));
 
+        localStorage.setItem(
+            VITE_AUTH_USER,
+            JSON.stringify({
+                ...authUser,
+                ...updatedInfo,
+            })
+        );
+    };
     return (
         <AuthContext.Provider
             value={{
@@ -118,6 +131,7 @@ export const AuthProvider = ({ children }) => {
                 authLoginState,
                 authLogoutState,
                 authUpdateAvatarState,
+                authUpdateUserInfo,
             }}
         >
             {children}

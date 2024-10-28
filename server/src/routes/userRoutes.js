@@ -13,6 +13,7 @@ import {
     listMedicsController,
     doctorDetailsController,
     listSpecialitiesController,
+    updateUserInfoController,
 } from '../controllers/users/index.js';
 
 //importamos los utils
@@ -74,4 +75,8 @@ router.get(
 //middleware detalle medico
 router.get(`/doctor/:userId`, authUserController, doctorDetailsController);
 
+//middleware editar usuario
+router.put(`/user/update`, authUserController, updateUserInfoController);
+
 export default router;
+updateUserInfoController;

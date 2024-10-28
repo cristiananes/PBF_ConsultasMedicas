@@ -11,15 +11,15 @@ const voteconsultController = async (req, res, next) => {
         const { replyId } = req.params; // Cambiado a replyId
 
         // Obtenemos los datos del body.
-        const { value } = req.body;
+        const { rating } = req.body;
 
         // Si faltan campos lanzamos un error.
-        if (!value) {
-            generateErrorUtil('Faltan campos', 400);
+        if (!rating) {
+            return next(generateErrorUtil('Faltan campos', 400));
         }
 
         // Convertimos el valor de string a número.
-        const numericValue = Number(value);
+        const numericValue = Number(rating);
 
         // Array de votos válidos.
         const validVotes = [1, 2, 3, 4, 5];

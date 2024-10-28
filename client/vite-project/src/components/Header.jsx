@@ -72,6 +72,16 @@ const Header = () => {
                                 >
                                     <ButtonAction text="Log out" />
                                 </NavLink>
+                                {/* Botón para añadir nuevo empleado si el usuario es admin */}
+                                {authUser.role === 'admin' && (
+                                    <div className="mt-8 text-center">
+                                        <li>
+                                            <NavLink to="/admin-register">
+                                                <ButtonAction text="Herramientas de administrador" />
+                                            </NavLink>
+                                        </li>
+                                    </div>
+                                )}
                             </>
                         ) : (
                             <>

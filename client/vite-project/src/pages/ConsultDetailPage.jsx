@@ -5,7 +5,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import { NavLink } from 'react-router-dom';
 import { ButtonAction } from '../components/ButtonAction';
 import RespuestaConsultas from '../components/ReplyConsult';
-import { Navigate } from 'react-router-dom';
+
 const { VITE_API_URL } = import.meta.env;
 
 const ConsultDetail = () => {
@@ -17,6 +17,7 @@ const ConsultDetail = () => {
     const [loadingReplies, setLoadingReplies] = useState(true);
     const [errorConsult, setErrorConsult] = useState(null);
     const [errorReplies, setErrorReplies] = useState(null);
+    const [selectedRating, setSelectedRating] = useState(null); // Estado para la calificación seleccionada
 
     useEffect(() => {
         // Llama a la API local para obtener los detalles de la consulta
@@ -71,6 +72,39 @@ const ConsultDetail = () => {
         fetchReplies();
     }, [consultId, authToken]);
 
+    const handleRating = async (replyId) => {
+        if (selectedRating) {
+            // Enviar la calificación al backend
+            try {
+                const response = await fetch(
+                    `${VITE_API_URL}/api/reply/${replyId}/rating`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: authToken,
+                        },
+                        body: JSON.stringify({
+                            replyId,
+                            rating: selectedRating,
+                            userId: authUser.id,
+                        }),
+                    }
+                );
+                if (!response.ok) {
+                    throw new Error('Error al enviar la calificación');
+                }
+                const result = await response.json();
+                alert('Calificación enviada correctamente: ' + result.message);
+                // Opcional: Actualiza la UI si es necesario
+            } catch (err) {
+                alert('Error al enviar la calificación: ' + err.message);
+            }
+        } else {
+            alert('Por favor selecciona una calificación.');
+        }
+    };
+
     if (loadingConsult) {
         return <div>Cargando detalles de la consulta...</div>;
     }
@@ -78,13 +112,6 @@ const ConsultDetail = () => {
     if (errorConsult) {
         return <div>Error al cargar la consulta: {errorConsult}</div>;
     }
-
-    console.log(consult);
-    console.log(authUser);
-
-    // if (consult.author !== authUser.username) {
-    //     return <Navigate to="/login" />;
-    // }
 
     return (
         <main>
@@ -100,22 +127,17 @@ const ConsultDetail = () => {
                     <h3>Especialidad: {consult.specialityName}</h3>
                     <h3>Urgencia: {consult.urgency}</h3>
                     <div className="flex flex-col items-center">
-                        {
-                            // Si el usuario tiene avatar lo mostramos, de lo contrario ponemos
-                            // un avatar por defecto.
-                            consult.file ? (
-                                <img
-                                    className="w-32 h-32 object-cover mb-4"
-                                    src={`${VITE_API_URL}/${consult.file}`}
-                                    alt={`Archivo adjuntado a la consulta por el usuario`}
-                                />
-                            ) : (
-                                <h3>
-                                    Esta consulta no contiene archivos
-                                    adicionales
-                                </h3>
-                            )
-                        }
+                        {consult.file ? (
+                            <img
+                                className="w-32 h-32 object-cover mb-4"
+                                src={`${VITE_API_URL}/${consult.file}`}
+                                alt={`Archivo adjuntado a la consulta por el usuario`}
+                            />
+                        ) : (
+                            <h3>
+                                Esta consulta no contiene archivos adicionales
+                            </h3>
+                        )}
                     </div>
                     <h3>
                         Consulta creada el día:{' '}
@@ -139,9 +161,39 @@ const ConsultDetail = () => {
                             <li key={reply.id}>
                                 <h3>Respuesta de: {reply.author}</h3>
                                 <p>{reply.answerText}</p>
-                                {reply.rating && (
-                                    <p>Valoración: {reply.rating}</p>
-                                )}
+                                {reply.userId !== authUser.id ? (
+                                    <div>
+                                        <span className="text-red-500 cursor-pointer">
+                                            Valora esta respuesta
+                                        </span>
+                                        <select
+                                            onChange={(e) =>
+                                                setSelectedRating(
+                                                    Number(e.target.value)
+                                                )
+                                            }
+                                            value={selectedRating}
+                                            className="ml-2"
+                                        >
+                                            <option value="">
+                                                Selecciona una calificación
+                                            </option>
+                                            {[1, 2, 3, 4, 5].map((num) => (
+                                                <option key={num} value={num}>
+                                                    {num}
+                                                </option>
+                                            ))}
+                                        </select>
+                                        <button
+                                            onClick={() =>
+                                                handleRating(reply.id)
+                                            }
+                                            className="ml-2 bg-blue-500 text-white px-3 py-1 rounded"
+                                        >
+                                            Enviar
+                                        </button>
+                                    </div>
+                                ) : null}
                                 {reply.file && (
                                     <p>
                                         Archivo adjunto:{' '}

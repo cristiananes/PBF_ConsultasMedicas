@@ -42,25 +42,42 @@ export const DoctorSelect = ({ onDoctorSelect }) => {
     }, []);
 
     return (
-        <div>
+        <div className="flex flex-col items-center p-6">
+            {/* Campo de búsqueda centrado y estilizado */}
             <input
+                className="w-full max-w-md px-4 py-2 mb-6 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                 style={{ minWidth: '250px' }}
                 value={search}
                 onChange={searcher}
                 type="text"
                 placeholder="Introduce el nombre del doctor"
             />
-            <ul>
-                {searchResults.map((doctor) => (
-                    <li key={doctor.id} onClick={() => onDoctorSelect(doctor)}>
-                        <button>
-                            <h3>Selecciona este doctor</h3>
-                            <h3>
-                                {doctor.firstName} {doctor.lastName}
-                            </h3>
-                            <h3>{doctor.username}</h3>
 
-                            <h3>{doctor.specialty}</h3>
+            {/* Lista de doctores */}
+            <ul className="w-full max-w-2xl space-y-4">
+                {searchResults.map((doctor) => (
+                    <li
+                        key={doctor.id}
+                        className="bg-white p-4 rounded-lg shadow-md border border-gray-200"
+                    >
+                        <button
+                            onClick={() => onDoctorSelect(doctor)}
+                            className="w-full text-left"
+                        >
+                            <h3 className="text-lg font-semibold text-gray-800 underline">
+                                Selecciona este doctor
+                            </h3>
+                            <div className="mt-2">
+                                <p className="text-gray-700 font-medium">
+                                    {doctor.firstName} {doctor.lastName}
+                                </p>
+                                <p className="text-gray-600">
+                                    {doctor.username}
+                                </p>
+                                <p className="text-gray-600 font-semibold">
+                                    {doctor.specialty}
+                                </p>
+                            </div>
                         </button>
                     </li>
                 ))}

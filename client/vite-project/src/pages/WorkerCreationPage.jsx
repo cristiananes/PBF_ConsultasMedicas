@@ -9,6 +9,7 @@ import { fetchSpecialties } from '../hooks/fetchSpecialty';
 import toast from 'react-hot-toast';
 import { H2 } from '../components/H2';
 import MainContainer from '../components/Main';
+import Whiteboxanim from '../components/Whiteboxanim';
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -82,8 +83,8 @@ const WorkerCreationPage = () => {
 
     return (
         <MainContainer>
-            <div className="max-w-2xl w-full bg-white bg-opacity-90 backdrop-blur-lg p-8 rounded-2xl shadow-lg">
-                <H2 text="Página de registro" />
+            <div className="max-w-2xl mt-10 w-full bg-white bg-opacity-90 backdrop-blur-lg p-8 rounded-2xl shadow-lg">
+                <H2 text="Registro de nuevo usuario" />
                 <form
                     onSubmit={handleRegisterAdmin}
                     className="grid grid-cols-1 gap-6"

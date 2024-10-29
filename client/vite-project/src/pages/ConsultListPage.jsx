@@ -6,6 +6,7 @@ import { H2 } from '../components/H2';
 import { Label } from '../components/Label';
 import MainContainer from '../components/Main';
 import Whitebox from '../components/Whitebox';
+import Whiteboxanim from '../components/Whiteboxanim';
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -34,6 +35,35 @@ const ConsultListPage = () => {
         };
         fetchConsults();
     }, [authToken]);
+
+    // Función para eliminar una consulta
+    const handleDeleteConsult = async (consultId) => {
+        try {
+            const res = await fetch(
+                `${VITE_API_URL}/api/consults/${consultId}`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                    },
+                }
+            );
+
+            if (!res.ok) {
+                const body = await res.json();
+                throw new Error(
+                    body.message || 'Error al eliminar la consulta'
+                );
+            }
+
+            // Actualizar la lista de consultas después de eliminar
+            setConsults((prevConsults) =>
+                prevConsults.filter((c) => c.id !== consultId)
+            );
+        } catch (err) {
+            console.error('Error eliminando la consulta:', err.message);
+        }
+    };
 
     // Fetch de los datos de los doctores.
     useEffect(() => {
@@ -97,64 +127,76 @@ const ConsultListPage = () => {
                 <h3>
                     <Label text="Paciente:" /> {consult.author}
                 </h3>
-                <Link
-                    to={`/consult/${consult.id}`}
-                    className="mt-2 inline-block bg-black text-white px-4 py-2 rounded-md shadow hover:bg-blue-600"
-                >
-                    Ver consulta
-                </Link>
+                <div className="flex space-x-4 mt-2">
+                    <Link
+                        to={`/consult/${consult.id}`}
+                        className="mt-2 inline-block bg-black text-white px-4 py-2 rounded-md shadow hover:bg-blue-600"
+                    >
+                        Ver consulta
+                    </Link>
+                    <button
+                        onClick={() => handleDeleteConsult(consult.id)}
+                        className="bg-red-500 mt-2 text-white px-4 py-2 rounded-md shadow hover:bg-red-600 transition"
+                    >
+                        Eliminar consulta
+                    </button>
+                </div>
             </Whitebox>
         </li>
     );
 
     return (
         <MainContainer>
-            <Whitebox>
-                <H2 text="Listado de consultas" />
+            <Whiteboxanim>
+                <Whitebox>
+                    <H2 text="Listado de consultas" />
 
-                {/* Botón para doctores para filtrar consultas */}
-                {authUser.role === 'doctor' && (
-                    <ButtonAction
-                        text={
-                            showUnassigned
-                                ? 'Ver consultas asignadas'
-                                : 'Ver consultas no asignadas'
-                        }
-                        onClick={toggleUnassignedFilter}
-                    />
-                )}
-
-                <ul>
-                    {filteredConsults.length === 0 ? (
-                        <p>No hay consultas para mostrar.</p>
-                    ) : (
-                        filteredConsults.map(renderConsultItem)
+                    {/* Botón para doctores para filtrar consultas */}
+                    {authUser.role === 'doctor' && (
+                        <ButtonAction
+                            text={
+                                showUnassigned
+                                    ? 'Ver consultas no asignadas'
+                                    : 'Ver consultas asignadas'
+                            }
+                            onClick={toggleUnassignedFilter}
+                        />
                     )}
-                </ul>
 
-                {/* Botones adicionales */}
-                <aside>
-                    {/* Mostrar botón de añadir consulta solo para pacientes */}
-                    {authUser && authUser.role === 'patient' && (
-                        <NavLink to={`/user/${authUser ? authUser.id : ''}`}>
+                    <ul>
+                        {filteredConsults.length === 0 ? (
+                            <p>No hay consultas para mostrar.</p>
+                        ) : (
+                            filteredConsults.map(renderConsultItem)
+                        )}
+                    </ul>
+
+                    {/* Botones adicionales */}
+                    <aside>
+                        {/* Mostrar botón de añadir consulta solo para pacientes */}
+                        {authUser && authUser.role === 'patient' && (
+                            <NavLink
+                                to={`/user/${authUser ? authUser.id : ''}`}
+                            >
+                                <button
+                                    type="button"
+                                    className="bg-blue-500 ml-30 mr-0 mb-5 text-white px-4 py-1 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
+                                >
+                                    Volver a perfil
+                                </button>
+                            </NavLink>
+                        )}
+                        <NavLink to="/consult/new-consult">
                             <button
                                 type="button"
-                                className="bg-blue-500 ml-60 mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
+                                className="bg-green-500 ml-40 mr-0 mb-5 text-white px-6 py-3 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
                             >
-                                Volver a perfil
+                                Crear nueva consulta
                             </button>
                         </NavLink>
-                    )}
-                    <NavLink to="/consult/new-consult">
-                        <button
-                            type="button"
-                            className="bg-green-500 ml-20 mr-0 mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
-                        >
-                            Crear nueva consulta
-                        </button>
-                    </NavLink>
-                </aside>
-            </Whitebox>
+                    </aside>
+                </Whitebox>
+            </Whiteboxanim>
         </MainContainer>
     );
 };

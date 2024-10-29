@@ -8,6 +8,7 @@ const { VITE_API_URL } = import.meta.env;
 import { AuthContext } from '../contexts/AuthContext';
 import { useEffect, useContext, useState } from 'react';
 import toast from 'react-hot-toast';
+import Whitebox from '../components/Whitebox';
 
 // Inicializamos el componente.
 const DoctorListPage = () => {
@@ -46,10 +47,18 @@ const DoctorListPage = () => {
 
     return (
         doctors && (
-            <MainContainer>
-                <Whiteboxanim>
-                    <H2 text="Listado de medicos" />
-                    <SearchComponent rating={true} />
+            <MainContainer className="flex flex-col items-center justify-center min-h-screen">
+                <Whiteboxanim className="w-full max-w-lg p-6">
+                    <H2
+                        text="Listado de medicos"
+                        className="text-center mb-6"
+                    />
+                    <Whitebox className="flex justify-center">
+                        <SearchComponent
+                            rating={true}
+                            className="w-full max-w-xs"
+                        />
+                    </Whitebox>
                 </Whiteboxanim>
             </MainContainer>
         )

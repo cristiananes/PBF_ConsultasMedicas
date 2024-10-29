@@ -19,16 +19,22 @@ const Header = () => {
     const { authUser, authLogoutState } = useContext(AuthContext);
 
     return (
-        <header className="flex items-center justify-between bg-blue-50 p-6 shadow-lg">
-            <h1>
-                <NavLink
-                    className="text-3xl font-bold text-blue-700 hover:text-blue-900 transition"
-                    to="/"
-                >
-                    Consalut: Tus consultas médicas
-                </NavLink>
-            </h1>
-
+        <header className="flex items-center justify-between bg-blue-50 p-2 shadow-lg">
+            <div className="flex items-center">
+                <img
+                    src="/consalutlogo2.png"
+                    alt="Consalut Logo"
+                    className="h-20 w-20 mr-4" // Ajusta el tamaño aquí
+                />
+                <h1>
+                    <NavLink
+                        className="mb-3 text-3xl font-bold text-blue-700 hover:text-blue-900 transition"
+                        to="/"
+                    >
+                        C O N S A L U T
+                    </NavLink>
+                </h1>
+            </div>
             {authUser && (
                 <div className="flex items-center gap-4">
                     {
@@ -82,10 +88,16 @@ const Header = () => {
 
                                 {/* Botón para añadir nuevo empleado si el usuario es admin */}
                                 {authUser.role === 'admin' && (
-                                    <div className="mt-8 text-center">
+                                    <div className="text-center">
                                         <li>
                                             <NavLink to="/admin-register">
-                                                <ButtonAction text="Herramientas de administrador" />
+                                                <button
+                                                    className="bg-orange-400 text-white px-4 py-2
+                                                rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
+                                                >
+                                                    Herramientas de
+                                                    administrador
+                                                </button>
                                             </NavLink>
                                         </li>
                                     </div>

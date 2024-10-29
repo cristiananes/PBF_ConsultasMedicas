@@ -189,9 +189,12 @@ const ConsultDetail = () => {
                                     <p>{reply.answerText}</p>
                                     {reply.userId !== authUser.id && (
                                         <div>
-                                            <span className="text-red-500 cursor-pointer">
+                                            <span className="text-red-500  cursor-pointer font-bold mt-4">
                                                 Valora esta respuesta
                                             </span>
+                                            {/* <button className="text-black bg-white cursor-pointer mt-10 ml-2 px-3 py-1 rounded">
+                                                Valora esta respuesta
+                                            </button> */}
                                             <select
                                                 onChange={(e) =>
                                                     setSelectedRating(

@@ -5,6 +5,10 @@ import { AuthContext } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import { fetchSpecialties } from '../hooks/fetchSpecialty';
 import { DoctorSelect } from '../components/DoctorSelect'; // Cambiado a DoctorSelect
+import MainContainer from '../components/Main';
+import Whiteboxanim from '../components/Whiteboxanim';
+import { H2 } from '../components/H2';
+import Whitebox from '../components/Whitebox';
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -75,90 +79,179 @@ const NewConsultPage = () => {
     if (!authUser) return <Navigate to="/login" />;
 
     return (
-        <main>
-            <h2>Página de nueva consulta</h2>
-            <NavLink to="/consults">
-                <ButtonAction text="Volver a consultas" />
-            </NavLink>
-            <form onSubmit={handleAddEntry}>
-                <label htmlFor="title">Título:</label>
-                <input
-                    type="text"
-                    id="title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
+        <MainContainer>
+            <Whiteboxanim>
+                <H2
+                    className="text-2xl font-bold text-center mb-6"
+                    text="Página de nueva consulta"
                 />
 
-                <label htmlFor="description">Descripción:</label>
-                <textarea
-                    id="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                />
+                {/* Botón de Volver a consultas
+                <div className="mb-6 text-left">
+                    <NavLink to="/consults">
+                        <ButtonAction text="Volver a consultas" />
+                    </NavLink>
+                </div> */}
 
-                <label htmlFor="urgency">Urgencia:</label>
-                <select
-                    id="urgency"
-                    value={urgency}
-                    onChange={(e) => setUrgency(e.target.value)}
-                    required
-                >
-                    <option value="" disabled>
-                        Selecciona una urgencia
-                    </option>
-                    <option value="Baja">Baja</option>
-                    <option value="Media">Media</option>
-                    <option value="Alta">Alta</option>
-                </select>
+                <form onSubmit={handleAddEntry} className="space-y-6">
+                    {/* Fila 1: Título y Urgencia */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label
+                                htmlFor="title"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Título:
+                            </label>
+                            <input
+                                type="text"
+                                id="title"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                required
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                            />
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="urgency"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Urgencia:
+                            </label>
+                            <select
+                                id="urgency"
+                                value={urgency}
+                                onChange={(e) => setUrgency(e.target.value)}
+                                required
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                            >
+                                <option value="" disabled>
+                                    Selecciona una urgencia
+                                </option>
+                                <option value="Baja">Baja</option>
+                                <option value="Media">Media</option>
+                                <option value="Alta">Alta</option>
+                            </select>
+                        </div>
+                    </div>
 
-                <label htmlFor="specialty">Especialidad:</label>
-                <select
-                    id="specialty"
-                    value={specialtyName}
-                    onChange={(e) => setSpecialtyName(e.target.value)}
-                    required
-                >
-                    <option value="" disabled>
-                        Selecciona una opción
-                    </option>
-                    {specialties.map((spec, index) => (
-                        <option key={index} value={spec}>
-                            {spec}
-                        </option>
-                    ))}
-                </select>
+                    {/* Fila 2: Especialidad y Archivo */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label
+                                htmlFor="specialty"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Especialidad:
+                            </label>
+                            <select
+                                id="specialty"
+                                value={specialtyName}
+                                onChange={(e) =>
+                                    setSpecialtyName(e.target.value)
+                                }
+                                required
+                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                            >
+                                <option value="" disabled>
+                                    Selecciona una opción
+                                </option>
+                                {specialties.map((spec, index) => (
+                                    <option key={index} value={spec}>
+                                        {spec}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                htmlFor="file"
+                                className="block text-sm font-medium text-gray-700"
+                            >
+                                Archivo:
+                            </label>
+                            <input
+                                type="file"
+                                id="file"
+                                onChange={(e) => setFile(e.target.files[0])}
+                                accept="image/jpeg, image/png, image/jpg"
+                                className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300"
+                            />
+                        </div>
+                    </div>
 
-                <label>Doctor:</label>
-                <button type="button" onClick={toggleDoctorSelect}>
-                    {showDoctorSelect
-                        ? 'Ocultar lista de doctores'
-                        : 'Mostrar lista de doctores'}
-                </button>
+                    {/* Fila 3: Doctor y Selección de Doctor */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Doctor:
+                        </label>
+                        <button
+                            type="button"
+                            onClick={toggleDoctorSelect}
+                            className="mt-1 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-black"
+                        >
+                            {showDoctorSelect
+                                ? 'Ocultar lista de doctores'
+                                : 'Mostrar lista de doctores'}
+                        </button>
+                        {showDoctorSelect && (
+                            <div className="flex flex-col items-center justify-center ml-10 mt-4 space-y-4">
+                                <Whitebox>
+                                    <DoctorSelect
+                                        onDoctorSelect={handleDoctorSelect}
+                                    />
+                                </Whitebox>
+                            </div>
+                        )}
+                        {selectedDoctor && (
+                            <p className="mt-2 text-sm text-gray-700">
+                                Doctor seleccionado: {selectedDoctor.firstName}{' '}
+                                {selectedDoctor.lastName}
+                            </p>
+                        )}
+                    </div>
 
-                {showDoctorSelect && (
-                    <DoctorSelect onDoctorSelect={handleDoctorSelect} />
-                )}
+                    {/* Fila 4: Descripción */}
+                    <div>
+                        <label
+                            htmlFor="description"
+                            className="block text-sm font-medium text-gray-700"
+                        >
+                            Descripción:
+                        </label>
+                        <textarea
+                            id="description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            required
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                            rows="4"
+                            placeholder="Escribe una descripción..."
+                        ></textarea>
+                    </div>
 
-                {selectedDoctor && (
-                    <p>
-                        Doctor seleccionado: {selectedDoctor.firstName}{' '}
-                        {selectedDoctor.lastName}
-                    </p>
-                )}
-
-                <label htmlFor="file">Archivo:</label>
-                <input
-                    type="file"
-                    id="file"
-                    onChange={(e) => setFile(e.target.files[0])}
-                    accept="image/jpeg, image/png, image/jpg"
-                />
-
-                <button disabled={loading}>Crear consulta</button>
-            </form>
-        </main>
+                    {/* Botones de acción */}
+                    <div className="flex justify-between mt-6">
+                        <NavLink to="/consults">
+                            <button
+                                type="button"
+                                className="px-6 py-3 bg-red-600 text-white font-semibold rounded-md hover:bg-black"
+                            >
+                                Volver
+                            </button>
+                        </NavLink>
+                        <button
+                            type="submit"
+                            className="px-6 py-3 bg-green-500 text-white font-semibold rounded-md hover:bg-black"
+                            disabled={loading}
+                        >
+                            Crear consulta
+                        </button>
+                    </div>
+                </form>
+            </Whiteboxanim>
+        </MainContainer>
     );
 };
 

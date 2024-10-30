@@ -27,7 +27,7 @@ import { ProtectedRoute } from './components/ProtectedRoute.jsx';
 // Inicializamos el componente principal.
 const App = () => {
     const { authUser } = useContext(AuthContext);
-    console.log(authUser);
+
     return (
         <>
             <Header className="text-3xl font-bold underline" />
@@ -43,7 +43,7 @@ const App = () => {
             {/* Todas las rutas han de definirse dentro del componente <Routes>. */}
             <Routes>
                 <Route path="/" element={<HomePage />} />
-                {console.log(authUser)};
+
                 <Route element={<ProtectedRoute user={authUser} />}>
                     <Route path="/consults" element={<ConsultListPage />} />
                     <Route

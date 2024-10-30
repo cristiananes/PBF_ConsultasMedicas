@@ -1,6 +1,5 @@
-import { ButtonAction } from '../components/ButtonAction';
 import { useContext, useEffect, useState } from 'react';
-import { NavLink, Navigate } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import { fetchSpecialties } from '../hooks/fetchSpecialty';
@@ -23,7 +22,7 @@ const NewConsultPage = () => {
     const [loading, setLoading] = useState(false);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
     const [showDoctorSelect, setShowDoctorSelect] = useState(false); // Estado de visibilidad
-
+    const navigate = useNavigate();
     const handleAddEntry = async (e) => {
         try {
             e.preventDefault();
@@ -46,7 +45,7 @@ const NewConsultPage = () => {
 
             const body = await res.json();
             if (body.status === 'error') throw new Error(body.message);
-
+            navigate('/consults');
             toast.success(body.message, { id: 'newConsult' });
         } catch (err) {
             toast.error(err.message, { id: 'newConsult' });
@@ -85,13 +84,6 @@ const NewConsultPage = () => {
                     className="text-2xl font-bold text-center mb-6"
                     text="Página de nueva consulta"
                 />
-
-                {/* Botón de Volver a consultas
-                <div className="mb-6 text-left">
-                    <NavLink to="/consults">
-                        <ButtonAction text="Volver a consultas" />
-                    </NavLink>
-                </div> */}
 
                 <form onSubmit={handleAddEntry} className="space-y-6">
                     {/* Fila 1: Título y Urgencia */}

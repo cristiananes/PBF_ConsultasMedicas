@@ -70,19 +70,15 @@ export const SearchComponent = ({ rating }) => {
                     >
                         {/* Foto del doctor */}
                         <div className="flex flex-col items-center mb-4">
-                            {doctor.avatar ? (
-                                <img
-                                    className="w-32 h-32 rounded-full object-cover mb-4 border-2 border-white shadow-md"
-                                    src={`${VITE_API_URL}/${doctor.avatar}`}
-                                    alt={`Foto de perfil de ${doctor.username}`}
-                                />
-                            ) : (
-                                <img
-                                    className="w-32 h-32 rounded-full object-cover mb-4 border-2 border-white shadow-md"
-                                    src="/default-avatar.jpg"
-                                    alt={`Foto de perfil de ${doctor.username}`}
-                                />
-                            )}
+                            <img
+                                className="w-40 h-40 rounded-full object-cover mb-4 shadow-md"
+                                src={
+                                    users.avatar
+                                        ? `${VITE_API_URL}/${users.avatar}`
+                                        : `/public/default-avatar.jpg`
+                                }
+                                alt={`Foto de perfil de ${users.username}`}
+                            />
                         </div>
 
                         {/* Información del doctor */}

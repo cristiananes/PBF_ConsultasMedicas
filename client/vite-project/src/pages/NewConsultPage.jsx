@@ -82,7 +82,7 @@ const NewConsultPage = () => {
             <Whiteboxanim>
                 <H2
                     className="text-2xl font-bold text-center mb-6"
-                    text="Página de nueva consulta"
+                    text="Nueva consulta"
                 />
 
                 <form onSubmit={handleAddEntry} className="space-y-6">
@@ -101,7 +101,7 @@ const NewConsultPage = () => {
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 required
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                                className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                             />
                         </div>
                         <div>
@@ -116,7 +116,7 @@ const NewConsultPage = () => {
                                 value={urgency}
                                 onChange={(e) => setUrgency(e.target.value)}
                                 required
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                                className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                             >
                                 <option value="" disabled>
                                     Selecciona una urgencia
@@ -144,7 +144,7 @@ const NewConsultPage = () => {
                                     setSpecialtyName(e.target.value)
                                 }
                                 required
-                                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+                                className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                             >
                                 <option value="" disabled>
                                     Selecciona una opción
@@ -168,7 +168,7 @@ const NewConsultPage = () => {
                                 id="file"
                                 onChange={(e) => setFile(e.target.files[0])}
                                 accept="image/jpeg, image/png, image/jpg"
-                                className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-200 file:text-gray-700 hover:file:bg-gray-300"
+                                className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                             />
                         </div>
                     </div>

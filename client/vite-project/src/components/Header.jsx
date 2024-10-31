@@ -3,7 +3,7 @@ import { useContext } from 'react';
 
 // Importamos los componentes.
 import { NavLink } from 'react-router-dom';
-import { ButtonAction } from '../components/ButtonAction';
+
 // Importamos el contexto.
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -19,7 +19,7 @@ const Header = () => {
     const { authUser, authLogoutState } = useContext(AuthContext);
 
     return (
-        <header className="flex items-center justify-between bg-blue-50 p-2 shadow-lg">
+        <header className="fixed top-0 left-0 w-full flex items-center z-50 justify-between bg-blue-50 p-2 shadow-lg">
             <div className="flex items-center">
                 <img
                     src="/consalutlogo2.png"

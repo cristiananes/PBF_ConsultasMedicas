@@ -30,47 +30,56 @@ const App = () => {
 
     return (
         <>
-            <Header className="text-3xl font-bold underline" />
+            <div className="overflow-x-hidden">
+                <Header className="text-3xl font-bold underline" />
 
-            {/* Este componente se encargará de renderizar los mensajes que queramos mostrar con react-hot-toast. */}
-            <Toaster
-                position="top-center"
-                toastOptions={{
-                    duration: 5000,
-                }}
-            />
+                {/* Este componente se encargará de renderizar los mensajes que queramos mostrar con react-hot-toast. */}
+                <Toaster
+                    position="top-center"
+                    toastOptions={{
+                        duration: 5000,
+                    }}
+                />
 
-            {/* Todas las rutas han de definirse dentro del componente <Routes>. */}
-            <Routes>
-                <Route path="/" element={<HomePage />} />
+                {/* Todas las rutas han de definirse dentro del componente <Routes>. */}
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    {console.log(authUser)};
+                    <Route element={<ProtectedRoute user={authUser} />}>
+                        <Route path="/consults" element={<ConsultListPage />} />
+                        <Route
+                            path="/consult/:consultId"
+                            element={<ConsultDetailPage />}
+                        />
+                        <Route
+                            path="/consult/new-consult"
+                            element={<NewConsultPage />}
+                        />
+                        <Route
+                            path="/user/:userId"
+                            element={<UserProfilePage />}
+                        />
+                        <Route
+                            path="/doctorList"
+                            element={<DoctorListPage />}
+                        />
+                    </Route>
+                    <Route path="/register" element={<RegisterPage />} />
 
-                <Route element={<ProtectedRoute user={authUser} />}>
-                    <Route path="/consults" element={<ConsultListPage />} />
                     <Route
-                        path="/consult/:consultId"
-                        element={<ConsultDetailPage />}
+                        path="/admin-register"
+                        element={<WorkerCreationPage />}
                     />
                     <Route
-                        path="/consult/new-consult"
-                        element={<NewConsultPage />}
+                        path="/user/validate/:registrationCode"
+                        element={<ActivateUserPage />}
                     />
-                    <Route path="/user/:userId" element={<UserProfilePage />} />
-                    <Route path="/doctorList" element={<DoctorListPage />} />
-                </Route>
-                <Route path="/register" element={<RegisterPage />} />
-                <Route
-                    path="/admin-register"
-                    element={<WorkerCreationPage />}
-                />
-                <Route
-                    path="/user/validate/:registrationCode"
-                    element={<ActivateUserPage />}
-                />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/*" element={<NotFoundPage />} />
-            </Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/*" element={<NotFoundPage />} />
+                </Routes>
 
-            <Footer />
+                <Footer />
+            </div>
         </>
     );
 };

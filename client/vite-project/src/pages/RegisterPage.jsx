@@ -95,7 +95,7 @@ const RegisterPage = () => {
 
     return (
         <MainContainer>
-            <div className="bg-white p-5 rounded-lg shadow-md max-w-lg w-full animate-slideIn bg-opacity-80">
+            <div className="bg-white p-6 rounded-lg shadow-md max-w-md w-full animate-slideIn bg-opacity-80">
                 <H2 text="Registro de usuario" />
 
                 <form
@@ -126,7 +126,7 @@ const RegisterPage = () => {
                     </div>
 
                     <div className="col-span-2 flex flex-col">
-                        <Label htmlFor="username" text="Usuario:" />
+                        <Label htmlFor="username" text="Nombre de usuario:" />
 
                         <input
                             type="text"

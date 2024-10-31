@@ -10,7 +10,6 @@ import toast from 'react-hot-toast';
 
 //importamos componentes
 import MainContainer from '../components/Main';
-import Whiteboxanim from '../components/Whiteboxanim';
 
 // Importamos la URL del servidor.
 const { VITE_API_URL } = import.meta.env;

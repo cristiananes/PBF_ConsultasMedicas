@@ -1,6 +1,6 @@
 const MainContainer = ({ children }) => {
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] bg-cover bg-center">
+        <main className="overflow-y-hidden flex flex-col mt-20 items-center justify-center min-h-screen bg-[url('/public/fondoaz.jpg')] bg-cover bg-center">
             {children}
         </main>
     );

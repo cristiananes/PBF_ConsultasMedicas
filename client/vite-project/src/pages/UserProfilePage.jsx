@@ -100,7 +100,7 @@ const UserProfilePage = () => {
 
     return (
         <MainContainer>
-            <div className="max-w-4xl w-full mx-auto p-8 bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-2xl mt-12">
+            <div className="mb-5 max-w-4xl p-8 bg-white bg-opacity-80 backdrop-blur-lg shadow-lg rounded-2xl mt-12">
                 <H2 text="Perfil de usuario" />
 
                 <div className="max-w-4xl w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-10 px-6 flex flex-col md:flex-row gap-12 items-start">

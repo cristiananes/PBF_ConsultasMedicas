@@ -14,18 +14,18 @@ const HomePage = () => {
     return (
         <MainContainer>
             {/* Título principal */}
-            <h1 className="text-5xl font-extrabold text-white mb-4 animate-fadeIn">
+            <h1 className="text-5xl mt-20 font-extrabold text-white mb-2 animate-fadeIn">
                 La plataforma de consultas médicas
             </h1>
             {/* Subtítulo */}
-            <p className="text-2xl text-white mb-10 animate-slideIn">
+            <p className="text-2xl text-white mt-2 mb-10 animate-slideIn">
                 Contacta con tu médico en un click.
             </p>
 
             {!authUser && (
                 <NavLink to="/register">
-                    <button className="animate-fadeIn ml-20 bg-blue-500 text-white px-20 py-3 rounded-md shadow hover:bg-blue-600 transition focus:ring-4 focus:ring-blue-300">
-                        Crea tu cuenta ahora!
+                    <button className="animate-fadeIn ml-30 bg-blue-500 text-white px-20 py-3 rounded-md shadow hover:bg-blue-600 transition focus:ring-4 focus:ring-blue-300">
+                        ¡Crea tu cuenta ahora!
                     </button>
                 </NavLink>
             )}

@@ -82,9 +82,9 @@ const LoginPage = () => {
 
     return (
         <MainContainer>
-            <Whiteboxanim>
-                <h2 className="text-3xl font-bold text-blue-700 text-center mb-6">
-                    Página de Login
+            <div className="max-w-md w-full mx-auto p-8 bg-white shadow-lg rounded-lg mt-20 px-6 bg-opacity-70 animate-fadeIn">
+                <h2 className=" animate-slideIn text-3xl font-bold text-blue-700 text-center mb-6">
+                    Login
                 </h2>
 
                 {/* Formulario de Login */}
@@ -137,7 +137,7 @@ const LoginPage = () => {
                         Loguearme
                     </button>
                 </form>
-            </Whiteboxanim>
+            </div>
         </MainContainer>
     );
 };

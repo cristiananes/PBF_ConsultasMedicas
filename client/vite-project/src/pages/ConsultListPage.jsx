@@ -134,12 +134,6 @@ const ConsultListPage = () => {
                     >
                         Ver consulta
                     </Link>
-                    <button
-                        onClick={() => handleDeleteConsult(consult.id)}
-                        className="bg-red-500 mt-2 text-white px-4 py-2 rounded-md shadow hover:bg-red-600 transition"
-                    >
-                        Eliminar consulta
-                    </button>
                 </div>
             </Whitebox>
         </li>
@@ -153,14 +147,14 @@ const ConsultListPage = () => {
 
                     {/* Botón para doctores para filtrar consultas */}
                     {authUser.role === 'doctor' && (
-                        <ButtonAction
-                            text={
-                                showUnassigned
-                                    ? 'Ver consultas no asignadas'
-                                    : 'Ver consultas asignadas'
-                            }
+                        <button
+                            className="bg-blue-500 ml-2 mr-20 mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
                             onClick={toggleUnassignedFilter}
-                        />
+                        >
+                            {showUnassigned
+                                ? 'Ver consultas asignadas'
+                                : 'Ver consultas no asignadas'}
+                        </button>
                     )}
 
                     <ul>
@@ -172,7 +166,7 @@ const ConsultListPage = () => {
                     </ul>
 
                     {/* Botones adicionales */}
-                    <aside>
+                    <aside className="flex justify-center mt-6 gap-4">
                         {/* Mostrar botón de añadir consulta solo para pacientes */}
                         {authUser && authUser.role === 'patient' && (
                             <NavLink
@@ -180,7 +174,7 @@ const ConsultListPage = () => {
                             >
                                 <button
                                     type="button"
-                                    className="bg-blue-500 ml-30 mr-0 mb-5 text-white px-4 py-1 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
+                                    className="bg-blue-500 ml-30 mr-0 mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
                                 >
                                     Volver a perfil
                                 </button>
@@ -189,7 +183,7 @@ const ConsultListPage = () => {
                         <NavLink to="/consult/new-consult">
                             <button
                                 type="button"
-                                className="bg-green-500 ml-40 mr-0 mb-5 text-white px-6 py-3 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
+                                className="bg-green-500 ml-20 mr-20 mb-5 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 transition"
                             >
                                 Crear nueva consulta
                             </button>

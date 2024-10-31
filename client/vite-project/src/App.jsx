@@ -27,7 +27,7 @@ import { ProtectedRoute } from './components/ProtectedRoute.jsx';
 // Inicializamos el componente principal.
 const App = () => {
     const { authUser } = useContext(AuthContext);
-    console.log(authUser);
+
     return (
         <>
             <div className="overflow-x-hidden">
@@ -65,6 +65,7 @@ const App = () => {
                         />
                     </Route>
                     <Route path="/register" element={<RegisterPage />} />
+
                     <Route
                         path="/admin-register"
                         element={<WorkerCreationPage />}

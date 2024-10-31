@@ -36,6 +36,7 @@ export const SearchComponent = ({ rating }) => {
     const searcher = (e) => {
         setSearch(e.target.value);
     };
+    console.log(users);
 
     // Filtrado de resultados de búsqueda
     const searchResults = !search
@@ -44,49 +45,10 @@ export const SearchComponent = ({ rating }) => {
               (data) =>
                   data.username.toLowerCase().includes(search.toLowerCase()) ||
                   data.firstName.toLowerCase().includes(search.toLowerCase()) ||
-                  data.lastName.toLowerCase().includes(search.toLowerCase())
+                  data.lastName.toLowerCase().includes(search.toLowerCase()) ||
+                  data.specialty.toLowerCase().includes(search.toLowerCase())
           );
 
-    // return (
-    //     <div>
-    //         <input
-    //             style={{ minWidth: '250px' }}
-    //             value={search}
-    //             onChange={searcher}
-    //             type="text"
-    //             placeholder="Introduce el nombre del doctor"
-    //         />
-    //         <ul>
-    //             {searchResults.map((doctor) => (
-    //                 <li key={doctor.id}>
-    //                     <div className="flex flex-col items-center">
-    //                         {doctor.avatar ? (
-    //                             <img
-    //                                 className="w-32 h-32 rounded-full object-cover mb-4"
-    //                                 src={`${VITE_API_URL}/${doctor.avatar}`}
-    //                                 alt={`Foto de perfil de ${doctor.username}`}
-    //                             />
-    //                         ) : (
-    //                             <img
-    //                                 className="w-32 h-32 rounded-full object-cover mb-4"
-    //                                 src="/default-avatar.jpg"
-    //                                 alt={`Foto de perfil de ${doctor.username}`}
-    //                             />
-    //                         )}
-    //                     </div>
-    //                     <h3>{doctor.firstName}</h3>
-    //                     <h3>{doctor.lastName}</h3>
-    //                     <h3>{doctor.username}</h3>
-    //                     <h3>{doctor.email}</h3>
-    //                     <h3>{doctor.specialty}</h3>
-    //                     {rating && doctor.rating && (
-    //                         <h3>Rating: {doctor.rating}</h3>
-    //                     )}
-    //                 </li>
-    //             ))}
-    //         </ul>
-    //     </div>
-    //);
     return (
         <div className="flex flex-col items-center p-6">
             {/* Campo de búsqueda centrado */}

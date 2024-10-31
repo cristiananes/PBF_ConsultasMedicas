@@ -9,7 +9,6 @@ import { fetchSpecialties } from '../hooks/fetchSpecialty';
 import toast from 'react-hot-toast';
 import { H2 } from '../components/H2';
 import MainContainer from '../components/Main';
-import Whiteboxanim from '../components/Whiteboxanim';
 
 const { VITE_API_URL } = import.meta.env;
 

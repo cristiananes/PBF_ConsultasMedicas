@@ -7,6 +7,7 @@ import { Label } from '../components/Label';
 import MainContainer from '../components/Main';
 import Whitebox from '../components/Whitebox';
 import Whiteboxanim from '../components/Whiteboxanim';
+import moment from 'moment';
 
 const { VITE_API_URL } = import.meta.env;
 
@@ -28,42 +29,18 @@ const ConsultListPage = () => {
                 });
                 const body = await res.json();
                 if (body.status === 'error') throw new Error(body.message);
-                setConsults(body.data.consults);
+
+                const sortedConsults = body.data.consults.sort(
+                    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                );
+
+                setConsults(sortedConsults);
             } catch (err) {
                 console.error(err.message);
             }
         };
         fetchConsults();
     }, [authToken]);
-
-    // Función para eliminar una consulta
-    const handleDeleteConsult = async (consultId) => {
-        try {
-            const res = await fetch(
-                `${VITE_API_URL}/api/consults/${consultId}`,
-                {
-                    method: 'DELETE',
-                    headers: {
-                        Authorization: `Bearer ${authToken}`,
-                    },
-                }
-            );
-
-            if (!res.ok) {
-                const body = await res.json();
-                throw new Error(
-                    body.message || 'Error al eliminar la consulta'
-                );
-            }
-
-            // Actualizar la lista de consultas después de eliminar
-            setConsults((prevConsults) =>
-                prevConsults.filter((c) => c.id !== consultId)
-            );
-        } catch (err) {
-            console.error('Error eliminando la consulta:', err.message);
-        }
-    };
 
     // Fetch de los datos de los doctores.
     useEffect(() => {
@@ -126,6 +103,10 @@ const ConsultListPage = () => {
                 </h3>
                 <h3>
                     <Label text="Paciente:" /> {consult.author}
+                </h3>
+                <h3>
+                    <Label text="Creada el día:" />{' '}
+                    {moment(consult.createdAt).format('DD/MM/YYYY HH:mm')}
                 </h3>
                 <div className="flex space-x-4 mt-2">
                     <Link
